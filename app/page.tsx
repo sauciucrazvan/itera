@@ -1,8 +1,9 @@
+import Header from "./(components)/Header";
+
 export default function Home() {
   return (
     <div>
-      Hello world!
-      <button className="btn btn-primary">Click me</button>
+      <Header />
     </div>
   );
 }
