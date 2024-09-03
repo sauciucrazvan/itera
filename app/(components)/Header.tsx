@@ -1,5 +1,6 @@
 import { FaBarsStaggered, FaBug } from "react-icons/fa6";
 import { configuration } from "../configuration";
+import ThemeSelector from "./ThemeSelector";
 
 export default function Header() {
   return (
@@ -24,6 +25,9 @@ export default function Header() {
             {configuration.icon} {configuration.name}
           </a>
         </div>
+        <div className="navbar-end flex pr-4 lg:hidden">
+          <ThemeSelector />
+        </div>
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
@@ -31,6 +35,9 @@ export default function Header() {
             </li>
             <li>
               <a>Login</a>
+            </li>
+            <li>
+              <ThemeSelector />
             </li>
           </ul>
         </div>

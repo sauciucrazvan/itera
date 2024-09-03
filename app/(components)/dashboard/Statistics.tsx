@@ -12,8 +12,9 @@ export default function Statistics() {
           <div className="stat-figure text-secondary">
             <FaExclamationCircle size="24" />
           </div>
-          <div className="stat-title">Total</div>
+          <div className="stat-title">Issues</div>
           <div className="stat-value">161</div>
+          <div className="stat-desc">2 currently unsolved</div>
         </div>
 
         <div className="stat">
