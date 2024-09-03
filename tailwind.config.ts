@@ -18,7 +18,22 @@ const config: Config = {
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
-    themes: ["light", "dark"],
+    themes: [
+      {
+        light: {
+          ...require("daisyui/src/theming/themes")["light"],
+          primary: "#1d4ed8",
+          secondary: "#38bdf8",
+          success: "#22c55e",
+        },
+        dark: {
+          ...require("daisyui/src/theming/themes")["dark"],
+          primary: "#1d4ed8",
+          secondary: "#38bdf8",
+          success: "#22c55e",
+        },
+      },
+    ],
   },
 };
 export default config;

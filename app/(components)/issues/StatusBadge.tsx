@@ -3,8 +3,8 @@ interface StatusBadgeProps {
 }
 
 const badgeTypes: { [key: string]: string } = {
-  open: "badge-accent",
-  closed: "badge-neutral",
+  open: "badge-success",
+  closed: "badge-error",
   reviewing: "badge-secondary",
 };
 

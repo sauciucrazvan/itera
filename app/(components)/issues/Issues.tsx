@@ -3,13 +3,9 @@ import StatusBadge from "./StatusBadge";
 export default function Issues() {
   return (
     <>
-      <div className="flex flex-row justify-start items-center gap-2">
+      <div className="flex flex-row justify-between items-center gap-2">
         <h1>Issues</h1>
-        <div className="join">
-          <button className="join-item btn">«</button>
-          <button className="join-item btn">#1</button>
-          <button className="join-item btn">»</button>
-        </div>
+
         <button className="btn btn-primary text-white">New Issue</button>
       </div>
       <div className="overflow-x-auto">
@@ -49,6 +45,12 @@ export default function Issues() {
             </tr>
           </tbody>
         </table>
+
+        <div className="join flex flex-row justify-center items-center">
+          <button className="join-item btn">«</button>
+          <button className="join-item btn">#1</button>
+          <button className="join-item btn">»</button>
+        </div>
       </div>
     </>
   );
