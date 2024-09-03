@@ -1,6 +1,7 @@
 import { FaBarsStaggered, FaBug } from "react-icons/fa6";
 import { configuration } from "../configuration";
 import ThemeSelector from "./ThemeSelector";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -31,7 +32,7 @@ export default function Header() {
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a>Issues</a>
+              <Link href="/">Issues</Link>
             </li>
             <li>
               <a>Login</a>
