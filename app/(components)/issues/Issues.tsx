@@ -2,8 +2,14 @@ import Link from "next/link";
 import StatusBadge from "./StatusBadge";
 
 const issues = [
+  { id: 9, title: "user account deleted for no reason", status: "open" },
+  { id: 8, title: "Placeholder data on the dashboard page", status: "open" },
+  { id: 7, title: "header buttons no workie", status: "open" },
   { id: 3, title: "New issue button does nothing", status: "open" },
+  { id: 5, title: "Responsiveness bug", status: "reviewing" },
   { id: 2, title: "Padding issue", status: "reviewing" },
+  { id: 6, title: "Broken UI component", status: "closed" },
+  { id: 4, title: "Wrong redirect", status: "closed" },
   { id: 1, title: "Data not available", status: "closed" },
 ];
 

@@ -5,7 +5,6 @@ import { FaHeart } from "react-icons/fa";
 export default function Footer() {
   return (
     <>
-      <div className="divider" />
       <footer className="footer bg-base-200 text-base-content items-center rounded-md p-4">
         <aside className="grid-flow-col items-center">
           {configuration.largeIcon}
