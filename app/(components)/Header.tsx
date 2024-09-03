@@ -30,7 +30,7 @@ export default function Header() {
           <ThemeSelector />
         </div>
         <div className="navbar-end hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1 gap-1">
             <li>
               <Link href="/">Issues</Link>
             </li>

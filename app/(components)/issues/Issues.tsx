@@ -1,4 +1,11 @@
+import Link from "next/link";
 import StatusBadge from "./StatusBadge";
+
+const issues = [
+  { id: 3, title: "New issue button does nothing", status: "open" },
+  { id: 2, title: "Padding issue", status: "reviewing" },
+  { id: 1, title: "Data not available", status: "closed" },
+];
 
 export default function Issues() {
   return (
@@ -19,30 +26,18 @@ export default function Issues() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>3</th>
-              <td>Posting button doesn't work</td>
-              <td>
-                <StatusBadge type="open" />
-              </td>
-              <td>View</td>
-            </tr>
-            <tr>
-              <th>2</th>
-              <td>Padding issue</td>
-              <td>
-                <StatusBadge type="reviewing" />
-              </td>
-              <td>View</td>
-            </tr>
-            <tr>
-              <th>1</th>
-              <td>Data not available</td>
-              <td>
-                <StatusBadge type="closed" />
-              </td>
-              <td>View</td>
-            </tr>
+            {issues.map((issue) => (
+              <tr key={issue.id}>
+                <th>{issue.id}</th>
+                <td>{issue.title}</td>
+                <td>
+                  <StatusBadge type={issue.status} />
+                </td>
+                <td>
+                  <Link href={"/issue/" + issue.id}>View</Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
 
