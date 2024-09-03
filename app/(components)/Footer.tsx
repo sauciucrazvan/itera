@@ -6,9 +6,9 @@ export default function Footer() {
   return (
     <>
       <div className="divider" />
-      <footer className="footer bg-neutral text-neutral-content items-center rounded-md p-4">
+      <footer className="footer bg-base-200 text-base-content items-center rounded-md p-4">
         <aside className="grid-flow-col items-center">
-          {configuration.icon}
+          {configuration.largeIcon}
           <div className="flex flex-col">
             <p>
               {configuration.name} / Copyright © {new Date().getFullYear()} -
