@@ -1,6 +1,7 @@
 import { FaBarsStaggered, FaBug } from "react-icons/fa6";
 import { configuration } from "../configuration";
 import ThemeSelector from "./ThemeSelector";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -20,10 +21,10 @@ export default function Header() {
               </li>
             </ul>
           </div>
-          <a className="btn btn-primary text-white text-lg">
+          <Link href="/" className="btn btn-primary text-white text-lg">
             <img src="/favicon.svg" width={24} height={24} />{" "}
             {configuration.name}
-          </a>
+          </Link>
         </div>
         <div className="navbar-end flex pr-4 lg:hidden">
           <ThemeSelector />

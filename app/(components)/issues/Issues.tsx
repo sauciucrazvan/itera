@@ -25,7 +25,7 @@ export default function Issues() {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th className="hidden lg:block">ID</th>
               <th>Title</th>
               <th>Status</th>
               <th>Actions</th>
@@ -34,7 +34,7 @@ export default function Issues() {
           <tbody>
             {issues.map((issue) => (
               <tr key={issue.id}>
-                <th>{issue.id}</th>
+                <th className="hidden lg:block">{issue.id}</th>
                 <td>{issue.title}</td>
                 <td>
                   <StatusBadge type={issue.status} />

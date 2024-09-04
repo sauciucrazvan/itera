@@ -1,4 +1,5 @@
 import Statistics from "./(components)/dashboard/Statistics";
+import Footer from "./(components)/Footer";
 import Issues from "./(components)/issues/Issues";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
         <div className="divider" />
         <Issues />
       </section>
+      <Footer />
     </>
   );
 }
