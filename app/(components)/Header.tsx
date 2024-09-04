@@ -21,7 +21,8 @@ export default function Header() {
             </ul>
           </div>
           <a className="btn btn-primary text-white text-lg">
-            {configuration.icon} {configuration.name}
+            <img src="/favicon.svg" width={24} height={24} />{" "}
+            {configuration.name}
           </a>
         </div>
         <div className="navbar-end flex pr-4 lg:hidden">

@@ -7,7 +7,7 @@ export default function Footer() {
     <>
       <footer className="footer bg-base-200 text-base-content items-center rounded-md p-4">
         <aside className="grid-flow-col items-center">
-          {configuration.largeIcon}
+          <img src="/favicon.svg" width={48} height={48} />
           <div className="flex flex-col">
             <p>
               {configuration.name} / Copyright © {new Date().getFullYear()} -

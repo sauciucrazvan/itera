@@ -1,6 +1,4 @@
 import Statistics from "./(components)/dashboard/Statistics";
-import Footer from "./(components)/Footer";
-import Header from "./(components)/Header";
 import Issues from "./(components)/issues/Issues";
 
 export default function Home() {
