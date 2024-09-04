@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+
 import { configuration } from "../configuration";
 import { FaHeart } from "react-icons/fa";
 
@@ -7,7 +9,12 @@ export default function Footer() {
     <>
       <footer className="footer bg-base-200 text-base-content items-center rounded-md p-4">
         <aside className="grid-flow-col items-center">
-          <img src="/favicon.svg" width={48} height={48} />
+          <Image
+            src="/favicon.svg"
+            width={48}
+            height={48}
+            alt={configuration.name}
+          />
           <div className="flex flex-col">
             <p>
               {configuration.name} / Copyright © {new Date().getFullYear()} -

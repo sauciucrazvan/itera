@@ -2,11 +2,12 @@ import { FaBarsStaggered, FaBug } from "react-icons/fa6";
 import { configuration } from "../configuration";
 import ThemeSelector from "./ThemeSelector";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   return (
     <>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-200">
         <div className="navbar-start">
           <div className="dropdown pr-2">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -21,8 +22,13 @@ export default function Header() {
               </li>
             </ul>
           </div>
-          <Link href="/" className="btn btn-primary text-white text-lg">
-            <img src="/favicon.svg" width={24} height={24} />{" "}
+          <Link href="/" className="btn btn-ghost text-content-base text-lg">
+            <Image
+              src="/favicon.svg"
+              width={24}
+              height={24}
+              alt={configuration.name}
+            />{" "}
             {configuration.name}
           </Link>
         </div>

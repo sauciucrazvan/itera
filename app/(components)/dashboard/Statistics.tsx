@@ -7,7 +7,7 @@ import {
 export default function Statistics() {
   return (
     <>
-      <div className="stats shadow w-[96vw]">
+      <div className="stats shadow w-[96vw] bg-base-200">
         <div className="stat">
           <div className="stat-figure text-secondary">
             <FaExclamationCircle size="24" />

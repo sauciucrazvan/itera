@@ -19,7 +19,7 @@ export default function Issues() {
       <div className="flex flex-row justify-between items-center gap-2">
         <h1>Issues</h1>
 
-        <Link className="btn btn-primary text-white" href="/issue/new">
+        <Link className="btn btn-secondary text-white" href="/issue/new">
           New Issue
         </Link>
       </div>
