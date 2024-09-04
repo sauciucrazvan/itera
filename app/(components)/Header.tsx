@@ -17,7 +17,7 @@ export default function Header() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a>Login</a>
+                <Link href="/login">Login</Link>
               </li>
             </ul>
           </div>
@@ -32,7 +32,7 @@ export default function Header() {
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1 gap-1">
             <li>
-              <a>Login</a>
+              <Link href="/login">Login</Link>
             </li>
             <li>
               <ThemeSelector />

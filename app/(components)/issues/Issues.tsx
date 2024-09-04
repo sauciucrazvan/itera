@@ -19,7 +19,9 @@ export default function Issues() {
       <div className="flex flex-row justify-between items-center gap-2">
         <h1>Issues</h1>
 
-        <button className="btn btn-primary text-white">New Issue</button>
+        <Link className="btn btn-primary text-white" href="/issue/new">
+          New Issue
+        </Link>
       </div>
       <div className="overflow-x-auto">
         <table className="table">
