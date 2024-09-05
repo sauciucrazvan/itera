@@ -61,7 +61,7 @@ export default function Issues() {
   return (
     <>
       <section className="artboard bg-base-200 px-4 py-2 rounded-md">
-        <div className="artboard flex flex-row justify-between items-center gap-2 ">
+        <div className="flex flex-row justify-between items-center gap-2 ">
           <h1>Issues</h1>
 
           <Link
