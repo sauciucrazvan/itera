@@ -1,5 +1,6 @@
 import Link from "next/link";
 import StatusBadge from "./StatusBadge";
+import { FaPlus } from "react-icons/fa6";
 
 const issues = [
   { id: 9, title: "user account deleted for no reason", status: "open" },
@@ -19,8 +20,11 @@ export default function Issues() {
       <div className="flex flex-row justify-between items-center gap-2">
         <h1>Issues</h1>
 
-        <Link className="btn btn-secondary text-white" href="/issue/new">
-          New Issue
+        <Link
+          className="btn btn-sm btn-outline text-content-base"
+          href="/issue/new"
+        >
+          <FaPlus /> Create an issue thread
         </Link>
       </div>
       <div className="overflow-x-auto">
