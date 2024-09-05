@@ -45,9 +45,9 @@ const issues = [
 ];
 
 const badgeTypes: { [key: string]: string } = {
-  open: "badge-success",
-  closed: "badge-error",
-  reviewing: "badge-secondary",
+  open: "text-success",
+  closed: "text-error",
+  reviewing: "text-secondary",
 };
 
 const severityTypes: { [key: string]: string } = {
@@ -60,60 +60,78 @@ const severityTypes: { [key: string]: string } = {
 export default function Issues() {
   return (
     <>
-      <div className="flex flex-row justify-between items-center gap-2">
-        <h1>Issues</h1>
+      <section className="artboard bg-base-200 px-4 py-2 rounded-md">
+        <div className="artboard flex flex-row justify-between items-center gap-2 ">
+          <h1>Issues</h1>
 
-        <Link
-          className="btn btn-sm btn-outline text-content-base"
-          href="/thread/new"
-        >
-          <FaPlus /> Create an issue thread
-        </Link>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="hidden lg:block">ID</th>
-              <th>Title</th>
-              <th>Severity</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {issues.map((issue) => (
-              <tr key={issue.id}>
-                <th className="hidden lg:block">{issue.id}</th>
-                <td>{issue.title}</td>
-                <td>
-                  <div
-                    className={
-                      "badge badge-ghost " + severityTypes[issue.severity]
-                    }
-                  >
-                    {issue.severity}
-                  </div>
-                </td>
-                <td>
-                  <div className={"badge " + badgeTypes[issue.status]}>
-                    {issue.status}
-                  </div>
-                </td>
-                <td>
-                  <Link href={"/thread/" + issue.id}>View</Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="join flex flex-row justify-center items-center">
-          <button className="join-item btn">«</button>
-          <button className="join-item btn">#1</button>
-          <button className="join-item btn">»</button>
+          <Link
+            className="btn btn-sm btn-outline text-content-base"
+            href="/thread/new"
+          >
+            <FaPlus /> Create an issue thread
+          </Link>
         </div>
-      </div>
+        <div className="divider m-0" />
+        <div className="overflow-x-auto">
+          <table className="table table-zebra-zebra">
+            <thead>
+              <tr>
+                <th className="hidden lg:block">ID</th>
+                <th>Title</th>
+                <th>Severity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {issues.map((issue) => (
+                <tr key={issue.id}>
+                  <th className="hidden lg:block">{issue.id}</th>
+                  <td>
+                    {" "}
+                    <Link
+                      href={"/thread/" + issue.id}
+                      className="hover:text-base-content/80"
+                    >
+                      {issue.title}
+                    </Link>
+                  </td>
+                  <td>
+                    <div
+                      className={
+                        "badge badge-outline bg-base-300 rounded-md " +
+                        severityTypes[issue.severity]
+                      }
+                    >
+                      {issue.severity}
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      className={
+                        "badge bg-base-300 rounded-md border-base-100 border-2 " +
+                        badgeTypes[issue.status]
+                      }
+                    >
+                      {issue.status}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="join flex flex-row justify-center items-center pt-2">
+          <button className="join-item btn btn-sm btn-square btn-secondary">
+            «
+          </button>
+          <button className="join-item btn btn-sm btn-square btn-secondary">
+            1
+          </button>
+          <button className="join-item btn btn-sm btn-square btn-secondary">
+            »
+          </button>
+        </div>
+      </section>
     </>
   );
 }

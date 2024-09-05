@@ -6,7 +6,6 @@ export default function Home() {
   return (
     <>
       <section className="py-2 px-4">
-        <h1>Statistics</h1>
         <Statistics />
         <div className="divider" />
         <Issues />
