@@ -22,7 +22,7 @@ export default function Issues() {
 
         <Link
           className="btn btn-sm btn-outline text-content-base"
-          href="/issue/new"
+          href="/thread/new"
         >
           <FaPlus /> Create an issue thread
         </Link>
@@ -46,7 +46,7 @@ export default function Issues() {
                   <StatusBadge type={issue.status} />
                 </td>
                 <td>
-                  <Link href={"/issue/" + issue.id}>View</Link>
+                  <Link href={"/thread/" + issue.id}>View</Link>
                 </td>
               </tr>
             ))}

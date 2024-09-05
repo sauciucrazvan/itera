@@ -1,5 +1,5 @@
 import Statistics from "./(components)/dashboard/Statistics";
-import Footer from "./(components)/Footer";
+import Footer from "./(components)/structure/Footer";
 import Issues from "./(components)/issues/Issues";
 
 export default function Home() {

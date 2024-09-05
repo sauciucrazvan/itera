@@ -1,5 +1,5 @@
 import { FaBarsStaggered, FaBug } from "react-icons/fa6";
-import { configuration } from "../configuration";
+import { configuration } from "../../configuration";
 import ThemeSelector from "./ThemeSelector";
 import Link from "next/link";
 import Image from "next/image";
@@ -22,7 +22,10 @@ export default function Header() {
               </li>
             </ul>
           </div>
-          <Link href="/" className="btn btn-ghost text-content-base text-lg">
+          <Link
+            href="/"
+            className="flex-0 btn btn-ghost gap-1 px-2 md:gap-2 font-bold"
+          >
             <Image
               src="/favicon.svg"
               width={24}

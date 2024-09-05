@@ -1,5 +1,5 @@
 import { FaGoogle } from "react-icons/fa6";
-import Footer from "../(components)/Footer";
+import Footer from "../(components)/structure/Footer";
 
 export default function Login() {
   return (
