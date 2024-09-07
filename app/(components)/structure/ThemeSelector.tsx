@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
@@ -27,7 +26,7 @@ export default function ThemeSelector() {
         <input
           type="checkbox"
           onChange={handleToggle}
-          checked={theme === defaultTheme}
+          checked={theme === "dark"}
         />
 
         <FaSun className="swap-on" size="20" />

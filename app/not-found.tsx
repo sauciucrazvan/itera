@@ -6,7 +6,7 @@ export default function NotFound() {
     <>
       <div className="flex flex-col gap-1 px-4 py-4">
         <div className="font-bold">Oops! ⸻ 404</div>
-        <span>We couldn't find the content you're looking for!</span>
+        <span>We couldn&apos;t find the content you&apos;re looking for!</span>
         <Link href="/" className="btn btn-neutral w-fit">
           <FaArrowLeft />
         </Link>
