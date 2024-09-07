@@ -1,17 +1,17 @@
 "use client";
-import { db } from "@/app/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import Error from "../Error";
+
 import { useEffect, useState } from "react";
+import { getThreads, IssueThread } from "@/app/(database)/getThreads";
+
 import {
   FaCheckCircle,
   FaExclamationCircle,
-  FaUserCircle,
+  FaHourglass,
 } from "react-icons/fa";
-import Error from "../Error";
-import { getThreads, IssueThread } from "@/app/(database)/getThreads";
 
 export default function Statistics() {
-  const [data, setData] = useState([0, 0]),
+  const [data, setData] = useState([0, 0, 0]),
     [error, setError] = useState(false);
 
   useEffect(() => {
@@ -19,12 +19,21 @@ export default function Statistics() {
       try {
         const issuesData: IssueThread[] = await getThreads();
 
-        let solved = 0;
+        let solved = 0,
+          pending = 0;
         issuesData.forEach((issue) => {
-          if (issue.status == "closed") solved++;
+          switch (issue.status) {
+            case "closed":
+              solved++;
+              break;
+
+            case "reviewing":
+              pending++;
+              break;
+          }
         });
 
-        setData([issuesData.length, solved]);
+        setData([issuesData.length, solved, pending]);
       } catch (error) {
         setError(true);
       }
@@ -59,10 +68,10 @@ export default function Statistics() {
 
         <div className="stat">
           <div className="stat-figure text-secondary">
-            <FaUserCircle size="32" />
+            <FaHourglass size="32" />
           </div>
-          <div className="stat-title">Users</div>
-          <div className="stat-value">3,211</div>
+          <div className="stat-title">Pending</div>
+          <div className="stat-value">{data[2]}</div>
         </div>
       </div>
     </>

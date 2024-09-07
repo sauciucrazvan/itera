@@ -22,14 +22,15 @@ const config: Config = {
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
-          primary: "#1d4ed8",
+          primary: "#155D94",
           secondary: "#38bdf8",
           success: "#22c55e",
-          "base-200": "#d7d7d7",
+          "base-200": "#e3e3e3",
+          neutral: "#c3c3c3",
         },
         dark: {
           ...require("daisyui/src/theming/themes")["dark"],
-          primary: "#1d4ed8",
+          primary: "#155D94",
           secondary: "#38bdf8",
           success: "#22c55e",
         },

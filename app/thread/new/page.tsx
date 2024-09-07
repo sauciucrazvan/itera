@@ -4,9 +4,8 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 
 import { useState } from "react";
-import { db } from "@/app/firebase";
-import { addDoc, collection } from "firebase/firestore";
 import { isSeverity, Severity, severityTypes } from "@/app/(types)/Severities";
+import { insertThread } from "@/app/(database)/addThread";
 
 export default function NewIssue() {
   const [title, setTitle] = useState("");
@@ -25,19 +24,7 @@ export default function NewIssue() {
     }
 
     try {
-      await addDoc(collection(db, "threads"), {
-        title: title,
-        description: description,
-        severity: severity,
-        status: "open",
-        creationDate: new Date().toLocaleString(undefined, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-        }),
-      });
+      await insertThread(title, description, severity);
 
       toast.success("Thread created successfully!");
 

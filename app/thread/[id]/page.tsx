@@ -5,19 +5,15 @@ import { getDoc, doc } from "firebase/firestore";
 import { FaUserCircle } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import Badge from "@/app/(components)/issues/subcomponents/Badge";
+import { getThread } from "@/app/(database)/getThread";
 
 export default async function ViewIssue({
   params: { id },
 }: {
   params: { id: string };
 }) {
-  const threadDoc = await getDoc(doc(db, "threads", id));
-
-  if (!threadDoc.exists()) {
-    return notFound();
-  }
-
-  const threadData = threadDoc.data();
+  const threadData = await getThread(id);
+  if (threadData == null) return notFound();
 
   return (
     <>
