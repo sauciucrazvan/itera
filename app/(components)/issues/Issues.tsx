@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa6";
 import Badge from "./subcomponents/Badge";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/app/firebase";
+import { useEffect, useState } from "react";
 
 // const issues = [
 //   {
@@ -54,8 +57,39 @@ interface IssueThread {
 }
 
 export default function Issues(props: any) {
-  if (!Array.isArray(props.data) || props.data.length === 0) {
-    console.log(props.data);
+  const [data, setData] = useState<IssueThread[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "threads"));
+        const issuesData: IssueThread[] = [];
+        querySnapshot.forEach((doc) => {
+          const issueData = doc.data();
+          issuesData.push({
+            id: parseInt(doc.id, 10),
+            title: issueData.title,
+            status: issueData.status,
+            severity: issueData.severity,
+          });
+        });
+        setData(issuesData);
+      } catch (error) {
+        console.error("Error fetching issues:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <p>Loading issues...</p>;
+  }
+
+  if (!Array.isArray(data) || data.length === 0) {
     return <p>No issues found</p>;
   }
 
@@ -84,7 +118,7 @@ export default function Issues(props: any) {
               </tr>
             </thead>
             <tbody>
-              {props.data.map((issue: IssueThread) => (
+              {data.map((issue: IssueThread) => (
                 <tr key={issue.id}>
                   <th className="hidden lg:block">{issue.id}</th>
                   <td>
