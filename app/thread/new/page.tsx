@@ -15,12 +15,12 @@ export default function NewIssue() {
 
   const addThread = async () => {
     if (title.trim() === "" || description.trim() === "") {
-      toast.error("fill boxes"); // TODO: Change messages
+      toast.error("Please fill in the boxes!");
       return;
     }
 
     if (!isSeverity(severity)) {
-      toast.error("Invalid severity selected");
+      toast.error("Invalid severity selected!");
       return;
     }
 
@@ -39,14 +39,14 @@ export default function NewIssue() {
         }),
       });
 
-      toast.success("Issue added successfully! :D");
+      toast.success("Thread created successfully!");
 
       setTitle("");
       setDescription("");
       setSeverity("minor");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to add the new issue :(");
+      toast.error("Operation failed. Please try again!");
     }
   };
 
@@ -65,7 +65,7 @@ export default function NewIssue() {
           </ul>
         </div>
         <section className="artboard bg-base-200 px-4 py-2 rounded-md">
-          <h1 className="font-bold text-lg">New issue</h1>
+          <h1 className="font-bold text-lg">Create a thread</h1>
           <div className="divider m-0" />
           <section className="pt-2 flex flex-col lg:flex-row lg:items-center gap-1">
             <div>
@@ -96,15 +96,21 @@ export default function NewIssue() {
               </select>
             </div>
           </section>
-          <section className="py-2">
+          <section className="py-2 flex flex-col">
             <h1>Add a description</h1>
+            <small className="pb-2">
+              Please be as descriptive as possible.
+              <br />
+              Upload images to trusted websites (such as{" "}
+              <Link href="https://imgur.com">imgur.com</Link>)
+            </small>
             <textarea
               className="
             textarea
             textarea-bordered
             textarea-md
-            w-full
-            max-w-xs"
+            w-screen
+            max-w-md"
               placeholder="Describe your issue..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}

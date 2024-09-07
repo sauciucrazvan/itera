@@ -15,7 +15,7 @@ export default function Issues() {
             className="btn btn-sm btn-outline text-content-base"
             href="/thread/new"
           >
-            <FaPlus /> Create an issue thread
+            <FaPlus /> Create a new thread
           </Link>
         </div>
         <div className="divider m-0" />
