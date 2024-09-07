@@ -1,17 +1,20 @@
 "use client";
-import Link from "next/link";
-import Badge from "./Badge";
+import IssueRow from "./IssueRow";
+import Loading from "../../Loading";
+import Error from "../../Error";
 
 import { db } from "@/app/firebase";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { FaExclamationTriangle } from "react-icons/fa";
+
+import { Severity, severityRank } from "@/app/(types)/Severities";
+import { Status, statusRank } from "@/app/(types)/Statuses";
 
 interface IssueThread {
-  id: number;
+  id: string;
   title: string;
-  status: string;
-  severity: string;
+  status: Status;
+  severity: Severity;
 }
 
 export default function IssuesBody() {
@@ -27,12 +30,21 @@ export default function IssuesBody() {
         querySnapshot.forEach((doc) => {
           const issueData = doc.data();
           issuesData.push({
-            id: parseInt(doc.id, 10),
+            id: doc.id,
             title: issueData.title,
             status: issueData.status,
             severity: issueData.severity,
           });
         });
+
+        issuesData.sort((a, b) => {
+          if (statusRank[a.status] !== statusRank[b.status]) {
+            return statusRank[a.status] - statusRank[b.status];
+          }
+
+          return severityRank[a.severity] - severityRank[b.severity];
+        });
+
         setData(issuesData);
       } catch (error) {
         console.error(error);
@@ -45,22 +57,8 @@ export default function IssuesBody() {
     fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="flex flex-row justify-center items-center py-8">
-        <span className="loading loading-dots loading-md" />
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="flex flex-col justify-center items-center gap-1 py-8 text-sm">
-        <FaExclamationTriangle color="red" size="32" />
-        An error occured. Please contact the system administrator.
-      </section>
-    );
-  }
+  if (loading) return <Loading />;
+  if (error) return <Error />;
 
   if (!Array.isArray(data) || data.length === 0) {
     return (
@@ -75,7 +73,6 @@ export default function IssuesBody() {
           <table className="table table-zebra-zebra">
             <thead>
               <tr>
-                <th className="hidden lg:block">ID</th>
                 <th>Title</th>
                 <th>Severity</th>
                 <th>Status</th>
@@ -83,24 +80,7 @@ export default function IssuesBody() {
             </thead>
             <tbody>
               {data.map((issue: IssueThread) => (
-                <tr key={issue.id}>
-                  <th className="hidden lg:block">{issue.id}</th>
-                  <td>
-                    {" "}
-                    <Link
-                      href={"/thread/" + issue.id}
-                      className="hover:text-base-content/80"
-                    >
-                      {issue.title}
-                    </Link>
-                  </td>
-                  <td>
-                    <Badge type={"severity"} level={issue.severity} />
-                  </td>
-                  <td>
-                    <Badge type={"status"} level={issue.status} />
-                  </td>
-                </tr>
+                <IssueRow issue={issue} />
               ))}
             </tbody>
           </table>

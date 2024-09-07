@@ -1,20 +1,10 @@
+import { severityTypes } from "@/app/(types)/Severities";
+import { statusTypes } from "@/app/(types)/Statuses";
+
 interface BadgeProps {
   type: string;
   level: string;
 }
-
-const statusTypes: { [key: string]: string } = {
-  open: "text-success",
-  closed: "text-error",
-  reviewing: "text-secondary",
-};
-
-const severityTypes: { [key: string]: string } = {
-  minor: "text-success",
-  medium: "text-secondary",
-  major: "text-warning",
-  critical: "text-error",
-};
 
 export default function Badge({ type, level }: BadgeProps) {
   switch (type) {
