@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
 export default function ThemeSelector() {
-  const [theme, setTheme] = useState("light");
+  const defaultTheme = "dark";
+  const [theme, setTheme] = useState(defaultTheme);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    const initialTheme = storedTheme || "light";
+    const initialTheme = storedTheme || defaultTheme;
     setTheme(initialTheme);
     document.documentElement.setAttribute("data-theme", initialTheme);
   }, []);
@@ -26,7 +27,7 @@ export default function ThemeSelector() {
         <input
           type="checkbox"
           onChange={handleToggle}
-          checked={theme === "dark"}
+          checked={theme === defaultTheme}
         />
 
         <FaSun className="swap-on" size="20" />

@@ -1,4 +1,3 @@
-"use client";
 import IssueRow from "./IssueRow";
 import Loading from "../../Loading";
 import Error from "../../Error";
@@ -47,7 +46,6 @@ export default function IssuesBody() {
 
         setData(issuesData);
       } catch (error) {
-        console.error(error);
         setError(true);
       } finally {
         setLoading(false);
@@ -80,7 +78,7 @@ export default function IssuesBody() {
             </thead>
             <tbody>
               {data.map((issue: IssueThread) => (
-                <IssueRow issue={issue} />
+                <IssueRow key={issue.id} issue={issue} />
               ))}
             </tbody>
           </table>

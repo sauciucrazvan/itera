@@ -1,5 +1,4 @@
 import { FaGoogle } from "react-icons/fa6";
-import Footer from "../(components)/structure/Footer";
 import Link from "next/link";
 
 export default function Login() {
@@ -14,7 +13,7 @@ export default function Login() {
             <li>Login</li>
           </ul>
         </div>
-        <section className="h-[75vh] flex flex-col justify-center items-center gap-1">
+        <section className="flex flex-col justify-center items-center gap-1">
           <div className="text-base font-bold">Login into your account</div>
           <div className="text-sm">Please use one of the providers below</div>
           <div className="w-[20vw]">

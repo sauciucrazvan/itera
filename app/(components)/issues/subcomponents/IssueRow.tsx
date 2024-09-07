@@ -18,7 +18,7 @@ export default function IssueRow({ issue }: IssueProps) {
 
   return (
     <>
-      <tr key={id}>
+      <tr>
         <td>
           <Link href={"/thread/" + id} className="hover:text-base-content/80">
             {title}
