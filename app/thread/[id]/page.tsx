@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { db } from "@/app/firebase";
+import { notFound } from "next/navigation";
 import { getDoc, doc } from "firebase/firestore";
+import { FaUserCircle } from "react-icons/fa";
+import { FaClock } from "react-icons/fa6";
 
 export default async function ViewIssue({
   params: { id },
@@ -10,7 +13,7 @@ export default async function ViewIssue({
   const threadDoc = await getDoc(doc(db, "threads", id));
 
   if (!threadDoc.exists()) {
-    return { notFound: true };
+    return notFound();
   }
 
   const threadData = threadDoc.data();
@@ -27,19 +30,24 @@ export default async function ViewIssue({
               <Link href="/">Issues</Link>
             </li>
             <li>Viewing Thread</li>
+            <li>{id}</li>
           </ul>
         </div>
         <div className="flex flex-col lg:flex-row gap-2">
           <section className="artboard bg-base-200 px-4 py-2 rounded-md lg:w-[60vw]">
-            <h1 className="font-bold text-lg">Thread [ID: {id}]</h1>
+            <h1 className="font-bold text-lg">{threadData.title}</h1>
             <div className="divider m-0" />
-            <section className="pt-2">
-              <h1>{threadData.title}</h1>
+            <section className="flex flex-col gap-1">
+              <p className="flex flex-row items-center gap-2">
+                <FaUserCircle /> Author
+              </p>
+              <p className="flex flex-row items-center gap-2">
+                <FaClock /> {threadData.creationDate}
+              </p>
             </section>
+            <div className="divider m-0" />
             <section className="py-2">
-              <h1>content</h1>
-              <p>Author</p>
-              <p>Creation Date</p>
+              <h1>{threadData.description}</h1>
             </section>
           </section>
           <section className="artboard bg-base-200 px-4 py-2 rounded-md">

@@ -15,7 +15,7 @@ export default function NewIssue() {
 
   const addThread = async () => {
     if (title.trim() === "" || description.trim() === "") {
-      toast.error("fill boxes");
+      toast.error("fill boxes"); // TODO: Change messages
       return;
     }
 
@@ -30,12 +30,22 @@ export default function NewIssue() {
         description: description,
         severity: severity,
         status: "open",
+        creationDate: new Date().toLocaleString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
       });
+
       toast.success("Issue added successfully! :D");
+
       setTitle("");
       setDescription("");
+      setSeverity("minor");
     } catch (error) {
-      console.error("Error adding document: ", error);
+      console.error(error);
       toast.error("Failed to add the new issue :(");
     }
   };
