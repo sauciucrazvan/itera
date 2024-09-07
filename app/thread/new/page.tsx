@@ -86,6 +86,7 @@ export default function NewIssue() {
                 onChange={(event) =>
                   setSeverity(event.target.value as Severity)
                 }
+                value={severity}
               >
                 {Object.entries(severityTypes).map(([key, value]) => (
                   <option key={key} value={key} className={value}>

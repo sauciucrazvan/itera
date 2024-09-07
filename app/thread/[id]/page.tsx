@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getDoc, doc } from "firebase/firestore";
 import { FaUserCircle } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
+import Badge from "@/app/(components)/issues/subcomponents/Badge";
 
 export default async function ViewIssue({
   params: { id },
@@ -39,11 +40,15 @@ export default async function ViewIssue({
             <div className="divider m-0" />
             <section className="flex flex-col gap-1">
               <p className="flex flex-row items-center gap-2">
-                <FaUserCircle /> Author
+                <FaUserCircle className="text-secondary" /> Author
               </p>
               <p className="flex flex-row items-center gap-2">
-                <FaClock /> {threadData.creationDate}
+                <FaClock className="text-secondary" /> {threadData.creationDate}
               </p>
+              <div className="flex flex-row gap-1 items-center py-2">
+                <Badge type={"severity"} level={threadData.severity} />
+                <Badge type={"status"} level={threadData.status} />
+              </div>
             </section>
             <div className="divider m-0" />
             <section className="py-2">
