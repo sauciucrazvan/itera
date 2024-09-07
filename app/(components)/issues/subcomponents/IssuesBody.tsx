@@ -2,19 +2,11 @@ import IssueRow from "./IssueRow";
 import Loading from "../../Loading";
 import Error from "../../Error";
 
-import { db } from "@/app/firebase";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
 
-import { Severity, severityRank } from "@/app/(types)/Severities";
-import { Status, statusRank } from "@/app/(types)/Statuses";
-
-interface IssueThread {
-  id: string;
-  title: string;
-  status: Status;
-  severity: Severity;
-}
+import { severityRank } from "@/app/(types)/Severities";
+import { statusRank } from "@/app/(types)/Statuses";
+import { getThreads, IssueThread } from "@/app/(database)/getThreads";
 
 export default function IssuesBody() {
   const [data, setData] = useState<IssueThread[]>([]),
@@ -24,17 +16,7 @@ export default function IssuesBody() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "threads"));
-        const issuesData: IssueThread[] = [];
-        querySnapshot.forEach((doc) => {
-          const issueData = doc.data();
-          issuesData.push({
-            id: doc.id,
-            title: issueData.title,
-            status: issueData.status,
-            severity: issueData.severity,
-          });
-        });
+        const issuesData: IssueThread[] = await getThreads();
 
         issuesData.sort((a, b) => {
           if (statusRank[a.status] !== statusRank[b.status]) {
