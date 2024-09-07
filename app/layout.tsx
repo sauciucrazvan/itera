@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./(components)/structure/Header";
 import Footer from "./(components)/structure/Footer";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         className={"flex h-screen flex-col justify-between " + inter.className}
       >
         <Header />
+        <Toaster position="bottom-center" />
         <section className="mb-auto pb-2 pt-2">{children}</section>
         <Footer />
       </body>

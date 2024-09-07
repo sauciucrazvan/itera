@@ -16,3 +16,7 @@ export const severityTypes: { [key: string]: string } = {
   major: "text-warning",
   critical: "text-error",
 };
+
+export const isSeverity = (value: any): value is Severity => {
+  return ["critical", "major", "medium", "minor"].includes(value);
+};
