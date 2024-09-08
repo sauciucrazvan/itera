@@ -10,6 +10,11 @@ Bug tracking website with a comprehensive set of features. Open source, licensed
 [![Badge](https://img.shields.io/github/issues/sauciucrazvan/botanicabay?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/issues)
 [![Badge](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
+# Techstack
+![Technologies](https://skillicons.dev/icons?i=typescript,nextjs,react,firebase,tailwind)
+##### The project uses UI Components from [DaisyUI](https://daisyui.com/).
+
+
 > [!NOTE]
 > Bug Tracker is licensed under MIT. Check out [license](https://github.com/sauciucrazvan/bug-tracker?tab=MIT-1-ov-file).
 
