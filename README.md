@@ -4,6 +4,10 @@
 
 Bug tracking website with a comprehensive set of features. Open source, licensed under MIT.
 
+
+> [!WARNING]
+> Project currently under development. Expect content to be missing.
+
 [![Badge](https://img.shields.io/badge/version-0.0.0-red?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/releases)
 [![Badge](https://img.shields.io/github/forks/sauciucrazvan/botanicabay?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/forks)
 [![Badge](https://img.shields.io/github/stars/sauciucrazvan/botanicabay?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/stargazers)
@@ -14,9 +18,4 @@ Bug tracking website with a comprehensive set of features. Open source, licensed
 ![Technologies](https://skillicons.dev/icons?i=typescript,nextjs,react,firebase,tailwind)
 ##### The project uses UI Components from [DaisyUI](https://daisyui.com/).
 
-
-> [!NOTE]
-> Bug Tracker is licensed under MIT. Check out [license](https://github.com/sauciucrazvan/bug-tracker?tab=MIT-1-ov-file).
-
-> [!WARNING]
-> Project currently under development. Expect content to be missing.
+# Under construction...
