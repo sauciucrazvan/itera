@@ -12,6 +12,7 @@ export default function NewIssue() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [severity, setSeverity] = useState<Severity>("minor");
+  const router = useRouter();
 
   const addThread = async () => {
     if (title.trim() === "" || description.trim() === "") {
@@ -35,6 +36,8 @@ export default function NewIssue() {
     } catch (error) {
       console.error(error);
       toast.error("An error occured. Please try again!");
+    } finally {
+      router.push("/");
     }
   };
 

@@ -8,9 +8,15 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase";
 import Greeter from "../dashboard/Profile";
 import Profile from "../dashboard/Profile";
+import toast from "react-hot-toast";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth);
+
+  const logout = () => {
+    auth.signOut();
+    toast.success("Succesfully logged out!");
+  };
 
   return (
     <>
@@ -25,7 +31,21 @@ export default function Header() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link href="/login">Login</Link>
+                <Profile />
+              </li>
+              <li>
+                {user ? (
+                  <button
+                    className="btn btn-sm btn-ghost"
+                    onClick={() => logout()}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link className="btn btn-sm btn-ghost" href="/login">
+                    Login
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
@@ -53,7 +73,7 @@ export default function Header() {
               {user && <Profile />}
               <li>
                 {user ? (
-                  <button onClick={() => auth.signOut()}>Logout</button>
+                  <button onClick={() => logout()}>Logout</button>
                 ) : (
                   <Link href="/login">Login</Link>
                 )}
