@@ -1,7 +1,31 @@
+"use client";
 import { FaGoogle } from "react-icons/fa6";
 import Link from "next/link";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
+
+import { useAuthState } from "react-firebase-hooks/auth";
+import Loading from "../(components)/Loading";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (user) {
+    router.push("/");
+    return <Loading />;
+  }
+
+  const signIn = async () => {
+    const result = await signInWithPopup(auth, googleProvider);
+    console.log(result);
+  };
+
   return (
     <>
       <section className="py-2 px-4">
@@ -19,7 +43,7 @@ export default function Login() {
           <div className="w-[20vw]">
             <div className="divider" />
           </div>
-          <button className="btn btn-outline">
+          <button className="btn btn-outline" onClick={signIn}>
             <FaGoogle /> Login with Google
           </button>
         </section>
