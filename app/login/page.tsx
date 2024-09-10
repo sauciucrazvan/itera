@@ -7,6 +7,7 @@ import { auth, googleProvider } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "../(components)/Loading";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [user, loading] = useAuthState(auth);
@@ -22,7 +23,12 @@ export default function Login() {
   }
 
   const signIn = async () => {
-    const result = await signInWithPopup(auth, googleProvider);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occured.");
+    }
   };
 
   return (
