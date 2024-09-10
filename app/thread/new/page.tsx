@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { isSeverity, Severity, severityTypes } from "@/app/(types)/Severities";
 import { insertThread } from "@/app/(database)/addThread";
+import { useRouter } from "next/navigation";
 
 export default function NewIssue() {
   const [title, setTitle] = useState("");
@@ -33,7 +34,7 @@ export default function NewIssue() {
       setSeverity("minor");
     } catch (error) {
       console.error(error);
-      toast.error("Operation failed. Please try again!");
+      toast.error("An error occured. Please try again!");
     }
   };
 

@@ -24,7 +24,7 @@ export default function Header() {
           </div>
           <Link
             href="/"
-            className="flex-0 btn btn-ghost gap-1 px-2 md:gap-2 font-bold"
+            className="flex-0 btn btn-ghost gap-1 px-2 md:gap-2 font-bold shadow-none"
           >
             <Image
               src="/favicon.svg"
