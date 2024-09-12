@@ -8,12 +8,16 @@ import { isSeverity, Severity, severityTypes } from "@/app/(types)/Severities";
 import { insertThread } from "@/app/(database)/addThread";
 import { useRouter } from "next/navigation";
 import Gateway from "@/app/(components)/Gateway";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/firebase";
 
 export default function NewIssue() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [severity, setSeverity] = useState<Severity>("minor");
   const router = useRouter();
+
+  const [user, loading] = useAuthState(auth);
 
   const addThread = async () => {
     if (title.trim() === "" || description.trim() === "") {
@@ -27,7 +31,7 @@ export default function NewIssue() {
     }
 
     try {
-      await insertThread(title, description, severity);
+      await insertThread(title, description, severity, user);
 
       toast.success("Thread created successfully!");
 
