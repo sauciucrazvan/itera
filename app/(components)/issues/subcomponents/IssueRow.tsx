@@ -1,39 +1,28 @@
 import Link from "next/link";
 import Badge from "./Badge";
 
-import { Status } from "@/app/(types)/Statuses";
-import { Severity } from "@/app/(types)/Severities";
-import { Author } from "@/app/(types)/Topics";
+import { Thread } from "@/app/(types)/Topics";
 
-interface IssueProps {
-  issue: {
-    id: string;
-    title: string;
-    severity: Severity;
-    status: Status;
-    author: Author;
-  };
-}
-
-export default function IssueRow({ issue }: IssueProps) {
-  const { id, title, severity, status, author } = issue;
-
+export default function IssueRow({ issue }: { issue: Thread }) {
   return (
     <>
       <tr>
         <td>
-          <Link href={"/thread/" + id} className="hover:text-base-content/80">
-            {title}
+          <Link
+            href={"/thread/" + issue.id}
+            className="hover:text-base-content/80"
+          >
+            {issue.title}
           </Link>
         </td>
         <td>
-          <div>@{author.name}</div>
+          <div>@{issue.author.name}</div>
         </td>
         <td>
-          <Badge type={"severity"} level={severity} />
+          <Badge type={"severity"} level={issue.severity} />
         </td>
         <td>
-          <Badge type={"status"} level={status} />
+          <Badge type={"status"} level={issue.status} />
         </td>
       </tr>
     </>

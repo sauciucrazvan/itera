@@ -5,12 +5,12 @@ import { useEffect, useState, useMemo } from "react";
 import { severityRank } from "@/app/(types)/Severities";
 import { statusRank } from "@/app/(types)/Statuses";
 import { getThreads } from "@/app/(database)/getThreads";
-import { IssueThread } from "@/app/(types)/Topics";
+import { Thread } from "@/app/(types)/Topics";
 
 export default function IssuesBody() {
   const ITEMS_PER_PAGE = 10;
 
-  const [data, setData] = useState<IssueThread[]>([]),
+  const [data, setData] = useState<Thread[]>([]),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(false),
     [page, setPage] = useState(1);
@@ -29,7 +29,7 @@ export default function IssuesBody() {
       try {
         setLoading(true);
 
-        const issuesData: IssueThread[] = await getThreads();
+        const issuesData: Thread[] = await getThreads();
         issuesData.sort((a, b) => {
           if (statusRank[a.status] !== statusRank[b.status]) {
             return statusRank[a.status] - statusRank[b.status];
@@ -71,7 +71,7 @@ export default function IssuesBody() {
               </tr>
             </thead>
             <tbody>
-              {displayData.map((issue: IssueThread) => (
+              {displayData.map((issue: Thread) => (
                 <IssueRow key={issue.id} issue={issue} />
               ))}
             </tbody>

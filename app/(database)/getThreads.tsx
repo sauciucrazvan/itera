@@ -1,10 +1,10 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { IssueThread } from "../(types)/Topic";
+import { Thread } from "../(types)/Topics";
 
 export async function getThreads() {
   const querySnapshot = await getDocs(collection(db, "threads"));
-  const issuesData: IssueThread[] = [];
+  const issuesData: Thread[] = [];
   querySnapshot.forEach((doc) => {
     const issueData = doc.data();
     issuesData.push({

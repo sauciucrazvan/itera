@@ -1,15 +1,13 @@
 import { Severity } from "./Severities";
 import { Status } from "./Statuses";
 
-export interface IssueThread {
+export interface Thread {
   id: string;
   title: string;
   status: Status;
   severity: Severity;
-  author: Author;
-}
-
-export interface Author {
-  id: string;
-  name: string;
+  author: {
+    id: string;
+    name: string;
+  };
 }
