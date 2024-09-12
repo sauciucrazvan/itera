@@ -25,6 +25,8 @@ export default function Login() {
   const signIn = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+
+      toast.success("Hey, " + result.user.email?.split("@")[0] + "!");
     } catch (error) {
       console.log(error);
       toast.error("An error occured.");

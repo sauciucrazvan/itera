@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa6";
 import IssuesBody from "./subcomponents/IssuesBody";

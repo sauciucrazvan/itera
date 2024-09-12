@@ -11,9 +11,9 @@ export default function Profile() {
   return (
     <>
       {user && (
-        <section className="flex flex-row justify-center items-center gap-0.5">
+        <div className="flex flex-row justify-center items-center gap-0.5">
           <div>@{user.email?.split("@")[0]}</div>
-        </section>
+        </div>
       )}
     </>
   );

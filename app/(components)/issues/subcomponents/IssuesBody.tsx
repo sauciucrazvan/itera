@@ -1,3 +1,4 @@
+"use client";
 import IssueRow from "./IssueRow";
 import Loading from "../../Loading";
 import Error from "../../Error";
@@ -59,10 +60,6 @@ export default function IssuesBody() {
 
   return (
     <>
-      <div className="text-xs">
-        Displaying {data.length < ITEMS_PER_PAGE ? data.length : ITEMS_PER_PAGE}{" "}
-        out of {data.length} total topics.
-      </div>
       <section>
         <div className="overflow-x-auto">
           <table className="table table-zebra">
@@ -102,6 +99,11 @@ export default function IssuesBody() {
           </div>
         ) : null}
       </section>
+      <div className="text-xs pt-4">
+        Displaying {data.length < ITEMS_PER_PAGE ? data.length : ITEMS_PER_PAGE}{" "}
+        out of {data.length} total topics.
+      </div>
+      <div className="divider m-0" />
     </>
   );
 }
