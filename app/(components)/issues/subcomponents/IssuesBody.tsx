@@ -4,7 +4,8 @@ import Error from "../../Error";
 import { useEffect, useState, useMemo } from "react";
 import { severityRank } from "@/app/(types)/Severities";
 import { statusRank } from "@/app/(types)/Statuses";
-import { getThreads, IssueThread } from "@/app/(database)/getThreads";
+import { getThreads } from "@/app/(database)/getThreads";
+import { IssueThread } from "@/app/(types)/Topics";
 
 export default function IssuesBody() {
   const ITEMS_PER_PAGE = 10;
@@ -64,6 +65,7 @@ export default function IssuesBody() {
             <thead>
               <tr>
                 <th>Title</th>
+                <th>Author</th>
                 <th>Severity</th>
                 <th>Status</th>
               </tr>

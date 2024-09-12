@@ -1,8 +1,5 @@
 import Link from "next/link";
-import { db } from "@/app/firebase";
 import { notFound } from "next/navigation";
-import { getDoc, doc } from "firebase/firestore";
-import { FaUserCircle } from "react-icons/fa";
 import { FaAt, FaClock } from "react-icons/fa6";
 import Badge from "@/app/(components)/issues/subcomponents/Badge";
 import { getThread } from "@/app/(database)/getThread";
@@ -36,10 +33,10 @@ export default async function ViewIssue({
             <div className="divider m-0" />
             <section className="flex flex-col gap-1">
               <p className="flex flex-row items-center gap-2">
-                <FaAt /> {threadData.author.name}
+                <FaClock /> {threadData.creationDate}
               </p>
               <p className="flex flex-row items-center gap-2">
-                <FaClock /> {threadData.creationDate}
+                <FaAt /> {threadData.author.name}
               </p>
               <div className="flex flex-row gap-1 items-center py-2">
                 <Badge type={"severity"} level={threadData.severity} />
