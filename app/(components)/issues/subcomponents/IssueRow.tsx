@@ -19,10 +19,10 @@ export default function IssueRow({ issue }: { issue: Thread }) {
           <div>@{issue.author.name}</div>
         </td>
         <td>
-          <Badge type={"severity"} level={issue.severity} />
-        </td>
-        <td>
-          <Badge type={"status"} level={issue.status} />
+          <div className="flex flex-row items-center gap-1">
+            <Badge type={"severity"} level={issue.severity} />
+            <Badge type={"status"} level={issue.status} />
+          </div>
         </td>
       </tr>
     </>

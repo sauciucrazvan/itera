@@ -67,8 +67,8 @@ export default function Header() {
         </div>
         <div className="navbar-end hidden lg:flex">
           {loading ? (
-            <div className="px-4 py-2">
-              <span className="loading loading-spinner loading-md gap-1" />
+            <div className="px-4">
+              <span className="loading loading-dots loading-md gap-1" />
             </div>
           ) : (
             <ul className="menu menu-horizontal px-1 gap-1">
@@ -78,7 +78,7 @@ export default function Header() {
                     <summary>
                       <Profile />
                     </summary>
-                    <ul className="bg-base-300">
+                    <ul className="bg-base-300 shadow-lg">
                       <li>
                         <button onClick={() => logout()}>Logout</button>
                       </li>

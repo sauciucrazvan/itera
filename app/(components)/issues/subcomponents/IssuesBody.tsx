@@ -59,6 +59,10 @@ export default function IssuesBody() {
 
   return (
     <>
+      <div className="text-xs">
+        Displaying {data.length < ITEMS_PER_PAGE ? data.length : ITEMS_PER_PAGE}{" "}
+        out of {data.length} total topics.
+      </div>
       <section>
         <div className="overflow-x-auto">
           <table className="table table-zebra">
@@ -66,8 +70,7 @@ export default function IssuesBody() {
               <tr>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Severity</th>
-                <th>Status</th>
+                <th>Tags</th>
               </tr>
             </thead>
             <tbody>
@@ -77,25 +80,27 @@ export default function IssuesBody() {
             </tbody>
           </table>
         </div>
-        <div className="join flex flex-row justify-center items-center pt-2">
-          <button
-            className="join-item btn btn-sm btn-square btn-neutral"
-            onClick={() => handleNavigation(false)}
-            disabled={page === 1}
-          >
-            «
-          </button>
-          <button className="join-item btn btn-sm btn-square btn-neutral">
-            {page}
-          </button>
-          <button
-            className="join-item btn btn-sm btn-square btn-neutral"
-            onClick={() => handleNavigation(true)}
-            disabled={page * ITEMS_PER_PAGE >= data.length}
-          >
-            »
-          </button>
-        </div>
+        {data.length > ITEMS_PER_PAGE ? (
+          <div className="join flex flex-row justify-center items-center pt-2">
+            <button
+              className="join-item btn btn-sm btn-square btn-neutral"
+              onClick={() => handleNavigation(false)}
+              disabled={page === 1}
+            >
+              «
+            </button>
+            <button className="join-item btn btn-sm btn-square btn-neutral">
+              {page}
+            </button>
+            <button
+              className="join-item btn btn-sm btn-square btn-neutral"
+              onClick={() => handleNavigation(true)}
+              disabled={page * ITEMS_PER_PAGE >= data.length}
+            >
+              »
+            </button>
+          </div>
+        ) : null}
       </section>
     </>
   );
