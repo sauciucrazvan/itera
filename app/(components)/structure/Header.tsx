@@ -65,15 +65,25 @@ export default function Header() {
         <div className="navbar-end flex pr-4 lg:hidden">
           <ThemeSelector />
         </div>
-        {loading ? (
-          <span className="loading loading-circle loading-md" />
-        ) : (
-          <div className="navbar-end hidden lg:flex">
+        <div className="navbar-end hidden lg:flex">
+          {loading ? (
+            <div className="px-4 py-2">
+              <span className="loading loading-spinner loading-md gap-1" />
+            </div>
+          ) : (
             <ul className="menu menu-horizontal px-1 gap-1">
-              {user && <Profile />}
               <li>
                 {user ? (
-                  <button onClick={() => logout()}>Logout</button>
+                  <details>
+                    <summary>
+                      <Profile />
+                    </summary>
+                    <ul className="bg-base-300">
+                      <li>
+                        <button onClick={() => logout()}>Logout</button>
+                      </li>
+                    </ul>
+                  </details>
                 ) : (
                   <Link href="/login">Login</Link>
                 )}
@@ -82,8 +92,8 @@ export default function Header() {
                 <ThemeSelector />
               </li>
             </ul>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );
