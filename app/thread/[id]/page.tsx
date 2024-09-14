@@ -23,11 +23,10 @@ export default async function ViewIssue({
             <li>
               <Link href="/">Issues</Link>
             </li>
-            <li>Viewing Thread</li>
-            <li>{id}</li>
+              <li>Viewing Thread</li>
           </ul>
         </div>
-        <div className="flex flex-col lg:flex-row gap-2">
+        <div className="flex flex-col lg:flex-row lg:items-start gap-2">
           <section className="artboard bg-base-200 px-4 py-2 rounded-md lg:w-[60vw]">
             <h1 className="font-bold text-lg">{threadData.title}</h1>
             <div className="divider m-0" />
