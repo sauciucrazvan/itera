@@ -68,8 +68,8 @@ export default function NewIssue() {
           <section className="artboard bg-base-200 px-4 py-2 rounded-md">
             <h1 className="font-bold text-lg">Create a thread</h1>
             <div className="divider m-0" />
-            <div className="flex flex-row items-start gap-2">
-              <section className="flex-1">
+            <div className="flex flex-col md:flex-row md:items-start gap-2">
+              <section className="md:flex-1">
                 <div>
                   <h1 className="text-lg">Add a title</h1>
                   <input
@@ -95,13 +95,13 @@ export default function NewIssue() {
                   />
                 </div>
               </section>
-              <div className="divider divider-horizontal m-0" />
-              <section className="w-[25vw] flex flex-col gap-2">
+              <div className="divider md:divider-horizontal m-0" />
+              <section className="md:w-[25vw] flex flex-col gap-2">
                 <div>
                   <h1 className="text-lg">Severity</h1>
 
                   <select
-                    className="select select-bordered w-full max-w-lg"
+                    className="select select-bordered w-full"
                     onChange={(event) =>
                       setSeverity(event.target.value as Severity)
                     }
@@ -119,7 +119,9 @@ export default function NewIssue() {
                   Submit new issue
                 </button>
                 <div className="text-xs flex flex-row items-center gap-2">
-                  <FaInfoCircle size="24" /> Remember that you'll get permanently suspended if you post forbidden content or use profanity.
+                  <FaInfoCircle size="24" /> Remember that you'll get
+                  permanently suspended if you post forbidden content or use
+                  profanity.
                 </div>
               </section>
             </div>
