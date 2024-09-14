@@ -10,6 +10,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 import ThemeSelector from "./ThemeSelector";
 import { MdArrowDropDown } from "react-icons/md";
+import { FaBars } from "react-icons/fa";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth);
@@ -36,36 +37,71 @@ export default function Header() {
             {configuration.name}
           </Link>
         </div>
-        <div className="navbar-end flex pr-4 gap-4">
-          {!user ? (
-            <Link className="btn btn-ghost btn-sm" href="/login">
-              Login
-            </Link>
+        <div className="navbar-end  hidden md:flex pr-4 gap-4">
+          {loading ? (
+            <div className="loading loading-spinner loading-sm" />
           ) : (
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost rounded-btn bg-base-100"
-              >
-                @{user.email?.split("@")[0]} <MdArrowDropDown size="24" />
-              </div>
-              <ul
-                tabIndex={0}
-                className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2  shadow"
-              >
-                <li>
-                  {" "}
-                  <button
-                    className="btn btn-ghost btn-sm"
-                    onClick={() => logout()}
+            <>
+              {!user ? (
+                <Link className="btn btn-ghost btn-sm" href="/login">
+                  Login
+                </Link>
+              ) : (
+                <div className="dropdown dropdown-end">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="btn btn-ghost rounded-btn bg-base-100"
                   >
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            </div>
+                    @{user.email?.split("@")[0]} <MdArrowDropDown size="24" />
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2  shadow"
+                  >
+                    <li>
+                      {" "}
+                      <button
+                        className="btn btn-ghost btn-sm"
+                        onClick={() => logout()}
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+              <ThemeSelector />
+            </>
           )}
+        </div>
+        <div className="navbar-end flex md:hidden pr-4">
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost rounded-btn"
+            >
+              <FaBars size="24" />
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2  shadow"
+            >
+              {user ? (
+                <li className="font-bold p-4">@{user!.email?.split("@")[0]}</li>
+              ) : null}
+              <li>
+                {" "}
+                <button
+                  className="btn btn-ghost btn-sm"
+                  onClick={() => logout()}
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
           <ThemeSelector />
         </div>
       </div>
