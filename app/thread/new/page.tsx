@@ -12,6 +12,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase";
 import Loading from "@/app/(components)/Loading";
 import { FaInfoCircle } from "react-icons/fa";
+import Badge from "@/app/(components)/issues/subcomponents/Badge";
 
 export default function NewIssue() {
   const [title, setTitle] = useState("");
@@ -107,9 +108,10 @@ export default function NewIssue() {
                     }
                     value={severity}
                   >
+                    <option value="none" disabled>Pick the severity of the issue</option>
                     {Object.entries(severityTypes).map(([key, value]) => (
                       <option key={key} value={key} className={value}>
-                        {key}
+                          {key}
                       </option>
                     ))}
                   </select>
