@@ -8,8 +8,8 @@ import toast from "react-hot-toast";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import Profile from "../dashboard/Profile";
 import ThemeSelector from "./ThemeSelector";
+import { MdArrowDropDown } from "react-icons/md";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth);
@@ -42,9 +42,29 @@ export default function Header() {
               Login
             </Link>
           ) : (
-            <button className="btn btn-ghost btn-sm" onClick={() => logout()}>
-              Logout
-            </button>
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost rounded-btn bg-base-100"
+              >
+                @{user.email?.split("@")[0]} <MdArrowDropDown size="24" />
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2  shadow"
+              >
+                <li>
+                  {" "}
+                  <button
+                    className="btn btn-ghost btn-sm"
+                    onClick={() => logout()}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
           )}
           <ThemeSelector />
         </div>

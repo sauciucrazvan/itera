@@ -108,10 +108,12 @@ export default function NewIssue() {
                     }
                     value={severity}
                   >
-                    <option value="none" disabled>Pick the severity of the issue</option>
+                    <option value="none" disabled>
+                      Pick the severity of the issue
+                    </option>
                     {Object.entries(severityTypes).map(([key, value]) => (
                       <option key={key} value={key} className={value}>
-                          {key}
+                        {key}
                       </option>
                     ))}
                   </select>

@@ -101,7 +101,8 @@ export default function IssuesBody() {
       </section>
       <div className="text-xs pt-4">
         Displaying {data.length < ITEMS_PER_PAGE ? data.length : ITEMS_PER_PAGE}{" "}
-        out of {data.length} total topics. Showing {ITEMS_PER_PAGE} items per page.
+        out of {data.length} total topics. Showing {ITEMS_PER_PAGE} items per
+        page.
       </div>
       <div className="divider m-0" />
     </>
