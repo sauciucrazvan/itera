@@ -89,17 +89,25 @@ export default function Header() {
               className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2  shadow"
             >
               {user ? (
-                <li className="font-bold p-4">@{user!.email?.split("@")[0]}</li>
-              ) : null}
-              <li>
-                {" "}
-                <button
-                  className="btn btn-ghost btn-sm"
-                  onClick={() => logout()}
-                >
-                  Logout
-                </button>
-              </li>
+                <>
+                  <li className="font-bold p-4">
+                    @{user!.email?.split("@")[0]}
+                  </li>
+                  <li>
+                    {" "}
+                    <button
+                      className="btn btn-ghost btn-sm"
+                      onClick={() => logout()}
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <Link className="btn btn-ghost btn-sm" href="/login">
+                  Login
+                </Link>
+              )}
             </ul>
           </div>
           <ThemeSelector />
