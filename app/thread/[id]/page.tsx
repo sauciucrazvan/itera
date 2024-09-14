@@ -23,7 +23,7 @@ export default async function ViewIssue({
             <li>
               <Link href="/">Issues</Link>
             </li>
-              <li>Viewing Thread</li>
+            <li>Viewing Thread</li>
           </ul>
         </div>
         <div className="flex flex-col lg:flex-row lg:items-start gap-2">

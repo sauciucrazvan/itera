@@ -4,7 +4,6 @@
 
 Bug tracking website with a comprehensive set of features. Open source, licensed under MIT.
 
-
 > [!WARNING]
 > Project currently under development. Expect content to be missing.
 
@@ -15,7 +14,9 @@ Bug tracking website with a comprehensive set of features. Open source, licensed
 [![Badge](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 # Techstack
+
 ![Technologies](https://skillicons.dev/icons?i=typescript,nextjs,react,firebase,tailwind)
+
 ##### The project uses UI Components from [DaisyUI](https://daisyui.com/).
 
 # Under construction...

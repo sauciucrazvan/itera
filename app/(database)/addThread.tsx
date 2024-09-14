@@ -7,7 +7,7 @@ export async function insertThread(
   title: string,
   description: string,
   severity: Severity,
-  user: any
+  user: any,
 ) {
   //const [user] = useAuthState(auth);
 
