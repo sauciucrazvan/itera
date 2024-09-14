@@ -2,7 +2,8 @@
 import Error from "../Error";
 
 import { useEffect, useState } from "react";
-import { getThreads, IssueThread } from "@/app/(database)/getThreads";
+import { getThreads } from "@/app/(database)/getThreads";
+import { Thread } from "@/app/(types)/Topics";
 
 import {
   FaCheckCircle,
@@ -17,7 +18,7 @@ export default function Statistics() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const issuesData: IssueThread[] = await getThreads();
+        const issuesData: Thread[] = await getThreads();
 
         let solved = 0,
           pending = 0;
@@ -46,27 +47,22 @@ export default function Statistics() {
 
   return (
     <>
-      <div className="stats shadow w-[96vw] bg-base-200">
-        <div className="stat">
+      <div className="shadow lg:w-[25vw] flex flex-col gap-2">
+        <div className="stat rounded-md bg-base-200 hover:bg-base-300/80 transition ease-in-out duration-300">
           <div className="stat-figure text-secondary">
             <FaExclamationCircle size="32" />
           </div>
           <div className="stat-title">Issues</div>
           <div className="stat-value">{data[0]}</div>
-          <div className="stat-desc">
-            {data[0] - data[1]} currently unsolved
-          </div>
         </div>
-
-        <div className="stat">
+        <div className="stat rounded-md bg-base-200 hover:bg-base-300/80 transition ease-in-out duration-300">
           <div className="stat-figure text-secondary">
             <FaCheckCircle size="32" />
           </div>
           <div className="stat-title">Solved</div>
           <div className="stat-value">{data[1]}</div>
         </div>
-
-        <div className="stat">
+        <div className="stat rounded-md bg-base-200 hover:bg-base-300/80 transition ease-in-out duration-300">
           <div className="stat-figure text-secondary">
             <FaHourglass size="32" />
           </div>
