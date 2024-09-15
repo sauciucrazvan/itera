@@ -7,12 +7,11 @@ import { severityRank } from "@/app/(types)/Severities";
 import { statusRank } from "@/app/(types)/Statuses";
 import { getThreads } from "@/app/(database)/getThreads";
 
-import Loading from "../Loading";
 import Error from "../Error";
 
 import Badge from "./subcomponents/Badge";
 
-import { FaAt, FaHeading, FaPlus, FaTags } from "react-icons/fa";
+import { FaHeading, FaPlus, FaTags, FaUser } from "react-icons/fa";
 import IssuesSkeleton from "./subcomponents/Skeleton";
 
 export default function Issues() {
@@ -105,7 +104,7 @@ export default function Issues() {
         </div>
         <section>
           <div className="overflow-x-auto">
-            <table className="table table-zebra">
+            <table className="table">
               <thead>
                 <tr>
                   <th>
@@ -115,7 +114,7 @@ export default function Issues() {
                   </th>
                   <th>
                     <p className="inline-flex items-center gap-1">
-                      <FaAt /> Author
+                      <FaUser /> Author
                     </p>
                   </th>
                   <th>

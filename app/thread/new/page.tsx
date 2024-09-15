@@ -1,7 +1,6 @@
 "use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { isSeverity, Severity, severityTypes } from "@/app/(types)/Severities";

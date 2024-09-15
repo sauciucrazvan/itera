@@ -5,6 +5,7 @@ import { getThreads } from "@/app/(database)/getThreads";
 
 import {
   FaCheckCircle,
+  FaClone,
   FaExclamationCircle,
   FaHourglass,
 } from "react-icons/fa";
@@ -22,11 +23,13 @@ export default function Statistics() {
       total: -1,
       solved: -1,
       pending: -1,
+      duplicate: -1,
     });
 
   const getStats = (threads: Thread[]) => {
     let solved = 0,
-      pending = 0;
+      pending = 0,
+      duplicate = 0;
 
     threads.forEach((issue) => {
       switch (issue.status) {
@@ -37,6 +40,10 @@ export default function Statistics() {
         case "reviewing":
           pending++;
           break;
+
+        case "duplicate":
+          duplicate++;
+          break;
       }
     });
 
@@ -44,6 +51,7 @@ export default function Statistics() {
       total: threads.length,
       solved: solved,
       pending: pending,
+      duplicate: duplicate,
     };
   };
 
@@ -84,6 +92,11 @@ export default function Statistics() {
         icon={<FaHourglass size="32" />}
         title="Pending"
         value={statsData.pending}
+      />
+      <StatisticCard
+        icon={<FaClone size="32" />}
+        title="Duplicates"
+        value={statsData.duplicate}
       />
     </div>
   );
