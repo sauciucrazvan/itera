@@ -28,8 +28,8 @@ export default async function ViewIssue({
           </ul>
         </div>
         <div className="flex flex-col lg:flex-row lg:items-start gap-2">
-          <section className="artboard bg-base-200 rounded-md lg:w-[60vw]">
-            <h1 className="font-bold text-lg bg-base-300 rounded-t-md px-4 py-2">
+          <section className="artboard bg-base-200 rounded-md lg:w-[60vw] lg:max-w-xl">
+            <h1 className="font-bold text-lg bg-base-300 rounded-t-md px-4 py-2 text-ellipsis overflow-hidden">
               {threadData.title}
             </h1>
             <section className="flex flex-col gap-1 px-4 py-2">
@@ -49,7 +49,7 @@ export default async function ViewIssue({
               <div className="flex flex-row items-center gap-1 font-bold">
                 <FaQuoteRight /> Details
               </div>
-              <div className="bg-base-300 px-2 py-1 rounded-md">
+              <div className="bg-base-300 px-2 py-1 rounded-md text-ellipsis overflow-hidden">
                 {threadData.description}
               </div>
             </section>

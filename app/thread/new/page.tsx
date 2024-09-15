@@ -36,6 +36,13 @@ export default function NewIssue() {
       return;
     }
 
+    if (title.length > 128 || description.length > 4096) {
+      toast.error(
+        "Limit the title to 128 characters or the description to 4096 characters."
+      );
+      return;
+    }
+
     if (!isSeverity(severity)) {
       toast.error("Invalid severity selected!");
       return;

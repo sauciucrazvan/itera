@@ -171,9 +171,11 @@ function IssueRow({ issue }: { issue: Thread }) {
       <td>
         <Link
           href={"/thread/" + issue.id}
-          className="hover:text-base-content/80"
+          className="hover:text-base-content/80 text-ellipsis overflow-hidden max-w-xs"
         >
-          {issue.title}
+          {issue.title.length > 48
+            ? `${issue.title.substring(0, 48)}...`
+            : issue.title}
         </Link>
       </td>
       <td>
