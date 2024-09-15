@@ -12,6 +12,7 @@ import { MdArrowDropDown } from "react-icons/md";
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { getUsername } from "@/app/(database)/getUsername";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth);
@@ -53,7 +54,7 @@ export default function Header() {
             {configuration.name}
           </Link>
         </div>
-        <div className="navbar-end  hidden md:flex pr-4 gap-4">
+        <div className="navbar-end hidden md:flex pr-4 gap-4">
           {loading ? (
             <div className="loading loading-spinner loading-sm" />
           ) : (
@@ -69,7 +70,7 @@ export default function Header() {
                     role="button"
                     className="btn btn-ghost btn-sm rounded-btn bg-base-100"
                   >
-                    @{user.email?.split("@")[0]} <MdArrowDropDown size="24" />
+                    @{getUsername(user)} <MdArrowDropDown size="24" />
                   </div>
                   <ul
                     tabIndex={0}
@@ -109,9 +110,7 @@ export default function Header() {
             >
               {user ? (
                 <>
-                  <li className="font-bold py-4">
-                    @{user!.email?.split("@")[0]}
-                  </li>
+                  <li className="font-bold py-4">@{getUsername(user)}</li>
                   <li>
                     <Link href={"/settings"}>Settings</Link>
                   </li>

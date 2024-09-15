@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FaAt, FaClock } from "react-icons/fa6";
+import { FaAt } from "react-icons/fa6";
 import Badge from "@/app/(components)/issues/subcomponents/Badge";
 import { getThread } from "@/app/(database)/getThread";
 import { FaCalendar, FaImage, FaQuoteRight } from "react-icons/fa";
+import IssuePanel from "@/app/(components)/issues/subcomponents/Panel";
 
 export default async function ViewIssue({
   params: { id },
@@ -30,7 +31,7 @@ export default async function ViewIssue({
         <div className="flex flex-col lg:flex-row lg:items-start gap-2">
           <section className="artboard bg-base-200 rounded-md lg:w-[60vw] lg:max-w-xl">
             <h1 className="font-bold text-lg bg-base-300 rounded-t-md px-4 py-2 text-ellipsis overflow-hidden">
-              {threadData.title}
+              {threadData.title}{" "}
             </h1>
             <section className="flex flex-col gap-1 px-4 py-2">
               <p className="flex flex-row items-center gap-2">
@@ -39,10 +40,16 @@ export default async function ViewIssue({
               <p className="flex flex-row items-center gap-2">
                 <FaAt /> {threadData.author.name}
               </p>
+              {threadData.hidden && (
+                <div className="badge badge-error">
+                  This topic has been hidden by an administrator.
+                </div>
+              )}
               <div className="flex flex-row gap-1 items-center py-2">
                 <Badge type={"severity"} level={threadData.severity} />
                 <Badge type={"status"} level={threadData.status} />
               </div>
+              <IssuePanel threadID={id} threadData={threadData} />
             </section>
             <div className="divider m-0" />
             <section className="px-4 py-2">

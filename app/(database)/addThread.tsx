@@ -1,14 +1,15 @@
 import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 import { Severity } from "../(types)/Severities";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { getUsername } from "./getUsername";
+import { User } from "@firebase/auth";
 
 export async function insertThread(
   title: string,
   description: string,
   attachments: string,
   severity: Severity,
-  user: any
+  user: User
 ) {
   await addDoc(collection(db, "threads"), {
     title: title,
@@ -16,7 +17,7 @@ export async function insertThread(
     attachments: attachments,
     severity: severity,
     status: "open",
-    author: { id: user?.uid, name: user?.email.split("@")[0] },
+    author: { id: user?.uid, name: getUsername(user) },
     creationDate: new Date().toLocaleString(undefined, {
       year: "numeric",
       month: "long",

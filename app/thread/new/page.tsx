@@ -51,7 +51,7 @@ export default function NewIssue() {
     if (loading) return <Loading />;
 
     try {
-      await insertThread(title, description, media, severity, user);
+      await insertThread(title, description, media, severity, user!);
 
       toast.success("Thread created successfully!");
 

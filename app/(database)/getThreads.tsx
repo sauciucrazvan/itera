@@ -7,13 +7,14 @@ export async function getThreads() {
   const issuesData: Thread[] = [];
   querySnapshot.forEach((doc) => {
     const issueData = doc.data();
-    issuesData.push({
-      id: doc.id,
-      title: issueData.title,
-      status: issueData.status,
-      severity: issueData.severity,
-      author: issueData.author,
-    });
+    if (!issueData.hidden)
+      issuesData.push({
+        id: doc.id,
+        title: issueData.title,
+        status: issueData.status,
+        severity: issueData.severity,
+        author: issueData.author,
+      });
   });
 
   return issuesData;

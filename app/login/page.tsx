@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 import { configuration } from "../configuration";
 import { toast } from "sonner";
+import { getUsername } from "../(database)/getUsername";
 
 export default function Login() {
   const [user, loading] = useAuthState(auth);
@@ -30,7 +31,7 @@ export default function Login() {
       const result = await signInWithPopup(auth, googleProvider);
 
       router.push("/");
-      toast.success("Welcome, @" + result.user.email?.split("@")[0] + "!");
+      toast.success("Welcome, @" + getUsername(result.user) + "!");
     } catch (error) {
       console.log(error);
       toast.error("An error occured during login.");
