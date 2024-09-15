@@ -22,11 +22,7 @@ export default function Login() {
   }
 
   if (user) {
-    return (
-      <section className="p-4">
-        <div className="alert alert-error">You're already logged in.</div>
-      </section>
-    );
+    return null;
   }
 
   const signIn = async () => {

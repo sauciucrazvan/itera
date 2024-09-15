@@ -58,7 +58,7 @@ export default async function ViewIssue({
                 <FaImage /> Attachments
               </div>
               <div className="bg-base-300 px-2 py-1 rounded-md">
-                {threadData.attachments ?? "No attached media"}
+                {threadData.attachments || "No attached media!"}
               </div>
             </section>
           </section>
