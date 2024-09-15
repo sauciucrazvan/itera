@@ -13,6 +13,7 @@ import Error from "../Error";
 import Badge from "./subcomponents/Badge";
 
 import { FaAt, FaHeading, FaPlus, FaTags } from "react-icons/fa";
+import IssuesSkeleton from "./subcomponents/Skeleton";
 
 export default function Issues() {
   const ITEMS_PER_PAGE = 10;
@@ -67,9 +68,9 @@ export default function Issues() {
   if (loading)
     return (
       <div className="w-full bg-base-200 px-4 py-2 rounded-md">
-        <Loading />
+        <IssuesSkeleton />
       </div>
-    ); // should build a skeleton
+    );
   if (error)
     return (
       <div className="w-full bg-base-200 px-4 py-2 rounded-md">
