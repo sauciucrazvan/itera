@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getThreads } from "@/app/(database)/getThreads";
+
+import { getThreads } from "@/app/(database)/threads/getThreads";
 
 import {
   FaCheckCircle,
@@ -10,8 +11,8 @@ import {
   FaHourglass,
 } from "react-icons/fa";
 
-import Error from "../Error";
-import Loading from "../Loading";
+import Error from "../../helpers/Error";
+import Loading from "../../helpers/Loading";
 
 import { Thread } from "@/app/(types)/Topics";
 import { StatisticCard } from "./StatisticCard";

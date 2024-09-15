@@ -1,7 +1,7 @@
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase";
-import { Severity } from "../(types)/Severities";
-import { getUsername } from "./getUsername";
+import { db } from "@/app/firebase";
+import { Severity } from "@/app/(types)/Severities";
+import { getUsername } from "../accounts/getUsername";
 import { User } from "@firebase/auth";
 
 export async function insertThread(

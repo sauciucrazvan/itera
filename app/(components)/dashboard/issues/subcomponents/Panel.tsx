@@ -1,16 +1,20 @@
 "use client";
 
-import { updateThread } from "@/app/(database)/updateThread";
-import { auth } from "@/app/firebase";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
+
+import { auth } from "@/app/firebase";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+
+import { FaTags } from "react-icons/fa";
+
 import { Severity, severityTypes } from "@/app/(types)/Severities";
 import { Status, statusTypes } from "@/app/(types)/Statuses";
-import { FaTags } from "react-icons/fa";
-import { isAdmin } from "@/app/(database)/isAdmin";
-import { deleteThread } from "@/app/(database)/deleteThread";
+
+import { isAdmin } from "@/app/(database)/accounts/isAdmin";
+import { deleteThread } from "@/app/(database)/threads/deleteThread";
+import { updateThread } from "@/app/(database)/threads/updateThread";
 
 interface ThreadPanelProps {
   id: string;

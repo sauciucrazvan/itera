@@ -12,7 +12,7 @@ import { MdArrowDropDown } from "react-icons/md";
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { getUsername } from "@/app/(database)/getUsername";
+import { getUsername } from "@/app/(database)/accounts/getUsername";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth);

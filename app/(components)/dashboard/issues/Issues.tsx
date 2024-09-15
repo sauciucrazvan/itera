@@ -5,14 +5,13 @@ import Link from "next/link";
 import { Thread } from "@/app/(types)/Topics";
 import { severityRank } from "@/app/(types)/Severities";
 import { statusRank } from "@/app/(types)/Statuses";
-import { getThreads } from "@/app/(database)/getThreads";
+import { getThreads } from "@/app/(database)/threads/getThreads";
 
-import Error from "../Error";
-
-import Badge from "./subcomponents/Badge";
+import Error from "@/app/(components)/helpers/Error";
+import Badge from "@/app/(components)/dashboard/issues/subcomponents/Badge";
+import IssuesSkeleton from "@/app/(components)/dashboard/issues/subcomponents/Skeleton";
 
 import { FaHeading, FaPlus, FaTags, FaUser } from "react-icons/fa";
-import IssuesSkeleton from "./subcomponents/Skeleton";
 
 export default function Issues() {
   const ITEMS_PER_PAGE = 10;

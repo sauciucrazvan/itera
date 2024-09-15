@@ -6,12 +6,13 @@
 */
 
 "use client";
+import { auth } from "@/app/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Loading from "./Loading";
 import { toast } from "sonner";
+
+import Loading from "../helpers/Loading";
 
 interface GatewayProps {
   children: ReactNode;

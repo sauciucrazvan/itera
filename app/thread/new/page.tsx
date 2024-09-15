@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { isSeverity, Severity, severityTypes } from "@/app/(types)/Severities";
-import { insertThread } from "@/app/(database)/addThread";
+import { insertThread } from "@/app/(database)/threads/addThread";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase";
 
-import Gateway from "@/app/(components)/Gateway";
-import Loading from "@/app/(components)/Loading";
+import Gateway from "@/app/(components)/helpers/Gateway";
+import Loading from "@/app/(components)/helpers/Loading";
 
 import {
   FaExclamationTriangle,

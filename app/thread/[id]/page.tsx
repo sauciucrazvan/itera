@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FaAt } from "react-icons/fa6";
-import Badge from "@/app/(components)/issues/subcomponents/Badge";
-import { getThread } from "@/app/(database)/getThread";
-import { FaCalendar, FaImage, FaQuoteRight } from "react-icons/fa";
-import ThreadPanel from "@/app/(components)/issues/subcomponents/Panel";
+
+import Badge from "@/app/(components)/dashboard/issues/subcomponents/Badge";
+import ThreadPanel from "@/app/(components)/dashboard/issues/subcomponents/Panel";
+
+import { getThread } from "@/app/(database)/threads/getThread";
+
+import { FaCalendar, FaImage, FaQuoteRight, FaUser } from "react-icons/fa";
 
 export default async function ViewIssue({
   params: { id },
@@ -39,7 +41,7 @@ export default async function ViewIssue({
                   <FaCalendar /> {threadData.creationDate}
                 </p>
                 <p className="flex flex-row items-center gap-2">
-                  <FaAt /> {threadData.author.name}
+                  <FaUser /> {threadData.author.name}
                 </p>
                 {threadData.hidden && (
                   <div className="badge badge-error">
