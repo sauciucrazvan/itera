@@ -12,7 +12,6 @@ import ThemeSelector from "./ThemeSelector";
 import { MdArrowDropDown } from "react-icons/md";
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import Loading from "../Loading";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth);

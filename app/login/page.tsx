@@ -18,8 +18,11 @@ export default function Login() {
   }
 
   if (user) {
-    router.push("/");
-    return <Loading />;
+    return (
+      <section className="p-4">
+        <div className="alert alert-error">You're already logged in.</div>
+      </section>
+    );
   }
 
   const signIn = async () => {
@@ -27,6 +30,7 @@ export default function Login() {
       const result = await signInWithPopup(auth, googleProvider);
 
       toast.success("Hey, " + result.user.email?.split("@")[0] + "!");
+      router.push("/");
     } catch (error) {
       console.log(error);
       toast.error("An error occured.");
