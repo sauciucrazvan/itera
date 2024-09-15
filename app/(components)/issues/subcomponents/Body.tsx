@@ -1,12 +1,13 @@
 "use client";
-import IssueRow from "./IssueRow";
 import Loading from "../../Loading";
 import Error from "../../Error";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { severityRank } from "@/app/(types)/Severities";
 import { statusRank } from "@/app/(types)/Statuses";
 import { getThreads } from "@/app/(database)/getThreads";
 import { Thread } from "@/app/(types)/Topics";
+import Badge from "./Badge";
+import Link from "next/link";
 
 export default function IssuesBody() {
   const ITEMS_PER_PAGE = 10;
@@ -21,12 +22,21 @@ export default function IssuesBody() {
     return data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [data, page]);
 
-  function handleNavigation(increment: boolean) {
-    setPage((prevPage) => Math.max(increment ? prevPage + 1 : prevPage - 1, 1));
-  }
+  const handleNavigation = useCallback(
+    (increment: boolean) => {
+      setPage((prevPage) => {
+        const newPage = increment ? prevPage + 1 : prevPage - 1;
+        return Math.max(
+          1,
+          Math.min(newPage, Math.ceil(data.length / ITEMS_PER_PAGE))
+        );
+      });
+    },
+    [data]
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
         setLoading(true);
 
@@ -44,7 +54,7 @@ export default function IssuesBody() {
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     fetchData();
   }, []);
@@ -57,6 +67,9 @@ export default function IssuesBody() {
       <div className="text-sm py-4 px-2">No entries found in the database.</div>
     );
   }
+
+  const startIndex = (page - 1) * ITEMS_PER_PAGE;
+  const displayedCount = Math.min(data.length, startIndex + ITEMS_PER_PAGE);
 
   return (
     <>
@@ -77,7 +90,7 @@ export default function IssuesBody() {
             </tbody>
           </table>
         </div>
-        {data.length > ITEMS_PER_PAGE ? (
+        {data.length > ITEMS_PER_PAGE && (
           <div className="join flex flex-row justify-center items-center pt-2">
             <button
               className="join-item btn btn-sm btn-square btn-neutral"
@@ -97,14 +110,37 @@ export default function IssuesBody() {
               »
             </button>
           </div>
-        ) : null}
+        )}
       </section>
       <div className="text-xs pt-4">
-        Displaying {data.length < ITEMS_PER_PAGE ? data.length : ITEMS_PER_PAGE}{" "}
-        out of {data.length} total topics. Showing {ITEMS_PER_PAGE} items per
-        page.
+        Displaying {startIndex + 1} - {displayedCount} out of {data.length}{" "}
+        total topics. Showing {ITEMS_PER_PAGE} items per page.
       </div>
       <div className="divider m-0" />
     </>
+  );
+}
+
+function IssueRow({ issue }: { issue: Thread }) {
+  return (
+    <tr>
+      <td>
+        <Link
+          href={"/thread/" + issue.id}
+          className="hover:text-base-content/80"
+        >
+          {issue.title}
+        </Link>
+      </td>
+      <td>
+        <div>@{issue.author.name}</div>
+      </td>
+      <td>
+        <div className="flex flex-row items-center gap-1">
+          <Badge type={"severity"} level={issue.severity} />
+          <Badge type={"status"} level={issue.status} />
+        </div>
+      </td>
+    </tr>
   );
 }
