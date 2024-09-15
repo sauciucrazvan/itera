@@ -87,7 +87,7 @@ export default function Issues() {
         <div className="flex flex-row justify-between items-center gap-2 pb-2">
           <div className="flex flex-col lg:flex-row lg:items-center lg:gap-2">
             <div className="text-md text-black dark:text-white font-semibold tracking-wider">
-              ISSUES
+              THREADS
             </div>
             <div className="text-xs">
               Displaying {startIndex + 1} - {displayedCount} out of{" "}

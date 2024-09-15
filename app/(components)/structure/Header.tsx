@@ -24,7 +24,7 @@ export default function Header() {
   if (!isClient)
     return (
       <>
-        <div className="navbar bg-base-200 justify-center">
+        <div className="navbar bg-base-200 justify-end pr-6">
           <div className="loading loading-spinner loading-sm" />
         </div>
       </>

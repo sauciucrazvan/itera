@@ -6,14 +6,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export async function insertThread(
   title: string,
   description: string,
+  attachments: string,
   severity: Severity,
-  user: any,
+  user: any
 ) {
-  //const [user] = useAuthState(auth);
-
   await addDoc(collection(db, "threads"), {
     title: title,
     description: description,
+    attachments: attachments,
     severity: severity,
     status: "open",
     author: { id: user?.uid, name: user?.email.split("@")[0] },

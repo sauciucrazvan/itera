@@ -1,26 +1,35 @@
 "use client";
+
 import Link from "next/link";
-
-import toast from "react-hot-toast";
-
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { isSeverity, Severity, severityTypes } from "@/app/(types)/Severities";
 import { insertThread } from "@/app/(database)/addThread";
-import { useRouter } from "next/navigation";
-import Gateway from "@/app/(components)/Gateway";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase";
+
+import Gateway from "@/app/(components)/Gateway";
 import Loading from "@/app/(components)/Loading";
-import { FaInfoCircle } from "react-icons/fa";
-import Badge from "@/app/(components)/issues/subcomponents/Badge";
+
+import toast from "react-hot-toast";
+import {
+  FaExclamationTriangle,
+  FaHeading,
+  FaImages,
+  FaInfoCircle,
+  FaQuoteRight,
+} from "react-icons/fa";
 
 export default function NewIssue() {
   const [title, setTitle] = useState("");
+  const [media, setMedia] = useState("");
   const [description, setDescription] = useState("");
   const [severity, setSeverity] = useState<Severity>("minor");
-  const router = useRouter();
-
   const [user, loading] = useAuthState(auth);
+
+  const router = useRouter();
 
   const addThread = async () => {
     if (title.trim() === "" || description.trim() === "") {
@@ -36,7 +45,7 @@ export default function NewIssue() {
     if (loading) return <Loading />;
 
     try {
-      await insertThread(title, description, severity, user);
+      await insertThread(title, description, media, severity, user);
 
       toast.success("Thread created successfully!");
 
@@ -73,7 +82,9 @@ export default function NewIssue() {
             <div className="flex flex-col md:flex-row md:items-start gap-2 px-4 py-2">
               <section className="md:flex-1">
                 <div>
-                  <h1 className="text-lg">Add a title</h1>
+                  <h1 className="text-md flex flex-row items-center gap-1 pb-2">
+                    <FaHeading /> Short description of the issue...
+                  </h1>
                   <input
                     type="text"
                     placeholder="Title"
@@ -82,7 +93,9 @@ export default function NewIssue() {
                     onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
-                <h1 className="text-lg pt-4">Add a description</h1>
+                <h1 className="text-md flex flex-row items-center gap-1 pt-4 pb-2">
+                  <FaQuoteRight /> Add a description
+                </h1>
                 <div className="rounded-md flex flex-col items-start">
                   <textarea
                     className="
@@ -99,9 +112,27 @@ export default function NewIssue() {
               </section>
               <div className="divider md:divider-horizontal m-0" />
               <section className="md:w-[25vw] flex flex-col gap-2">
-                <div>
-                  <h1 className="text-lg">Severity</h1>
-
+                <div className="flex flex-col gap-1">
+                  <h1 className="text-md flex flex-row items-center gap-1">
+                    <FaImages /> Media (images, videos)
+                  </h1>
+                  <small>
+                    Please use a trustworthy website to upload media such as{" "}
+                    <Link href="https://imgur.com">imgur.com</Link>. (optional)
+                  </small>
+                  <textarea
+                    className="
+                textarea
+                textarea-bordered
+                textarea-md
+                h-[10vh]"
+                    placeholder="Links"
+                    value={media}
+                    onChange={(e) => setMedia(e.target.value)}
+                  />
+                  <h1 className="text-md flex flex-row items-center gap-1 pt-2">
+                    <FaExclamationTriangle /> Severity
+                  </h1>
                   <select
                     className="select select-bordered w-full"
                     onChange={(event) =>
