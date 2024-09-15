@@ -18,7 +18,11 @@ import { StatisticCard } from "./StatisticCard";
 export default function Statistics() {
   const [loading, setLoading] = useState(false),
     [error, setError] = useState(false),
-    [statsData, setStatsData] = useState({ total: 0, solved: 0, pending: 0 });
+    [statsData, setStatsData] = useState({
+      total: -1,
+      solved: -1,
+      pending: -1,
+    });
 
   const getStats = (threads: Thread[]) => {
     let solved = 0,
@@ -65,7 +69,7 @@ export default function Statistics() {
   if (loading) return <Loading />;
 
   return (
-    <div className="shadow lg:w-[25vw] flex flex-col gap-2">
+    <div className="shadow lg:w-[25vw] flex flex-col gap-3">
       <StatisticCard
         icon={<FaExclamationCircle size="32" />}
         title="Issues"
