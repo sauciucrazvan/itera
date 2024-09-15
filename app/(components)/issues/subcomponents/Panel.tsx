@@ -8,23 +8,21 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Severity, severityTypes } from "@/app/(types)/Severities";
 import { Status, statusTypes } from "@/app/(types)/Statuses";
-import { setServers } from "dns";
 import { FaTags } from "react-icons/fa";
 import { isAdmin } from "@/app/(database)/isAdmin";
+import { deleteThread } from "@/app/(database)/deleteThread";
 
-interface IssuePanelProps {
-  threadID: string;
-  threadData: any;
+interface ThreadPanelProps {
+  id: string;
+  data: any;
 }
 
-export default function IssuePanel({ threadID, threadData }: IssuePanelProps) {
+export default function ThreadPanel({ id, data }: ThreadPanelProps) {
   const [mounted, setMounted] = useState(false);
 
   const [user, loading] = useAuthState(auth);
-  const [severity, setSeverity] = useState<Severity>(
-    threadData?.severity || "minor"
-  );
-  const [status, setStatus] = useState<Status>(threadData?.status || "open");
+  const [severity, setSeverity] = useState<Severity>(data?.severity || "minor");
+  const [status, setStatus] = useState<Status>(data?.status || "open");
 
   const router = useRouter();
 
@@ -33,18 +31,18 @@ export default function IssuePanel({ threadID, threadData }: IssuePanelProps) {
   });
 
   useEffect(() => {
-    if (threadData) {
-      setSeverity(threadData.severity);
-      setStatus(threadData.status);
+    if (data) {
+      setSeverity(data.severity);
+      setStatus(data.status);
     }
-  }, [threadData]);
+  }, [data]);
 
   const handleUpdate = async (
     field: "severity" | "status" | "hidden",
     value: any
   ) => {
     try {
-      await updateThread(threadID, { [field]: value });
+      await updateThread(id, { [field]: value });
 
       switch (field) {
         case "status":
@@ -59,8 +57,19 @@ export default function IssuePanel({ threadID, threadData }: IssuePanelProps) {
       console.log(error);
     } finally {
       toast.success("Property '" + field + "' updated successfully!");
-
       router.refresh();
+    }
+  };
+
+  const handleDeletion = async () => {
+    try {
+      await deleteThread(id);
+    } catch (error) {
+      toast.error("Error while deleting thread!");
+      console.log(error);
+    } finally {
+      toast.success("Topic deleted succesfully.");
+      router.push("/");
     }
   };
 
@@ -74,7 +83,29 @@ export default function IssuePanel({ threadID, threadData }: IssuePanelProps) {
         </h1>
         <section className="flex flex-col gap-1 px-4 py-2">
           <div className="flex flex-row flex-wrap gap-1 items-center py-2">
-            <div className="flex flex-col items-start justify-start gap-1 bg-base-300 rounded-md p-2">
+            <div className="flex flex-col items-start justify-start gap-1 px-2">
+              <div className="flex flex-row items-center gap-1">
+                <FaTags /> Actions
+              </div>
+              <div className="flex flex-row items-start gap-1 flex-wrap">
+                <button
+                  className={`btn ${data.hidden ? "btn-success" : "btn-error"}`}
+                  onClick={() => handleUpdate("hidden", !data.hidden)}
+                >
+                  {data.hidden ? "Make visible" : "Hide topic"}
+                </button>
+                <button
+                  className={`btn btn-error`}
+                  onClick={() => toast.error("Unimplemented.")}
+                >
+                  Suspend author
+                </button>
+                <button className={`btn btn-error`} onClick={handleDeletion}>
+                  Delete topic
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-col items-start justify-start gap-1 p-2">
               <div className="flex flex-row items-center gap-1">
                 <FaTags /> Tags
               </div>
@@ -105,27 +136,6 @@ export default function IssuePanel({ threadID, threadData }: IssuePanelProps) {
                     </option>
                   ))}
                 </select>
-              </div>
-            </div>
-            <div className="flex flex-col items-start justify-start gap-1 bg-base-300 rounded-md p-2">
-              <div className="flex flex-row items-center gap-1">
-                <FaTags /> Actions
-              </div>
-              <div className="flex flex-row items-start gap-1 flex-wrap">
-                <button
-                  className={`btn ${
-                    threadData.hidden ? "btn-success" : "btn-error"
-                  }`}
-                  onClick={() => handleUpdate("hidden", !threadData.hidden)}
-                >
-                  {threadData.hidden ? "Make visible" : "Hide topic"}
-                </button>
-                <button
-                  className={`btn btn-error`}
-                  onClick={() => toast.error("Unimplemented.")}
-                >
-                  Suspend author
-                </button>
               </div>
             </div>
           </div>

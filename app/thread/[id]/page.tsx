@@ -4,7 +4,7 @@ import { FaAt } from "react-icons/fa6";
 import Badge from "@/app/(components)/issues/subcomponents/Badge";
 import { getThread } from "@/app/(database)/getThread";
 import { FaCalendar, FaImage, FaQuoteRight } from "react-icons/fa";
-import IssuePanel from "@/app/(components)/issues/subcomponents/Panel";
+import ThreadPanel from "@/app/(components)/issues/subcomponents/Panel";
 
 export default async function ViewIssue({
   params: { id },
@@ -71,7 +71,7 @@ export default async function ViewIssue({
             </section>
 
             <section className="artboard bg-base-200 rounded-md">
-              <IssuePanel threadID={id} threadData={threadData} />
+              <ThreadPanel id={id} data={threadData} />
             </section>
           </div>
 

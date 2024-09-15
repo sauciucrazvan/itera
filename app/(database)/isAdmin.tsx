@@ -1,5 +1,6 @@
 import { User } from "firebase/auth";
 
 export function isAdmin(user: User) {
-  return user; //temporary
+  if (!user) return false;
+  return user.uid === "vSHnwyoRtsZOGV6KtlAcJPzcIKB2";
 }
