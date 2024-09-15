@@ -1,13 +1,16 @@
 "use client";
 import { FaGoogle } from "react-icons/fa6";
-import Link from "next/link";
-import { signInWithPopup, signInWithRedirect } from "firebase/auth";
-import { auth, googleProvider } from "../firebase";
 
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+
 import Loading from "../(components)/Loading";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import { configuration } from "../configuration";
 
 export default function Login() {

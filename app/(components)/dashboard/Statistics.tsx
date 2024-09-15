@@ -1,9 +1,7 @@
 "use client";
-import Error from "../Error";
 
 import { useEffect, useState } from "react";
 import { getThreads } from "@/app/(database)/getThreads";
-import { Thread } from "@/app/(types)/Topics";
 
 import {
   FaCheckCircle,
@@ -11,32 +9,52 @@ import {
   FaHourglass,
 } from "react-icons/fa";
 
+import Error from "../Error";
+import Loading from "../Loading";
+
+import { Thread } from "@/app/(types)/Topics";
+import { StatisticCard } from "./StatisticCard";
+
 export default function Statistics() {
-  const [data, setData] = useState([0, 0, 0]),
-    [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false),
+    [error, setError] = useState(false),
+    [statsData, setStatsData] = useState({ total: 0, solved: 0, pending: 0 });
+
+  const getStats = (threads: Thread[]) => {
+    let solved = 0,
+      pending = 0;
+
+    threads.forEach((issue) => {
+      switch (issue.status) {
+        case "closed":
+          solved++;
+          break;
+
+        case "reviewing":
+          pending++;
+          break;
+      }
+    });
+
+    return {
+      total: threads.length,
+      solved: solved,
+      pending: pending,
+    };
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const issuesData: Thread[] = await getThreads();
+        const stats = getStats(issuesData);
 
-        let solved = 0,
-          pending = 0;
-        issuesData.forEach((issue) => {
-          switch (issue.status) {
-            case "closed":
-              solved++;
-              break;
-
-            case "reviewing":
-              pending++;
-              break;
-          }
-        });
-
-        setData([issuesData.length, solved, pending]);
+        setStatsData(stats);
       } catch (error) {
+        console.error("Failed to fetch the threads: ", error);
         setError(true);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -44,32 +62,25 @@ export default function Statistics() {
   }, []);
 
   if (error) return <Error />;
+  if (loading) return <Loading />;
 
   return (
-    <>
-      <div className="shadow lg:w-[25vw] flex flex-col gap-2">
-        <div className="stat rounded-md bg-base-200 hover:bg-base-300/80 transition ease-in-out duration-300">
-          <div className="stat-figure text-secondary">
-            <FaExclamationCircle size="32" />
-          </div>
-          <div className="stat-title">Issues</div>
-          <div className="stat-value">{data[0]}</div>
-        </div>
-        <div className="stat rounded-md bg-base-200 hover:bg-base-300/80 transition ease-in-out duration-300">
-          <div className="stat-figure text-secondary">
-            <FaCheckCircle size="32" />
-          </div>
-          <div className="stat-title">Solved</div>
-          <div className="stat-value">{data[1]}</div>
-        </div>
-        <div className="stat rounded-md bg-base-200 hover:bg-base-300/80 transition ease-in-out duration-300">
-          <div className="stat-figure text-secondary">
-            <FaHourglass size="32" />
-          </div>
-          <div className="stat-title">Pending</div>
-          <div className="stat-value">{data[2]}</div>
-        </div>
-      </div>
-    </>
+    <div className="shadow lg:w-[25vw] flex flex-col gap-2">
+      <StatisticCard
+        icon={<FaExclamationCircle size="32" />}
+        title="Issues"
+        value={statsData.total}
+      />
+      <StatisticCard
+        icon={<FaCheckCircle size="32" />}
+        title="Solved"
+        value={statsData.solved}
+      />
+      <StatisticCard
+        icon={<FaHourglass size="32" />}
+        title="Pending"
+        value={statsData.pending}
+      />
+    </div>
   );
 }
