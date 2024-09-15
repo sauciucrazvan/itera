@@ -4,7 +4,6 @@ import { configuration } from "../../configuration";
 
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -12,6 +11,7 @@ import ThemeSelector from "./ThemeSelector";
 import { MdArrowDropDown } from "react-icons/md";
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth);

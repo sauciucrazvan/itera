@@ -11,7 +11,7 @@ import { auth } from "../firebase";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "./Loading";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface GatewayProps {
   children: ReactNode;
@@ -26,14 +26,14 @@ export default function Gateway({ children }: GatewayProps) {
     setMounted(true);
   }, []);
 
-  if (loading || !mounted) {
-    return <Loading />;
-  }
+  useEffect(() => {
+    if (!loading && mounted && !user) {
+      toast.error("You need to be logged in!");
+      router.push("/login");
+    }
+  }, [loading, mounted, user]);
 
-  if (!user) {
-    router.push("/login");
-    return toast.error("You need to be logged in!");
-  }
-
+  if (loading || !mounted) return <Loading />;
+  if (!user) return null;
   return <>{user && children}</>;
 }

@@ -13,7 +13,6 @@ import { auth } from "@/app/firebase";
 import Gateway from "@/app/(components)/Gateway";
 import Loading from "@/app/(components)/Loading";
 
-import toast from "react-hot-toast";
 import {
   FaExclamationTriangle,
   FaHeading,
@@ -21,6 +20,7 @@ import {
   FaInfoCircle,
   FaQuoteRight,
 } from "react-icons/fa";
+import { toast } from "sonner";
 
 export default function NewIssue() {
   const [title, setTitle] = useState("");
