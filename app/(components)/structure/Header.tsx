@@ -48,6 +48,7 @@ export default function Header() {
               width={24}
               height={24}
               alt={configuration.name}
+              className="text-primary"
             />{" "}
             {configuration.name}
           </Link>

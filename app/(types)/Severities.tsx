@@ -12,7 +12,7 @@ export const severityRank: { [key in Severity]: number } = {
 // Severities types and their badges classes
 export const severityTypes: { [key: string]: string } = {
   minor: "text-success",
-  medium: "text-secondary",
+  medium: "text-info",
   major: "text-warning",
   critical: "text-error",
 };

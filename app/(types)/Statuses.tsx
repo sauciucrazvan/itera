@@ -12,5 +12,5 @@ export const statusRank: { [key in Status]: number } = {
 export const statusTypes: { [key: string]: string } = {
   open: "text-success",
   closed: "text-error",
-  reviewing: "text-secondary",
+  reviewing: "text-info",
 };

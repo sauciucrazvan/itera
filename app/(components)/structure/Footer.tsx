@@ -11,10 +11,10 @@ export default function Footer() {
         </Link>{" "}
         © 2024
       </div>
-      <div className="text-sm font-bold text-primary flex flex-row gap-2 items-center">
+      <div className="text-sm font-bold text-secondary flex flex-row gap-2 items-center">
         {configuration.links.map((link, index) => (
           <div key={link.title} className="flex flex-row gap-2">
-            <Link href={link.href} className="hover:text-primary/80">
+            <Link href={link.href} className="hover:text-secondary/80">
               {link.title}
             </Link>
             {index < configuration.links.length - 1 && (
