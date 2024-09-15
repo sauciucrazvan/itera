@@ -8,6 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "../(components)/Loading";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { configuration } from "../configuration";
 
 export default function Login() {
   const [user, loading] = useAuthState(auth);
@@ -29,11 +30,11 @@ export default function Login() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
 
-      toast.success("Hey, " + result.user.email?.split("@")[0] + "!");
       router.push("/");
+      toast.success("Hey, " + result.user.email?.split("@")[0] + "!");
     } catch (error) {
       console.log(error);
-      toast.error("An error occured.");
+      toast.error("An error occured during login.");
     }
   };
 
@@ -48,15 +49,26 @@ export default function Login() {
             <li>Login</li>
           </ul>
         </div>
-        <section className="flex flex-col justify-center items-center gap-1">
-          <div className="text-base font-bold">Login into your account</div>
-          <div className="text-sm">Please use one of the providers below</div>
-          <div className="w-[20vw]">
-            <div className="divider" />
+        <section className="flex flex-row justify-center items-center p-4">
+          <div className="artboard bg-base-200 w-fit p-8 rounded-lg flex flex-col justify-center items-center gap-1">
+            <div className="text-base font-bold">Login into your account</div>
+            <p className="text-sm">
+              Please use one of the providers below to log in.
+            </p>
+            <div className="w-[20vw]">
+              <div className="divider" />
+            </div>
+            <button className="btn btn-outline" onClick={signIn}>
+              <FaGoogle /> Login with Google
+            </button>
+            <div className="w-[20vw]">
+              <div className="divider" />
+            </div>
+            <p className="text-xs w-[20vw]">
+              {configuration.name} does not collect your data. We only use these
+              platforms for authentication.
+            </p>
           </div>
-          <button className="btn btn-outline" onClick={signIn}>
-            <FaGoogle /> Login with Google
-          </button>
         </section>
       </section>
     </>
