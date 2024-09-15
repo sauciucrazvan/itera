@@ -66,10 +66,11 @@ export default function NewIssue() {
               <li>New Thread</li>
             </ul>
           </div>
-          <section className="artboard bg-base-200 px-4 py-2 rounded-md">
-            <h1 className="font-bold text-lg">Create a thread</h1>
-            <div className="divider m-0" />
-            <div className="flex flex-col md:flex-row md:items-start gap-2">
+          <section className="artboard bg-base-200 rounded-md">
+            <h1 className="font-bold text-lg bg-base-300 px-4 py-2 rounded-t-md">
+              Create a thread
+            </h1>
+            <div className="flex flex-col md:flex-row md:items-start gap-2 px-4 py-2">
               <section className="md:flex-1">
                 <div>
                   <h1 className="text-lg">Add a title</h1>
