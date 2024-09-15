@@ -11,9 +11,25 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import ThemeSelector from "./ThemeSelector";
 import { MdArrowDropDown } from "react-icons/md";
 import { FaBars } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import Loading from "../Loading";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient)
+    return (
+      <>
+        <div className="navbar bg-base-200 justify-center">
+          <div className="loading loading-spinner loading-sm" />
+        </div>
+      </>
+    );
 
   const logout = () => {
     auth.signOut();
@@ -51,21 +67,24 @@ export default function Header() {
                   <div
                     tabIndex={0}
                     role="button"
-                    className="btn btn-ghost rounded-btn bg-base-100"
+                    className="btn btn-ghost btn-sm rounded-btn bg-base-100"
                   >
                     @{user.email?.split("@")[0]} <MdArrowDropDown size="24" />
                   </div>
                   <ul
                     tabIndex={0}
-                    className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2  shadow"
+                    className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2 shadow"
                   >
                     <li>
-                      {" "}
+                      <Link href={"/settings"}>Settings</Link>
+                    </li>
+                    <div className="divider m-0" />
+                    <li>
                       <button
                         className="btn btn-ghost btn-sm"
                         onClick={() => logout()}
                       >
-                        Logout
+                        Log out
                       </button>
                     </li>
                   </ul>
@@ -90,16 +109,19 @@ export default function Header() {
             >
               {user ? (
                 <>
-                  <li className="font-bold p-4">
+                  <li className="font-bold py-4">
                     @{user!.email?.split("@")[0]}
                   </li>
                   <li>
-                    {" "}
+                    <Link href={"/settings"}>Settings</Link>
+                  </li>
+                  <div className="divider m-0" />
+                  <li>
                     <button
                       className="btn btn-ghost btn-sm"
                       onClick={() => logout()}
                     >
-                      Logout
+                      Log out
                     </button>
                   </li>
                 </>
