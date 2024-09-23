@@ -64,7 +64,7 @@ export default function Login() {
             <div className="w-[20vw]">
               <div className="divider" />
             </div>
-            <p className="text-xs w-[20vw]">
+            <p className="text-xs w-[50vw] text-center">
               {configuration.name} does not collect your data. We only use these
               platforms for authentication.
             </p>
