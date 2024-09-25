@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import Badge from "@/app/(root)/issues/subcomponents/Badge";
+import Badge from "@/app/(root)/threads/subcomponents/Badge";
 import AdminPanel from "@/app/thread/(components)/Panel";
 
 import { getThread } from "@/app/(database)/threads/getThread";
@@ -46,11 +46,16 @@ export default async function ViewIssue({
                 </p>
 
                 <div className="flex flex-row gap-1 items-center py-2">
-                  <Badge type={"severity"} level={threadData.severity} />
+                  {threadData.properties?.severity && (
+                    <Badge
+                      type={"severity"}
+                      level={threadData.properties.severity}
+                    />
+                  )}
                   <Badge type={"status"} level={threadData.status} />
                 </div>
 
-                {threadData.hidden && (
+                {threadData.properties?.hidden && (
                   <div className="badge badge-error">
                     This topic has been hidden by an administrator.
                   </div>
@@ -83,7 +88,7 @@ export default async function ViewIssue({
           </div>
 
           <section className="artboard bg-base-200 rounded-md">
-            <h1 className="font-bold text-lg bg-base-300 px-4 py-2 rounded-md">
+            <h1 className="font-bold text-lg bg-base-300 px-4 py-2 rounded-t-md">
               Comments
             </h1>
             <section className="px-4 py-2">

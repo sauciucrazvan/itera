@@ -29,7 +29,9 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
   const [mounted, setMounted] = useState(false);
 
   const [user, loading] = useAuthState(auth);
-  const [severity, setSeverity] = useState<Severity>(data?.severity || "minor");
+  const [severity, setSeverity] = useState<Severity>(
+    data?.properties?.severity || "minor"
+  );
   const [status, setStatus] = useState<Status>(data?.status || "open");
 
   const router = useRouter();
@@ -40,7 +42,7 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
 
   useEffect(() => {
     if (data) {
-      setSeverity(data.severity);
+      setSeverity(data.properties?.severity);
       setStatus(data.status);
     }
   }, [data]);
@@ -50,14 +52,17 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
     value: any
   ) => {
     try {
-      await updateThread(id, { [field]: value });
-
       switch (field) {
         case "status":
+          await updateThread(id, { [field]: value });
           setStatus(value);
           break;
         case "severity":
+          await updateThread(id, { properties: { [field]: value } });
           setSeverity(value);
+          break;
+        default:
+          await updateThread(id, { properties: { [field]: value } });
           break;
       }
     } catch (error) {
@@ -118,10 +123,16 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
               </div>
               <div className="flex flex-row items-start gap-1 flex-wrap">
                 <button
-                  className={`btn ${data.hidden ? "btn-success" : "btn-error"}`}
-                  onClick={() => handleUpdate("hidden", !data.hidden)}
+                  className={`btn ${
+                    data.properties?.hidden ? "btn-success" : "btn-error"
+                  }`}
+                  onClick={() =>
+                    handleUpdate("hidden", !data.properties?.hidden)
+                  }
                 >
-                  {data.hidden ? "Make topic visible" : "Hide topic"}
+                  {data.properties?.hidden
+                    ? "Make topic visible"
+                    : "Hide topic"}
                 </button>
                 <button
                   className={`btn btn-error`}
@@ -139,14 +150,16 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
                 <FaTags /> Tags
               </div>
               <div className="flex flex-row items-start gap-1">
-                <Select
-                  label="Severity"
-                  options={severityOptions}
-                  value={severity}
-                  onChange={(e) =>
-                    handleUpdate("severity", e.target.value as Severity)
-                  }
-                />
+                {data.properties?.severity && (
+                  <Select
+                    label="Severity"
+                    options={severityOptions}
+                    value={severity}
+                    onChange={(e) =>
+                      handleUpdate("severity", e.target.value as Severity)
+                    }
+                  />
+                )}
                 <Select
                   label="Status"
                   options={statusOptions}

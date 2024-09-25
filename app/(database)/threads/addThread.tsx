@@ -10,15 +10,14 @@ export async function insertThread(
   description: string,
   category: Category,
   attachments: string,
-  severity: Severity,
-  user: User
+  user: User,
+  severity?: Severity
 ) {
-  await addDoc(collection(db, "threads"), {
-    title: title,
-    description: description,
-    attachments: attachments,
-    category: category,
-    severity: severity,
+  const threadData: any = {
+    title,
+    description,
+    attachments,
+    category,
     status: "open",
     author: { id: user?.uid, name: getUsername(user) },
     creationDate: new Date().toLocaleString(undefined, {
@@ -28,5 +27,11 @@ export async function insertThread(
       hour: "numeric",
       minute: "numeric",
     }),
-  });
+    properties: {
+      hidden: false,
+      severity: severity ?? null,
+    },
+  };
+
+  await addDoc(collection(db, "threads"), threadData);
 }

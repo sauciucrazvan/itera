@@ -8,18 +8,29 @@ import { statusRank } from "@/app/thread/(components)/types/Statuses";
 import { getThreads } from "@/app/(database)/threads/getThreads";
 
 import Error from "@/app/(components)/helpers/Error";
-import Badge from "@/app/(root)/issues/subcomponents/Badge";
-import IssuesSkeleton from "@/app/(root)/issues/subcomponents/Skeleton";
+import Badge from "@/app/(root)/threads/subcomponents/Badge";
+import ThreadsSkeleton from "@/app/(root)/threads/subcomponents/Skeleton";
 
 import { FaHeading, FaPlus, FaTags, FaUser } from "react-icons/fa";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/(database)/firebase";
+import { isAdmin } from "@/app/(database)/accounts/isAdmin";
+import {
+  Category,
+  categoryTypes,
+} from "@/app/thread/(components)/types/Categories";
+import { Select } from "@/app/thread/(components)/Select";
 
-export default function Issues() {
+export default function Threads() {
   const ITEMS_PER_PAGE = 10;
 
   const [data, setData] = useState<Thread[]>([]),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(false),
+    [type, setType] = useState<Category>("Issues"),
     [page, setPage] = useState(1);
+
+  const [user, userLoading] = useAuthState(auth);
 
   const displayData = useMemo(() => {
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
@@ -44,16 +55,21 @@ export default function Issues() {
       try {
         setLoading(true);
 
-        const issuesData: Thread[] = await getThreads();
+        const issuesData: Thread[] = await getThreads(type, isAdmin(user!));
         issuesData.sort((a, b) => {
           if (statusRank[a.status] !== statusRank[b.status]) {
             return statusRank[a.status] - statusRank[b.status];
           }
-          return severityRank[a.severity] - severityRank[b.severity];
+
+          return (
+            severityRank[a.properties?.severity ?? "minor"] -
+            severityRank[b.properties?.severity ?? "minor"]
+          );
         });
 
         setData(issuesData);
       } catch (err) {
+        console.log(err);
         setError(true);
       } finally {
         setLoading(false);
@@ -61,12 +77,21 @@ export default function Issues() {
     }
 
     fetchData();
-  }, []);
+  }, [user, type]);
 
-  if (loading)
+  const typeOptions = useMemo(
+    () =>
+      Object.entries(categoryTypes).map(([key, value]) => ({
+        key,
+        value,
+      })),
+    []
+  );
+
+  if (loading || userLoading)
     return (
       <div className="w-full bg-base-200 px-4 py-2 rounded-md">
-        <IssuesSkeleton />
+        <ThreadsSkeleton />
       </div>
     );
   if (error)
@@ -93,6 +118,13 @@ export default function Issues() {
               page.
             </div>
           </div>
+
+          <Select
+            label={"Category"}
+            options={typeOptions}
+            value={type}
+            onChange={(e) => setType(e.target.value as Category)}
+          />
 
           <Link
             className="btn btn-sm btn-primary rounded-md text-content-base"
@@ -182,7 +214,9 @@ function IssueRow({ issue }: { issue: Thread }) {
       </td>
       <td>
         <div className="flex flex-row items-center gap-1">
-          <Badge type={"severity"} level={issue.severity} />
+          {issue.properties?.severity && (
+            <Badge type={"severity"} level={issue.properties.severity} />
+          )}
           <Badge type={"status"} level={issue.status} />
         </div>
       </td>

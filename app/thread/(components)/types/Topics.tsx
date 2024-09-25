@@ -11,5 +11,8 @@ export interface Thread {
     id: string;
     name: string;
   };
-  severity: Severity;
+  properties: {
+    hidden?: boolean;
+    severity?: Severity;
+  };
 }

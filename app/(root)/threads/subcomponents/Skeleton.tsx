@@ -1,4 +1,4 @@
-export default function IssuesSkeleton() {
+export default function ThreadsSkeleton() {
   return (
     <>
       <div className="py-2">

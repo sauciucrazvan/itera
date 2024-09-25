@@ -100,7 +100,14 @@ export default function NewIssue() {
     }
 
     try {
-      await insertThread(title, description, category, media, severity, user!);
+      await insertThread(
+        title,
+        description,
+        category,
+        media,
+        user!,
+        category === "Issues" ? severity : undefined
+      );
 
       toast.success("Thread created successfully!");
       resetForms();
