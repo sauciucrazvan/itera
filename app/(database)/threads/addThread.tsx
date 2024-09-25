@@ -1,6 +1,6 @@
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/app/firebase";
-import { Severity } from "@/app/(types)/Severities";
+import { db } from "@/app/(database)/firebase";
+import { Severity } from "@/app/thread/(components)/types/Severities";
 import { getUsername } from "../accounts/getUsername";
 import { User } from "@firebase/auth";
 

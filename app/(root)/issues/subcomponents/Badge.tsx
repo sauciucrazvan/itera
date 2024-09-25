@@ -1,5 +1,5 @@
-import { severityTypes } from "@/app/(types)/Severities";
-import { statusTypes } from "@/app/(types)/Statuses";
+import { severityTypes } from "@/app/thread/(components)/types/Severities";
+import { statusTypes } from "@/app/thread/(components)/types/Statuses";
 
 interface BadgeProps {
   type: string;

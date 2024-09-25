@@ -3,11 +3,15 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { isSeverity, Severity, severityTypes } from "@/app/(types)/Severities";
+import {
+  isSeverity,
+  Severity,
+  severityTypes,
+} from "@/app/thread/(components)/types/Severities";
 import { insertThread } from "@/app/(database)/threads/addThread";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase";
+import { auth } from "@/app/(database)/firebase";
 
 import Gateway from "@/app/(components)/helpers/Gateway";
 import Loading from "@/app/(components)/helpers/Loading";

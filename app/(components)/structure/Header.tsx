@@ -1,5 +1,5 @@
 "use client";
-import { auth } from "@/app/firebase";
+import { auth } from "@/app/(database)/firebase";
 import { configuration } from "../../configuration";
 
 import Link from "next/link";

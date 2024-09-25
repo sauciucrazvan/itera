@@ -6,7 +6,7 @@
 */
 
 "use client";
-import { auth } from "@/app/firebase";
+import { auth } from "@/app/(database)/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";

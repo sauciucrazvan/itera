@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import { auth } from "@/app/firebase";
+import { auth } from "@/app/(database)/firebase";
 import { toast } from "sonner";
 
 import { FaTags } from "react-icons/fa";
 
-import { Severity, severityTypes } from "@/app/(types)/Severities";
-import { Status, statusTypes } from "@/app/(types)/Statuses";
+import {
+  Severity,
+  severityTypes,
+} from "@/app/thread/(components)/types/Severities";
+import { Status, statusTypes } from "@/app/thread/(components)/types/Statuses";
 
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { deleteThread } from "@/app/(database)/threads/deleteThread";

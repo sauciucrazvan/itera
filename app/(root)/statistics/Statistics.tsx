@@ -11,10 +11,10 @@ import {
   FaHourglass,
 } from "react-icons/fa";
 
-import Error from "../../helpers/Error";
-import Loading from "../../helpers/Loading";
+import Error from "@/app/(components)/helpers/Error";
+import Loading from "@/app/(components)/helpers/Loading";
 
-import { Thread } from "@/app/(types)/Topics";
+import { Thread } from "@/app/thread/(components)/types/Topics";
 import { StatisticCard } from "./StatisticCard";
 
 export default function Statistics() {

@@ -2,7 +2,7 @@
 import { FaGoogle } from "react-icons/fa6";
 
 import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../firebase";
+import { auth, googleProvider } from "../(database)/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import Loading from "../(components)/helpers/Loading";

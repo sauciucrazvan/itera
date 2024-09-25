@@ -2,14 +2,14 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 
-import { Thread } from "@/app/(types)/Topics";
-import { severityRank } from "@/app/(types)/Severities";
-import { statusRank } from "@/app/(types)/Statuses";
+import { Thread } from "@/app/thread/(components)/types/Topics";
+import { severityRank } from "@/app/thread/(components)/types/Severities";
+import { statusRank } from "@/app/thread/(components)/types/Statuses";
 import { getThreads } from "@/app/(database)/threads/getThreads";
 
 import Error from "@/app/(components)/helpers/Error";
-import Badge from "@/app/(components)/dashboard/issues/subcomponents/Badge";
-import IssuesSkeleton from "@/app/(components)/dashboard/issues/subcomponents/Skeleton";
+import Badge from "@/app/(root)/issues/subcomponents/Badge";
+import IssuesSkeleton from "@/app/(root)/issues/subcomponents/Skeleton";
 
 import { FaHeading, FaPlus, FaTags, FaUser } from "react-icons/fa";
 
@@ -84,7 +84,7 @@ export default function Issues() {
       <section className="w-full bg-base-200 px-4 py-2 rounded-md">
         <div className="flex flex-row justify-between items-center gap-2 pb-2">
           <div className="flex flex-col lg:flex-row lg:items-center lg:gap-2">
-            <div className="text-md text-black dark:text-white font-semibold tracking-wider">
+            <div className="text-md text-base-content font-semibold tracking-wider">
               THREADS
             </div>
             <div className="text-xs">

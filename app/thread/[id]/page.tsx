@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import Badge from "@/app/(components)/dashboard/issues/subcomponents/Badge";
-import ThreadPanel from "@/app/(components)/dashboard/issues/subcomponents/Panel";
+import Badge from "@/app/(root)/issues/subcomponents/Badge";
+import ThreadPanel from "@/app/(root)/issues/subcomponents/Panel";
 
 import { getThread } from "@/app/(database)/threads/getThread";
 

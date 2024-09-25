@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/app/firebase";
+import { db } from "@/app/(database)/firebase";
 
-import { Thread } from "../../(types)/Topics";
+import { Thread } from "@/app/thread/(components)/types/Topics";
 
 export async function getThreads() {
   const querySnapshot = await getDocs(collection(db, "threads"));
