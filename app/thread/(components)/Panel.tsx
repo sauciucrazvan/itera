@@ -7,7 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/(database)/firebase";
 import { toast } from "sonner";
 
-import { FaTags } from "react-icons/fa";
+import { FaMousePointer, FaTags } from "react-icons/fa";
 
 import {
   Severity,
@@ -134,7 +134,7 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
           <div className="flex flex-col items-start justify-start gap-2 px-2">
             <div>
               <div className="flex flex-row items-center gap-1">
-                <FaTags /> Actions
+                <FaMousePointer /> Actions
               </div>
               <div className="flex flex-row items-start gap-1 flex-wrap">
                 <button
@@ -163,7 +163,7 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
 
             <div>
               <div className="flex flex-row items-center gap-1">
-                <FaTags /> Tags
+                <FaTags /> Status & Tags
               </div>
               <div className="flex flex-row items-start gap-1">
                 <Select

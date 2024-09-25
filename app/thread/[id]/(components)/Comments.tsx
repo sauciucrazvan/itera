@@ -62,12 +62,43 @@ export default function Comments({
     }
   };
 
+  const closeTopic = async () => {
+    if (!isAdmin(user!)) return toast.error("You're not an administrator!");
+
+    try {
+      await updateThread(threadID, { status: "closed" });
+      toast.success("Topic closed!");
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occured!");
+    } finally {
+      setReply("");
+      setIsSubmitting(false);
+      router.refresh();
+    }
+  };
+
+  const markTopicDuplicate = async () => {
+    if (!isAdmin(user!)) return toast.error("You're not an administrator!");
+
+    try {
+      await updateThread(threadID, { status: "duplicate" });
+      toast.success("Topic closed as duplicate!");
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occured!");
+    } finally {
+      setReply("");
+      setIsSubmitting(false);
+      router.refresh();
+    }
+  };
+
   const postAndClose = async () => {
     if (!isAdmin(user!)) return toast.error("You're not an administrator!");
     try {
       await replyToTopic();
-      await updateThread(threadID, { status: "closed" });
-      toast.success("Topic closed!");
+      await closeTopic();
     } catch (error) {
       console.log(error);
       toast.error("An error occured!");
@@ -121,7 +152,7 @@ export default function Comments({
               (thread.status !== "open" && thread.status !== "reviewing")
             }
           />
-          <div className="flex flex-row items-start gap-1">
+          <div className="flex flex-row flex-wrap items-start gap-1">
             <button
               className="btn btn-outline btn-sm"
               disabled={
@@ -145,6 +176,30 @@ export default function Comments({
                   onClick={postAndClose}
                 >
                   {isSubmitting ? "Posting..." : "Post & close"}
+                </button>
+                <button
+                  className="btn btn-error btn-outline btn-sm"
+                  disabled={
+                    !(
+                      thread.status !== "closed" &&
+                      thread.status !== "duplicate"
+                    )
+                  }
+                  onClick={closeTopic}
+                >
+                  Close topic
+                </button>
+                <button
+                  className="btn btn-warning btn-outline btn-sm"
+                  disabled={
+                    !(
+                      thread.status !== "closed" &&
+                      thread.status !== "duplicate"
+                    )
+                  }
+                  onClick={markTopicDuplicate}
+                >
+                  Mark as duplicate
                 </button>
               </>
             )}
