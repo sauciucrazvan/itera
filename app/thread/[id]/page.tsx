@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import Badge from "@/app/(root)/threads/subcomponents/Badge";
 import AdminPanel from "@/app/thread/(components)/Panel";
+import Comments from "./(components)/Comments";
 
 import { getThread } from "@/app/(database)/threads/getThread";
 
@@ -11,7 +12,6 @@ import {
   FaGripHorizontal,
   FaImage,
   FaQuoteRight,
-  FaStar,
   FaUser,
 } from "react-icons/fa";
 
@@ -115,14 +115,7 @@ export default async function ViewIssue({
             </section>
           </div>
 
-          <section className="artboard bg-base-200 rounded-md">
-            <h1 className="font-bold text-lg bg-base-300 px-4 py-2 rounded-t-md">
-              Comments
-            </h1>
-            <section className="px-4 py-2">
-              <h1>Comments Section (WIP)</h1>
-            </section>
-          </section>
+          <Comments threadID={id} thread={threadData} />
         </div>
       </section>
     </>

@@ -16,4 +16,14 @@ export interface Thread {
     severity?: Severity; // Issues
     rating?: number; // Feedback
   };
+  comments: [
+    {
+      author: {
+        id: string;
+        name: string;
+      };
+      text: string;
+      date: string;
+    }
+  ];
 }
