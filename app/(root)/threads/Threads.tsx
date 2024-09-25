@@ -44,10 +44,16 @@ export default function Threads() {
           </div>
 
           <Link
-            className="btn btn-sm btn-primary rounded-md text-content-base"
+            className="hidden lg:inline-flex btn btn-sm btn-primary rounded-md text-content-base"
             href="/thread/new"
           >
             <FaPlus /> Create a new thread
+          </Link>
+          <Link
+            className="lg:hidden btn btn-sm btn-primary btn-square text-content-base"
+            href="/thread/new"
+          >
+            <FaPlus />
           </Link>
         </div>
         <ThreadsList category={category} />
