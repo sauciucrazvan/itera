@@ -7,12 +7,14 @@ import Header from "./(components)/structure/Header";
 import Footer from "./(components)/structure/Footer";
 
 import { Toaster } from "sonner";
+import { configuration } from "./configuration";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Bug Tracker",
-  description: "WIP!",
+  title: configuration.name,
+  description:
+    "Bug tracking, feature requesting and feedback - all in one website! Open source, licensed under MIT.",
   icons: {
     icon: "/favicon.svg",
   },

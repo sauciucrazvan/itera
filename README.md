@@ -2,10 +2,10 @@
 
 # Bug Tracker
 
-Bug tracking website with a comprehensive set of features. Open source, licensed under MIT.
+Bug tracking, feature requesting and feedback - all in one website! Open source, licensed under MIT.
 
 > [!WARNING]
-> Project currently under development. Expect content to be missing.
+> Project currently under development. :)
 
 [![Badge](https://img.shields.io/badge/version-0.0.0-red?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/releases)
 [![Badge](https://img.shields.io/github/stars/sauciucrazvan/botanicabay?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/stargazers)

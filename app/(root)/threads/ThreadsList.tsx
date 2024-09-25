@@ -182,7 +182,7 @@ function IssueRow({ issue }: { issue: Thread }) {
       <td>
         <div className="flex flex-row items-center gap-1">
           {issue.properties.hidden && (
-            <div className="badge badge-error rounded-md">Hidden</div>
+            <div className="badge badge-error rounded-md">hidden</div>
           )}
           {issue.properties?.severity && (
             <Badge type={"severity"} level={issue.properties.severity} />
