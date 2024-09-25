@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getUsername } from "@/app/(database)/accounts/getUsername";
 import { updateThread } from "@/app/(database)/threads/updateThread";
+import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 
 export default function Comments({
   threadID,
@@ -25,6 +26,8 @@ export default function Comments({
 
   const replyToTopic = async () => {
     if (!user) return toast.error("You need to be logged in!");
+    if (thread.status !== "open" && thread.status !== "reviewing")
+      return toast.error("You can't reply to a closed topic!");
 
     setIsSubmitting(true);
 
@@ -49,6 +52,22 @@ export default function Comments({
         comments: arrayUnion(newComment),
       });
       toast.success("Reply posted!");
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occured!");
+    } finally {
+      setReply("");
+      setIsSubmitting(false);
+      router.refresh();
+    }
+  };
+
+  const postAndClose = async () => {
+    if (!isAdmin(user!)) return toast.error("You're not an administrator!");
+    try {
+      await replyToTopic();
+      await updateThread(threadID, { status: "closed" });
+      toast.success("Topic closed!");
     } catch (error) {
       console.log(error);
       toast.error("An error occured!");
@@ -97,15 +116,39 @@ export default function Comments({
             placeholder="Reply to this topic..."
             onChange={(e) => setReply(e.target.value)}
             value={reply}
-            disabled={!user}
+            disabled={
+              !user ||
+              (thread.status !== "open" && thread.status !== "reviewing")
+            }
           />
-          <button
-            className="btn btn-outline btn-sm"
-            disabled={isSubmitting || !user}
-            onClick={replyToTopic}
-          >
-            {isSubmitting ? "Posting..." : "Post your reply"}
-          </button>
+          <div className="flex flex-row items-start gap-1">
+            <button
+              className="btn btn-outline btn-sm"
+              disabled={
+                isSubmitting ||
+                !user ||
+                (thread.status !== "open" && thread.status !== "reviewing")
+              }
+              onClick={replyToTopic}
+            >
+              {isSubmitting ? "Posting..." : "Post your reply"}
+            </button>
+            {isAdmin(user!) && (
+              <>
+                <button
+                  className="btn btn-error btn-outline btn-sm"
+                  disabled={
+                    isSubmitting ||
+                    !user ||
+                    (thread.status !== "open" && thread.status !== "reviewing")
+                  }
+                  onClick={postAndClose}
+                >
+                  {isSubmitting ? "Posting..." : "Post & close"}
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </section>
     </section>
