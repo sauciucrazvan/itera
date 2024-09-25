@@ -53,12 +53,13 @@ export default async function ViewIssue({
                 </p>
 
                 <div className="flex flex-row gap-1 items-center py-2">
-                  {threadData.properties?.severity && (
-                    <Badge
-                      type={"severity"}
-                      level={threadData.properties.severity}
-                    />
-                  )}
+                  {threadData.properties?.severity &&
+                    threadData.category === "Issues" && (
+                      <Badge
+                        type={"severity"}
+                        level={threadData.properties.severity}
+                      />
+                    )}
                   <Badge type={"status"} level={threadData.status} />
                   <div className="badge badge-neutral rounded-md flex flex-row gap-1 items-center">
                     <FaGripHorizontal /> {threadData.category}

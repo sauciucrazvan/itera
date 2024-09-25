@@ -16,6 +16,7 @@ import { auth } from "@/app/(database)/firebase";
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { Category } from "@/app/thread/(components)/types/Categories";
 import Loading from "@/app/(components)/helpers/Loading";
+import { VscIssues } from "react-icons/vsc";
 
 interface ThreadsListProps {
   category: Category;
@@ -184,7 +185,7 @@ function IssueRow({ issue }: { issue: Thread }) {
           {issue.properties.hidden && (
             <div className="badge badge-error rounded-md">hidden</div>
           )}
-          {issue.properties?.severity && (
+          {issue.properties?.severity && issue.category === "Issues" && (
             <Badge type={"severity"} level={issue.properties.severity} />
           )}
           <Badge type={"status"} level={issue.status} />
