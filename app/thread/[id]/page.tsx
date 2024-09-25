@@ -6,7 +6,13 @@ import AdminPanel from "@/app/thread/(components)/Panel";
 
 import { getThread } from "@/app/(database)/threads/getThread";
 
-import { FaCalendar, FaImage, FaQuoteRight, FaUser } from "react-icons/fa";
+import {
+  FaCalendar,
+  FaGripHorizontal,
+  FaImage,
+  FaQuoteRight,
+  FaUser,
+} from "react-icons/fa";
 
 export default async function ViewIssue({
   params: { id },
@@ -34,7 +40,7 @@ export default async function ViewIssue({
           <div className="flex flex-col gap-2">
             <section className="artboard bg-base-200 rounded-md lg:w-[60vw] lg:max-w-xl">
               <h1 className="font-bold text-lg bg-base-300 rounded-t-md px-4 py-2 text-ellipsis overflow-hidden">
-                {threadData.title}{" "}
+                {threadData.title}
               </h1>
               <section className="flex flex-col gap-1 px-4 py-2">
                 <p className="flex flex-row items-center gap-2">
@@ -53,6 +59,9 @@ export default async function ViewIssue({
                     />
                   )}
                   <Badge type={"status"} level={threadData.status} />
+                  <div className="badge badge-neutral rounded-md flex flex-row gap-1 items-center">
+                    <FaGripHorizontal /> {threadData.category}
+                  </div>
                 </div>
 
                 {threadData.properties?.hidden && (

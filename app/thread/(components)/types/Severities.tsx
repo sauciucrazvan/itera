@@ -3,12 +3,13 @@ export const severityTypes = ["critical", "major", "medium", "minor"] as const;
 export type Severity = (typeof severityTypes)[number];
 
 // Used to sort by severity
-export const severityRank: { [key in Severity]: number } = {
-  critical: 1,
-  major: 2,
-  medium: 3,
-  minor: 4,
+export const severityRank: { [key in Severity]: number } = {} as {
+  [key in Severity]: number;
 };
+
+severityTypes.forEach((status, index) => {
+  severityRank[status] = index + 1;
+});
 
 // Severities types and their badge classes
 export const severityBadges: { [key in Severity]: string } = {

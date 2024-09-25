@@ -26,9 +26,8 @@ export default function ThreadsList({ category }: ThreadsListProps) {
   const [data, setData] = useState<Thread[]>([]),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(false),
-    [page, setPage] = useState(1);
-
-  const [user, userLoading] = useAuthState(auth);
+    [page, setPage] = useState(1),
+    [user, userLoading] = useAuthState(auth);
 
   const displayData = useMemo(() => {
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
@@ -55,14 +54,16 @@ export default function ThreadsList({ category }: ThreadsListProps) {
 
         const issuesData: Thread[] = await getThreads(category, isAdmin(user!));
         issuesData.sort((a, b) => {
-          if (statusRank[a.status] !== statusRank[b.status]) {
+          if (statusRank[a.status] !== statusRank[b.status])
             return statusRank[a.status] - statusRank[b.status];
-          }
 
-          return (
-            severityRank[a.properties?.severity ?? "minor"] -
-            severityRank[b.properties?.severity ?? "minor"]
-          );
+          if (a.properties?.severity && b.properties?.severity)
+            return (
+              severityRank[a.properties.severity ?? "minor"] -
+              severityRank[b.properties.severity ?? "minor"]
+            );
+
+          return 0;
         });
 
         setData(issuesData);
@@ -83,6 +84,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
         <Loading />
       </div>
     );
+
   if (error)
     return (
       <div className="w-full bg-base-200 px-4 py-2 rounded-md">
@@ -97,38 +99,38 @@ export default function ThreadsList({ category }: ThreadsListProps) {
     <>
       <section>
         <div className="overflow-x-auto">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>
-                  <p className="inline-flex items-center gap-1">
-                    <FaHeading /> Title
-                  </p>
-                </th>
-                <th>
-                  <p className="inline-flex items-center gap-1">
-                    <FaUser /> Author
-                  </p>
-                </th>
-                <th>
-                  <p className="inline-flex items-center gap-1">
-                    <FaTags /> Tags
-                  </p>
-                </th>
-              </tr>
-            </thead>
-            {data.length === 0 ? (
-              <div className="text-sm py-2 px-4">
-                No entries found in the database.
-              </div>
-            ) : (
+          {data.length === 0 ? (
+            <div className="text-sm py-2 px-4">
+              No entries found in the database for this category.
+            </div>
+          ) : (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>
+                    <p className="inline-flex items-center gap-1">
+                      <FaHeading /> Title
+                    </p>
+                  </th>
+                  <th>
+                    <p className="inline-flex items-center gap-1">
+                      <FaUser /> Author
+                    </p>
+                  </th>
+                  <th>
+                    <p className="inline-flex items-center gap-1">
+                      <FaTags /> Tags
+                    </p>
+                  </th>
+                </tr>
+              </thead>
               <tbody>
                 {displayData.map((issue: Thread) => (
                   <IssueRow key={issue.id} issue={issue} />
                 ))}
               </tbody>
-            )}
-          </table>
+            </table>
+          )}
         </div>
         {data.length > ITEMS_PER_PAGE && (
           <div className="join flex flex-row justify-center items-center pt-2">

@@ -33,23 +33,21 @@ import {
 import { toast } from "sonner";
 
 export default function NewIssue() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [media, setMedia] = useState("");
-  const [category, setCategory] = useState<Category>("Issues");
-  const [severity, setSeverity] = useState<Severity>("minor");
-
-  const [user, loading] = useAuthState(auth);
+  const [isSubmitting, setIsSubmitting] = useState(false),
+    [title, setTitle] = useState(""),
+    [description, setDescription] = useState(""),
+    [media, setMedia] = useState(""),
+    [category, setCategory] = useState<Category>("Issues"),
+    [severity, setSeverity] = useState<Severity>("minor"),
+    [user, loading] = useAuthState(auth);
 
   const router = useRouter();
 
   const validateThread = () => {
     if (title.trim() === "" || description.trim() === "")
-      return "Please fill in the boxes!";
+      return "Please fill in the title and description boxes!";
 
     if (title.length > 128) return "Limit the title to 128 characters.";
-
     if (description.length > 4096)
       return "Limit the description to 4096 characters.";
 
@@ -60,30 +58,25 @@ export default function NewIssue() {
   };
 
   const resetForms = () => {
-    setTitle("");
-    setDescription("");
-    setSeverity("minor");
-    setCategory("Issues");
+    setTitle(""),
+      setDescription(""),
+      setSeverity("minor"),
+      setCategory("Issues");
   };
 
   const handleTitleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTitle(e.target.value);
-    },
+    (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value),
     []
   );
 
   const handleDescriptionChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setDescription(e.target.value);
-    },
+    (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+      setDescription(e.target.value),
     []
   );
 
   const handleMediaChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setMedia(e.target.value);
-    },
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => setMedia(e.target.value),
     []
   );
 
@@ -210,8 +203,8 @@ export default function NewIssue() {
                       </h1>
                       <small>
                         Please use a trustworthy website to upload media such as{" "}
-                        <Link href="https://imgur.com">imgur.com</Link>.
-                        (optional)
+                        <Link href="https://imgur.com">imgur.com</Link>{" "}
+                        <i>(optional)</i>
                       </small>
                       <textarea
                         className="

@@ -15,8 +15,8 @@ import { toast } from "sonner";
 import { getUsername } from "@/app/(database)/accounts/getUsername";
 
 export default function Header() {
-  const [user, loading] = useAuthState(auth);
-  const [mounted, setMounted] = useState(false);
+  const [user, loading] = useAuthState(auth),
+    [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -77,15 +77,11 @@ export default function Header() {
                     className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2 shadow"
                   >
                     <li>
-                      <Link href={"/settings"}>Settings</Link>
-                    </li>
-                    <div className="divider m-0" />
-                    <li>
                       <button
                         className="btn btn-ghost btn-sm"
                         onClick={() => logout()}
                       >
-                        Log out
+                        Logout
                       </button>
                     </li>
                   </ul>

@@ -35,6 +35,11 @@ export default function Gateway({ children }: GatewayProps) {
   }, [loading, mounted, user]);
 
   if (loading || !mounted) return <Loading />;
-  if (!user) return null;
+  if (!user)
+    return (
+      <section className="p-4">
+        <div className="alert alert-error">You need to be logged in!</div>
+      </section>
+    );
   return <>{user && children}</>;
 }

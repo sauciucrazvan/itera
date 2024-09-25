@@ -2,26 +2,15 @@
 
 import { useEffect, useState } from "react";
 
-import { getThreads } from "@/app/(database)/threads/getThreads";
-
-import {
-  FaChartArea,
-  FaChartPie,
-  FaCheckCircle,
-  FaClone,
-  FaExclamationCircle,
-  FaHourglass,
-  FaLayerGroup,
-  FaSortNumericDown,
-  FaStar,
-} from "react-icons/fa";
+import { FaChartPie, FaExclamationCircle, FaStar } from "react-icons/fa";
 
 import Error from "@/app/(components)/helpers/Error";
 import Loading from "@/app/(components)/helpers/Loading";
 
 import { Thread } from "@/app/thread/(components)/types/Topics";
 import { StatisticCard } from "./StatisticCard";
-import { getAllThreads } from "@/app/(database)/threads/getAllThreads";
+import { getThreads } from "@/app/(database)/threads/getThreads";
+import { TbLayoutGridAdd } from "react-icons/tb";
 
 export default function Statistics() {
   const [loading, setLoading] = useState(false),
@@ -65,7 +54,7 @@ export default function Statistics() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const issuesData: Thread[] = await getAllThreads(false);
+        const issuesData: Thread[] = await getThreads(undefined, false);
         const stats = getStats(issuesData);
 
         setStatsData(stats);
@@ -92,11 +81,11 @@ export default function Statistics() {
       />
       <StatisticCard
         icon={<FaExclamationCircle size="32" />}
-        title="Issues"
+        title="Bug Reports"
         value={statsData.issues}
       />
       <StatisticCard
-        icon={<FaLayerGroup size="32" />}
+        icon={<TbLayoutGridAdd size="32" />}
         title="Feature Requests"
         value={statsData.feature_requests}
       />

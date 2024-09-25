@@ -19,6 +19,8 @@ import { Select } from "./Select";
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { deleteThread } from "@/app/(database)/threads/deleteThread";
 import { updateThread } from "@/app/(database)/threads/updateThread";
+import { Category, categoryTypes } from "./types/Categories";
+import { FaFolderTree } from "react-icons/fa6";
 
 interface AdminPanelProps {
   id: string;
@@ -26,51 +28,58 @@ interface AdminPanelProps {
 }
 
 export default function AdminPanel({ id, data }: AdminPanelProps) {
-  const [mounted, setMounted] = useState(false);
-
-  const [user, loading] = useAuthState(auth);
-  const [severity, setSeverity] = useState<Severity>(
-    data?.properties?.severity || "minor"
-  );
-  const [status, setStatus] = useState<Status>(data?.status || "open");
+  const [mounted, setMounted] = useState(false),
+    [user, loading] = useAuthState(auth),
+    [category, setCategory] = useState<Category>(data?.category || "Issues"),
+    [severity, setSeverity] = useState<Severity>(data?.properties?.severity),
+    [status, setStatus] = useState<Status>(data?.status || "open");
 
   const router = useRouter();
 
-  useEffect(() => {
-    setMounted(true);
-  });
+  useEffect(() => setMounted(true));
 
   useEffect(() => {
     if (data) {
+      setCategory(data.category);
       setSeverity(data.properties?.severity);
       setStatus(data.status);
     }
   }, [data]);
 
   const handleUpdate = async (
-    field: "severity" | "status" | "hidden",
+    field: "category" | "severity" | "status" | "hidden",
     value: any
   ) => {
     try {
+      const updates: Record<string, any> = {};
+
       switch (field) {
+        case "category":
         case "status":
-          await updateThread(id, { [field]: value });
-          setStatus(value);
+          updates[field] = value;
           break;
         case "severity":
-          await updateThread(id, { properties: { [field]: value } });
-          setSeverity(value);
+        case "hidden":
+          updates.properties = {
+            ...data.properties,
+            [field]: value,
+          };
           break;
         default:
-          await updateThread(id, { properties: { [field]: value } });
-          break;
+          return;
       }
-    } catch (error) {
-      toast.error("Error while updating property '" + field + "'!");
-      console.log(error);
-    } finally {
-      toast.success("Property '" + field + "' updated successfully!");
+
+      await updateThread(id, updates);
+
+      if (field === "category") setCategory(value);
+      else if (field === "status") setStatus(value);
+      else if (field === "severity") setSeverity(value);
+
+      toast.success(`Property '${field}' updated successfully!`);
       router.refresh();
+    } catch (error) {
+      toast.error(`Error while updating property '${field}'!`);
+      console.error(error);
     }
   };
 
@@ -85,6 +94,15 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
       router.push("/");
     }
   };
+
+  const categoryOptions = useMemo(
+    () =>
+      Object.entries(categoryTypes).map(([key, value]) => ({
+        key,
+        value,
+      })),
+    []
+  );
 
   const severityOptions = useMemo(
     () =>
@@ -113,11 +131,8 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
           Administrator Panel
         </h1>
         <section className="flex flex-col gap-1 px-4 py-2">
-          <div className="flex flex-row flex-wrap gap-1 items-center py-2">
-            <div className="flex flex-col items-start justify-start gap-1 px-2">
-              <div className="pb-2">
-                <b>Category:</b> {data.category}
-              </div>
+          <div className="flex flex-col items-start justify-start gap-2 px-2">
+            <div>
               <div className="flex flex-row items-center gap-1">
                 <FaTags /> Actions
               </div>
@@ -145,14 +160,24 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start gap-1 p-2">
+
+            <div>
               <div className="flex flex-row items-center gap-1">
                 <FaTags /> Tags
               </div>
               <div className="flex flex-row items-start gap-1">
-                {data.properties?.severity && (
+                <Select
+                  label=""
+                  options={statusOptions}
+                  value={status}
+                  onChange={(e) =>
+                    handleUpdate("status", e.target.value as Status)
+                  }
+                />
+
+                {data.category === "Issues" && (
                   <Select
-                    label="Severity"
+                    label=""
                     options={severityOptions}
                     value={severity}
                     onChange={(e) =>
@@ -160,17 +185,24 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
                     }
                   />
                 )}
+              </div>
+            </div>
+
+            <div>
+              <div className="pb-2">
                 <Select
-                  label="Status"
-                  options={statusOptions}
-                  value={status}
+                  label="Move to..."
+                  icon={FaFolderTree}
+                  options={categoryOptions}
+                  value={category}
                   onChange={(e) =>
-                    handleUpdate("status", e.target.value as Status)
+                    handleUpdate("category", e.target.value as Category)
                   }
                 />
               </div>
             </div>
           </div>
+          <div className="flex flex-col items-start justify-start gap-1 px-2"></div>
         </section>
       </section>
     )

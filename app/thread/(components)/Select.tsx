@@ -12,8 +12,8 @@ export const Select = ({
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }) => (
   <div>
-    <h1 className="text-md flex flex-row items-center gap-1 pt-2">
-      {Icon && <Icon />} {label}
+    <h1 className="text-md flex flex-row items-center gap-1">
+      {Icon && <Icon />} {label && label}
     </h1>
     <select
       className="select select-bordered w-full"

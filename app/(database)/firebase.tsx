@@ -13,11 +13,9 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app),
+const app = initializeApp(firebaseConfig),
+  db = getFirestore(app),
   auth = getAuth(app);
 
-// Exports
 export const googleProvider = new GoogleAuthProvider();
 export { app, db, auth };
