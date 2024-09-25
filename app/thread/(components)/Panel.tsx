@@ -84,14 +84,20 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
   };
 
   const handleDeletion = async () => {
-    try {
-      await deleteThread(id);
-    } catch (error) {
-      toast.error("Error while deleting thread!");
-      console.log(error);
-    } finally {
-      toast.success("Topic deleted succesfully.");
-      router.push("/");
+    if (
+      confirm(
+        "Are you sure you want to delete this thread?\nThis action is irreversible and not frequently used."
+      )
+    ) {
+      try {
+        await deleteThread(id);
+      } catch (error) {
+        toast.error("Error while deleting thread!");
+        console.log(error);
+      } finally {
+        toast.success("Topic deleted succesfully.");
+        router.push("/");
+      }
     }
   };
 
