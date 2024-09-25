@@ -11,6 +11,7 @@ import {
   FaGripHorizontal,
   FaImage,
   FaQuoteRight,
+  FaStar,
   FaUser,
 } from "react-icons/fa";
 
@@ -71,6 +72,24 @@ export default async function ViewIssue({
                 )}
               </section>
               <div className="divider m-0" />
+              {threadData.category === "Feedback" &&
+                threadData.properties?.rating && (
+                  <section className="px-4 py-2">
+                    <div className="rating rating-md">
+                      {Array.from({ length: 5 }, (_, index) => (
+                        <input
+                          key={index}
+                          type="radio"
+                          name="rating-7"
+                          className="mask mask-star-2 bg-orange-400"
+                          value={index + 1}
+                          checked={threadData.properties.rating === index + 1}
+                          disabled
+                        />
+                      ))}
+                    </div>
+                  </section>
+                )}
               <section className="px-4 py-2">
                 <div className="flex flex-row items-center gap-1 font-bold">
                   <FaQuoteRight /> Details

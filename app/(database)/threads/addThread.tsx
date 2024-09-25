@@ -11,7 +11,8 @@ export async function insertThread(
   category: Category,
   attachments: string,
   user: User,
-  severity?: Severity
+  severity?: Severity,
+  rating?: number
 ) {
   const threadData: any = {
     title,
@@ -30,6 +31,7 @@ export async function insertThread(
     properties: {
       hidden: false,
       severity: severity ?? null,
+      rating: rating ?? null,
     },
   };
 

@@ -13,6 +13,7 @@ export interface Thread {
   };
   properties: {
     hidden?: boolean;
-    severity?: Severity;
+    severity?: Severity; // Issues
+    rating?: number; // Feedback
   };
 }
