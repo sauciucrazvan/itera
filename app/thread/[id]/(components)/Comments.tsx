@@ -70,8 +70,8 @@ export default function Comments({
         {thread.comments &&
           thread.comments.length > 0 &&
           thread.comments.map((comment: any, index: any) => (
-            <div className="pb-2">
-              <div key={index} className="bg-base-300 p-2 rounded-md">
+            <>
+              <div key={index} className="p-2">
                 <div className="flex flex-row items-center gap-1 justify-between">
                   <strong>@{comment.author.name}</strong>
                   <div className="text-xs text-gray-500 flex flex-row items-center gap-1">
@@ -80,7 +80,10 @@ export default function Comments({
                 </div>
                 <div>{comment.text}</div>
               </div>
-            </div>
+              {index + 1 < thread.comments.length && (
+                <div className="divider m-0" />
+              )}
+            </>
           ))}
         <div className="pt-4 flex flex-col items-start justify-start gap-2">
           <textarea
@@ -89,7 +92,8 @@ export default function Comments({
                 textarea-bordered
                 textarea-md
                 w-full
-                h-[10vh]"
+                h-[10vh]
+                max-h-[25vh]"
             placeholder="Reply to this topic..."
             onChange={(e) => setReply(e.target.value)}
             value={reply}
