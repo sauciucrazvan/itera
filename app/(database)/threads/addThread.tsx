@@ -35,5 +35,5 @@ export async function insertThread(
     },
   };
 
-  await addDoc(collection(db, "threads"), threadData);
+  return await addDoc(collection(db, "threads"), threadData);
 }

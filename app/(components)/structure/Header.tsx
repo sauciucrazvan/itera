@@ -108,10 +108,6 @@ export default function Header() {
                 <>
                   <li className="font-bold py-4">@{getUsername(user)}</li>
                   <li>
-                    <Link href={"/settings"}>Settings</Link>
-                  </li>
-                  <div className="divider m-0" />
-                  <li>
                     <button
                       className="btn btn-ghost btn-sm"
                       onClick={() => logout()}

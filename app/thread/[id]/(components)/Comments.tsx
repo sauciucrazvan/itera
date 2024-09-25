@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { arrayUnion, DocumentData } from "firebase/firestore";
-import { FaClock } from "react-icons/fa";
+import { arrayRemove, arrayUnion, DocumentData } from "firebase/firestore";
+import { FaClock, FaTrash } from "react-icons/fa";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/(database)/firebase";
 import { toast } from "sonner";
@@ -86,6 +86,24 @@ export default function Comments({
     await updateThreadStatus("closed");
   };
 
+  const deleteComment = async (comment: any) => {
+    if (!isAdmin(user!)) return toast.error("You're not an administrator!");
+
+    try {
+      setIsSubmitting(true);
+      await updateThread(threadID, {
+        comments: arrayRemove(comment),
+      });
+      toast.success("Comment deleted!");
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occured!");
+    } finally {
+      setIsSubmitting(false);
+      router.refresh();
+    }
+  };
+
   if (loading) return <div className="skeleton w-full h-[75vh]" />;
 
   return (
@@ -97,12 +115,22 @@ export default function Comments({
         {thread.comments &&
           thread.comments.length > 0 &&
           thread.comments.map((comment: any, index: any) => (
-            <>
-              <div key={index} className="p-2">
+            <div key={index}>
+              <div className="p-2">
                 <div className="flex flex-row items-center gap-1 justify-between">
                   <strong>@{comment.author.name}</strong>
+
                   <div className="text-xs text-gray-500 flex flex-row items-center gap-1">
                     <FaClock /> {comment.date}
+                    {isAdmin(user!) && (
+                      <button
+                        className="btn btn-xs btn-outline btn-error"
+                        onClick={() => deleteComment(comment)}
+                        disabled={isSubmitting}
+                      >
+                        <FaTrash />
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div>{comment.text}</div>
@@ -110,7 +138,7 @@ export default function Comments({
               {index + 1 < thread.comments.length && (
                 <div className="divider m-0" />
               )}
-            </>
+            </div>
           ))}
         <div className="pt-4 flex flex-col items-start justify-start gap-2">
           <textarea

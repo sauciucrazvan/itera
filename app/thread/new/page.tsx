@@ -96,7 +96,7 @@ export default function NewIssue() {
     }
 
     try {
-      await insertThread(
+      const thread = await insertThread(
         title,
         description,
         category,
@@ -105,6 +105,8 @@ export default function NewIssue() {
         category === "Issues" ? severity : undefined,
         category === "Feedback" ? rating : undefined
       );
+
+      router.push("/thread/" + thread.id);
     } catch (error) {
       console.error(error);
       toast.error("An error occured. Please try again!");
@@ -112,7 +114,6 @@ export default function NewIssue() {
       toast.success("Thread created successfully!");
       resetForms();
       setIsSubmitting(false);
-      router.push("/");
     }
   };
 
