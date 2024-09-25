@@ -40,18 +40,21 @@ export default async function ViewIssue({
                 <p className="flex flex-row items-center gap-2">
                   <FaCalendar /> {threadData.creationDate}
                 </p>
+
                 <p className="flex flex-row items-center gap-2">
                   <FaUser /> {threadData.author.name}
                 </p>
+
+                <div className="flex flex-row gap-1 items-center py-2">
+                  <Badge type={"severity"} level={threadData.severity} />
+                  <Badge type={"status"} level={threadData.status} />
+                </div>
+
                 {threadData.hidden && (
                   <div className="badge badge-error">
                     This topic has been hidden by an administrator.
                   </div>
                 )}
-                <div className="flex flex-row gap-1 items-center py-2">
-                  <Badge type={"severity"} level={threadData.severity} />
-                  <Badge type={"status"} level={threadData.status} />
-                </div>
               </section>
               <div className="divider m-0" />
               <section className="px-4 py-2">
@@ -62,14 +65,16 @@ export default async function ViewIssue({
                   {threadData.description}
                 </div>
               </section>
-              <section className="px-4 py-2">
-                <div className="flex flex-row items-center gap-1 font-bold">
-                  <FaImage /> Attachments
-                </div>
-                <div className="bg-base-300 px-2 py-1 rounded-md">
-                  {threadData.attachments || "No attached media!"}
-                </div>
-              </section>
+              {threadData.attachments && (
+                <section className="px-4 py-2">
+                  <div className="flex flex-row items-center gap-1 font-bold">
+                    <FaImage /> Attachments
+                  </div>
+                  <div className="bg-base-300 px-2 py-1 rounded-md">
+                    {threadData.attachments}
+                  </div>
+                </section>
+              )}
             </section>
 
             <section className="artboard bg-base-200 rounded-md">

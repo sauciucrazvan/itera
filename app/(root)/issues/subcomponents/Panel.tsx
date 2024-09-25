@@ -11,9 +11,14 @@ import { FaTags } from "react-icons/fa";
 
 import {
   Severity,
+  severityBadges,
   severityTypes,
 } from "@/app/thread/(components)/types/Severities";
-import { Status, statusTypes } from "@/app/thread/(components)/types/Statuses";
+import {
+  Status,
+  statusBadges,
+  statusTypes,
+} from "@/app/thread/(components)/types/Statuses";
 
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { deleteThread } from "@/app/(database)/threads/deleteThread";
@@ -124,7 +129,7 @@ export default function ThreadPanel({ id, data }: ThreadPanelProps) {
                   }
                   value={severity}
                 >
-                  {Object.entries(severityTypes).map(([key, value]) => (
+                  {Object.entries(severityBadges).map(([key, value]) => (
                     <option key={key} value={key} className={value}>
                       {key}
                     </option>
@@ -137,7 +142,7 @@ export default function ThreadPanel({ id, data }: ThreadPanelProps) {
                   }
                   value={status}
                 >
-                  {Object.entries(statusTypes).map(([key, value]) => (
+                  {Object.entries(statusBadges).map(([key, value]) => (
                     <option key={key} value={key} className={value}>
                       {key}
                     </option>
