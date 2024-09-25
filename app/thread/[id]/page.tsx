@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import Badge from "@/app/(root)/issues/subcomponents/Badge";
-import ThreadPanel from "@/app/(root)/issues/subcomponents/Panel";
+import AdminPanel from "@/app/thread/(components)/Panel";
 
 import { getThread } from "@/app/(database)/threads/getThread";
 
@@ -78,7 +78,7 @@ export default async function ViewIssue({
             </section>
 
             <section className="artboard bg-base-200 rounded-md">
-              <ThreadPanel id={id} data={threadData} />
+              <AdminPanel id={id} data={threadData} />
             </section>
           </div>
 

@@ -45,21 +45,16 @@ export default function NewIssue() {
   const router = useRouter();
 
   const validateThread = () => {
-    if (title.trim() === "" || description.trim() === "") {
+    if (title.trim() === "" || description.trim() === "")
       return "Please fill in the boxes!";
-    }
 
-    if (title.length > 128) {
-      return "Limit the title to 128 characters.";
-    }
+    if (title.length > 128) return "Limit the title to 128 characters.";
 
-    if (description.length > 4096) {
+    if (description.length > 4096)
       return "Limit the description to 4096 characters.";
-    }
 
-    if (!isSeverity(severity) || !isCategory(category)) {
+    if (!isSeverity(severity) || !isCategory(category))
       return "An error occurred!";
-    }
 
     return null;
   };
@@ -81,6 +76,13 @@ export default function NewIssue() {
   const handleDescriptionChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setDescription(e.target.value);
+    },
+    []
+  );
+
+  const handleMediaChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setMedia(e.target.value);
     },
     []
   );
@@ -212,7 +214,7 @@ export default function NewIssue() {
                 h-[10vh]"
                         placeholder="Links"
                         value={media}
-                        onChange={(e) => setMedia(e.target.value)}
+                        onChange={handleMediaChange}
                       />
                     </>
                   )}
@@ -227,7 +229,9 @@ export default function NewIssue() {
                     />
                   )}
                 </div>
+
                 <div className="divider m-0" />
+
                 <button
                   className="btn btn-success btn-xs"
                   onClick={addThread}
@@ -235,6 +239,7 @@ export default function NewIssue() {
                 >
                   {isSubmitting ? "Creating..." : "Create new thread"}
                 </button>
+
                 <div className="text-xs flex flex-row items-center gap-2">
                   <FaInfoCircle size="24" /> Remember that you'll get
                   permanently suspended if you post forbidden content or use

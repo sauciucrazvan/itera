@@ -13,6 +13,7 @@ export async function getThreads() {
         id: doc.id,
         title: issueData.title,
         status: issueData.status,
+        category: issueData.category,
         severity: issueData.severity,
         author: issueData.author,
       });

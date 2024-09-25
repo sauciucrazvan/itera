@@ -12,5 +12,4 @@ export interface Thread {
     name: string;
   };
   severity: Severity;
-  properties: {};
 }

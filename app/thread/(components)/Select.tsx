@@ -6,14 +6,14 @@ export const Select = ({
   onChange,
 }: {
   label: string;
-  icon: React.ComponentType;
+  icon?: React.ComponentType;
   options: { key: string; value: string }[];
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }) => (
   <div>
     <h1 className="text-md flex flex-row items-center gap-1 pt-2">
-      <Icon /> {label}
+      {Icon && <Icon />} {label}
     </h1>
     <select
       className="select select-bordered w-full"

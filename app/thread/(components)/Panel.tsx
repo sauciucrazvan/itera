@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -11,25 +11,21 @@ import { FaTags } from "react-icons/fa";
 
 import {
   Severity,
-  severityBadges,
   severityTypes,
 } from "@/app/thread/(components)/types/Severities";
-import {
-  Status,
-  statusBadges,
-  statusTypes,
-} from "@/app/thread/(components)/types/Statuses";
+import { Status, statusTypes } from "@/app/thread/(components)/types/Statuses";
+import { Select } from "./Select";
 
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { deleteThread } from "@/app/(database)/threads/deleteThread";
 import { updateThread } from "@/app/(database)/threads/updateThread";
 
-interface ThreadPanelProps {
+interface AdminPanelProps {
   id: string;
   data: any;
 }
 
-export default function ThreadPanel({ id, data }: ThreadPanelProps) {
+export default function AdminPanel({ id, data }: AdminPanelProps) {
   const [mounted, setMounted] = useState(false);
 
   const [user, loading] = useAuthState(auth);
@@ -85,7 +81,25 @@ export default function ThreadPanel({ id, data }: ThreadPanelProps) {
     }
   };
 
-  if (loading || !mounted) return null;
+  const severityOptions = useMemo(
+    () =>
+      Object.entries(severityTypes).map(([key, value]) => ({
+        key,
+        value,
+      })),
+    []
+  );
+
+  const statusOptions = useMemo(
+    () =>
+      Object.entries(statusTypes).map(([key, value]) => ({
+        key,
+        value,
+      })),
+    []
+  );
+
+  if (loading || !mounted) return;
 
   return (
     isAdmin(user!) && (
@@ -96,6 +110,9 @@ export default function ThreadPanel({ id, data }: ThreadPanelProps) {
         <section className="flex flex-col gap-1 px-4 py-2">
           <div className="flex flex-row flex-wrap gap-1 items-center py-2">
             <div className="flex flex-col items-start justify-start gap-1 px-2">
+              <div className="pb-2">
+                <b>Category:</b> {data.category}
+              </div>
               <div className="flex flex-row items-center gap-1">
                 <FaTags /> Actions
               </div>
@@ -104,7 +121,7 @@ export default function ThreadPanel({ id, data }: ThreadPanelProps) {
                   className={`btn ${data.hidden ? "btn-success" : "btn-error"}`}
                   onClick={() => handleUpdate("hidden", !data.hidden)}
                 >
-                  {data.hidden ? "Make visible" : "Hide topic"}
+                  {data.hidden ? "Make topic visible" : "Hide topic"}
                 </button>
                 <button
                   className={`btn btn-error`}
@@ -122,32 +139,22 @@ export default function ThreadPanel({ id, data }: ThreadPanelProps) {
                 <FaTags /> Tags
               </div>
               <div className="flex flex-row items-start gap-1">
-                <select
-                  className="select select-bordered w-fit"
+                <Select
+                  label="Severity"
+                  options={severityOptions}
+                  value={severity}
                   onChange={(e) =>
                     handleUpdate("severity", e.target.value as Severity)
                   }
-                  value={severity}
-                >
-                  {Object.entries(severityBadges).map(([key, value]) => (
-                    <option key={key} value={key} className={value}>
-                      {key}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  className="select select-bordered w-fit"
+                />
+                <Select
+                  label="Status"
+                  options={statusOptions}
+                  value={status}
                   onChange={(e) =>
                     handleUpdate("status", e.target.value as Status)
                   }
-                  value={status}
-                >
-                  {Object.entries(statusBadges).map(([key, value]) => (
-                    <option key={key} value={key} className={value}>
-                      {key}
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
             </div>
           </div>
