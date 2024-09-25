@@ -62,51 +62,28 @@ export default function Comments({
     }
   };
 
-  const closeTopic = async () => {
-    if (!isAdmin(user!)) return toast.error("You're not an administrator!");
+  const updateThreadStatus = async (newStatus: string) => {
+    if (!user || !isAdmin(user))
+      return toast.error("You're not an administrator!");
 
     try {
-      await updateThread(threadID, { status: "closed" });
-      toast.success("Topic closed!");
+      setIsSubmitting(true);
+      await updateThread(threadID, { status: newStatus });
+      toast.success(
+        `Topic ${newStatus === "closed" ? "closed" : `marked as ${newStatus}`}!`
+      );
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("An error occured!");
     } finally {
-      setReply("");
-      setIsSubmitting(false);
-      router.refresh();
-    }
-  };
-
-  const markTopicDuplicate = async () => {
-    if (!isAdmin(user!)) return toast.error("You're not an administrator!");
-
-    try {
-      await updateThread(threadID, { status: "duplicate" });
-      toast.success("Topic closed as duplicate!");
-    } catch (error) {
-      console.log(error);
-      toast.error("An error occured!");
-    } finally {
-      setReply("");
       setIsSubmitting(false);
       router.refresh();
     }
   };
 
   const postAndClose = async () => {
-    if (!isAdmin(user!)) return toast.error("You're not an administrator!");
-    try {
-      await replyToTopic();
-      await closeTopic();
-    } catch (error) {
-      console.log(error);
-      toast.error("An error occured!");
-    } finally {
-      setReply("");
-      setIsSubmitting(false);
-      router.refresh();
-    }
+    await replyToTopic();
+    await updateThreadStatus("closed");
   };
 
   if (loading) return <div className="skeleton w-full h-[75vh]" />;
@@ -185,7 +162,7 @@ export default function Comments({
                       thread.status !== "duplicate"
                     )
                   }
-                  onClick={closeTopic}
+                  onClick={() => updateThreadStatus("closed")}
                 >
                   Close topic
                 </button>
@@ -197,9 +174,16 @@ export default function Comments({
                       thread.status !== "duplicate"
                     )
                   }
-                  onClick={markTopicDuplicate}
+                  onClick={() => updateThreadStatus("duplicate")}
                 >
                   Mark as duplicate
+                </button>
+                <button
+                  className="btn btn-info btn-outline btn-sm"
+                  disabled={thread.status !== "open"}
+                  onClick={() => updateThreadStatus("reviewing")}
+                >
+                  Mark as under review
                 </button>
               </>
             )}
