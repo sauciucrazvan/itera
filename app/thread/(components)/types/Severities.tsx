@@ -1,7 +1,8 @@
-// Severities types
-export type Severity = "critical" | "major" | "medium" | "minor";
+export const severityTypes = ["critical", "major", "medium", "minor"] as const;
 
-// Used for sorting by severities
+export type Severity = (typeof severityTypes)[number];
+
+// Used to sort by severity
 export const severityRank: { [key in Severity]: number } = {
   critical: 1,
   major: 2,
@@ -9,8 +10,8 @@ export const severityRank: { [key in Severity]: number } = {
   minor: 4,
 };
 
-// Severities types and their badges classes
-export const severityTypes: { [key: string]: string } = {
+// Severities types and their badge classes
+export const severityBadges: { [key in Severity]: string } = {
   minor: "text-success",
   medium: "text-info",
   major: "text-warning",
@@ -18,5 +19,5 @@ export const severityTypes: { [key: string]: string } = {
 };
 
 export const isSeverity = (value: any): value is Severity => {
-  return ["critical", "major", "medium", "minor"].includes(value);
+  return severityTypes.includes(value);
 };

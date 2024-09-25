@@ -1,9 +1,12 @@
-import { severityTypes } from "@/app/thread/(components)/types/Severities";
-import { statusTypes } from "@/app/thread/(components)/types/Statuses";
+import {
+  Severity,
+  severityBadges,
+} from "@/app/thread/(components)/types/Severities";
+import { Status, statusBadges } from "@/app/thread/(components)/types/Statuses";
 
 interface BadgeProps {
   type: string;
-  level: string;
+  level: Status | Severity;
 }
 
 export default function Badge({ type, level }: BadgeProps) {
@@ -12,7 +15,8 @@ export default function Badge({ type, level }: BadgeProps) {
       return (
         <div
           className={
-            "badge badge-outline bg-base-300 rounded-md " + severityTypes[level]
+            "badge badge-outline bg-base-300 rounded-md " +
+            severityBadges[level as Severity]
           }
         >
           {level}
@@ -23,7 +27,7 @@ export default function Badge({ type, level }: BadgeProps) {
         <div
           className={
             "badge bg-base-300 rounded-md border-base-100 border-2 " +
-            statusTypes[level]
+            statusBadges[level as Status]
           }
         >
           {level}

@@ -3,10 +3,12 @@ import { db } from "@/app/(database)/firebase";
 import { Severity } from "@/app/thread/(components)/types/Severities";
 import { getUsername } from "../accounts/getUsername";
 import { User } from "@firebase/auth";
+import { Category } from "@/app/thread/(components)/types/Categories";
 
 export async function insertThread(
   title: string,
   description: string,
+  category: Category,
   attachments: string,
   severity: Severity,
   user: User
@@ -15,6 +17,7 @@ export async function insertThread(
     title: title,
     description: description,
     attachments: attachments,
+    category: category,
     severity: severity,
     status: "open",
     author: { id: user?.uid, name: getUsername(user) },

@@ -1,16 +1,23 @@
-// Statuses types
-export type Status = "open" | "reviewing" | "closed" | "duplicate";
+export const statusTypes = [
+  "open",
+  "reviewing",
+  "closed",
+  "duplicate",
+] as const;
 
-// Used for sorting by status
-export const statusRank: { [key in Status]: number } = {
-  open: 1,
-  reviewing: 2,
-  closed: 3,
-  duplicate: 4,
+export type Status = (typeof statusTypes)[number];
+
+// Used to sort by status
+export const statusRank: { [key in Status]: number } = {} as {
+  [key in Status]: number;
 };
 
-// Statuses types and their badge classes
-export const statusTypes: { [key: string]: string } = {
+statusTypes.forEach((status, index) => {
+  statusRank[status] = index + 1;
+});
+
+// Status types and their badge classes
+export const statusBadges: { [key in Status]: string } = {
   open: "text-success",
   closed: "text-error",
   duplicate: "text-warning",
