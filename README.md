@@ -7,7 +7,7 @@ Bug tracking, feature requesting and feedback - all in one website! Open source,
 > [!WARNING]
 > Project currently under development. :)
 
-[![Badge](https://img.shields.io/badge/version-0.0.0-red?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/releases)
+[![Badge](https://img.shields.io/badge/version-1.0.0-red?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/releases)
 [![Badge](https://img.shields.io/github/stars/sauciucrazvan/botanicabay?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/stargazers)
 [![Badge](https://img.shields.io/github/issues/sauciucrazvan/botanicabay?style=for-the-badge)](https://github.com/sauciucrazvan/bug-tracker/issues)
 [![Badge](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
