@@ -10,7 +10,7 @@ import { getThreads } from "@/app/(database)/threads/getThreads";
 import Error from "@/app/(components)/helpers/Error";
 import Badge from "@/app/(root)/threads/subcomponents/Badge";
 
-import { FaHeading, FaTags, FaUser } from "react-icons/fa";
+import { FaGripHorizontal, FaHeading, FaTags, FaUser } from "react-icons/fa";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/(database)/firebase";
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
@@ -53,7 +53,10 @@ export default function ThreadsList({ category }: ThreadsListProps) {
       try {
         setLoading(true);
 
-        const issuesData: Thread[] = await getThreads(category, isAdmin(user!));
+        const issuesData: Thread[] = await getThreads(
+          category === "All" ? undefined : category,
+          isAdmin(user!)
+        );
         issuesData.sort((a, b) => {
           if (statusRank[a.status] !== statusRank[b.status])
             return statusRank[a.status] - statusRank[b.status];
@@ -118,6 +121,13 @@ export default function ThreadsList({ category }: ThreadsListProps) {
                       <FaUser /> Author
                     </p>
                   </th>
+                  {category === "All" && (
+                    <th>
+                      <p className="inline-flex items-center gap-1">
+                        <FaGripHorizontal /> Category
+                      </p>
+                    </th>
+                  )}
                   <th>
                     <p className="inline-flex items-center gap-1">
                       <FaTags /> Tags
@@ -127,7 +137,11 @@ export default function ThreadsList({ category }: ThreadsListProps) {
               </thead>
               <tbody>
                 {displayData.map((issue: Thread) => (
-                  <IssueRow key={issue.id} issue={issue} />
+                  <IssueRow
+                    key={issue.id}
+                    issue={issue}
+                    showCategories={category === "All"}
+                  />
                 ))}
               </tbody>
             </table>
@@ -164,7 +178,13 @@ export default function ThreadsList({ category }: ThreadsListProps) {
   );
 }
 
-function IssueRow({ issue }: { issue: Thread }) {
+function IssueRow({
+  issue,
+  showCategories,
+}: {
+  issue: Thread;
+  showCategories: boolean;
+}) {
   return (
     <tr>
       <td>
@@ -180,6 +200,13 @@ function IssueRow({ issue }: { issue: Thread }) {
       <td>
         <div>@{issue.author.name}</div>
       </td>
+      {showCategories && (
+        <td>
+          <div className="badge badge-neutral rounded-md flex flex-row gap-1 items-center text-nowrap">
+            <FaGripHorizontal /> {issue.category}
+          </div>
+        </td>
+      )}
       <td>
         <div className="flex flex-row items-center gap-1">
           {issue.properties.hidden && (
