@@ -53,7 +53,7 @@ export default function NewIssue() {
     if (description.length > 4096)
       return "Limit the description to 4096 characters.";
 
-    if (!isSeverity(severity) || !isCategory(category))
+    if (!isSeverity(severity) || !isCategory(category) || category === "All")
       return "An error occurred!";
 
     return null;
@@ -119,10 +119,14 @@ export default function NewIssue() {
 
   const categoryOptions = useMemo(
     () =>
-      Object.entries(categoryTypes).map(([key, value]) => ({
-        key,
-        value,
-      })),
+      Object.entries(categoryTypes)
+        .map(([key, value]) => ({
+          key,
+          value,
+        }))
+        .filter((categ) => {
+          return categ.value !== "All";
+        }),
     []
   );
 

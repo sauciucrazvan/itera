@@ -103,10 +103,14 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
 
   const categoryOptions = useMemo(
     () =>
-      Object.entries(categoryTypes).map(([key, value]) => ({
-        key,
-        value,
-      })),
+      Object.entries(categoryTypes)
+        .map(([key, value]) => ({
+          key,
+          value,
+        }))
+        .filter((categ) => {
+          return categ.value !== "All";
+        }),
     []
   );
 
