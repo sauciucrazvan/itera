@@ -2,14 +2,36 @@
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import ThreadsList from "./ThreadsList";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Category,
   categoryTypes,
+  isCategory,
 } from "@/app/thread/(components)/types/Categories";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Threads() {
-  const [category, setCategory] = useState<Category>("Issues");
+  const searchParams = useSearchParams(),
+    router = useRouter(),
+    pathname = usePathname();
+  const categoryParameter = searchParams.get("category");
+  const [category, setCategory] = useState<Category>("All");
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  useEffect(() => {
+    if (categoryParameter && isCategory(categoryParameter)) {
+      setCategory(categoryParameter);
+    }
+  }, [categoryParameter]);
 
   const categoryOptions = useMemo(
     () =>
@@ -35,7 +57,12 @@ export default function Threads() {
                   className={`btn join-item btn-xs md:btn-sm btn-neutral text-base-content ${
                     category === value ? "btn-active" : ""
                   }`}
-                  onClick={() => setCategory(value as Category)}
+                  onClick={() => {
+                    setCategory(value as Category);
+                    router.push(
+                      pathname + "?" + createQueryString("category", value)
+                    );
+                  }}
                 >
                   {value}
                 </button>
