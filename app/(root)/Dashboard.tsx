@@ -9,6 +9,7 @@ export default function Dashboard() {
           <ul>
             <li>Home</li>
             <li>Threads</li>
+            <li>Viewing</li>
           </ul>
         </div>
         <div className="flex flex-col md:flex-row md:items-start gap-2">

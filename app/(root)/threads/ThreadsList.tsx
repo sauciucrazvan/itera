@@ -16,7 +16,6 @@ import { auth } from "@/app/(database)/firebase";
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { Category } from "@/app/thread/(components)/types/Categories";
 import Loading from "@/app/(components)/helpers/Loading";
-import { VscIssues } from "react-icons/vsc";
 
 interface ThreadsListProps {
   category: Category;
@@ -71,6 +70,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
         });
 
         setData(issuesData);
+        setPage(1);
       } catch (err) {
         console.log(err);
         setError(true);
@@ -85,7 +85,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
   if (loading || userLoading)
     return (
       <div className="w-full bg-base-200 px-4 py-2 rounded-md">
-        <Loading />
+        <div className="skeleton w-full h-64" />
       </div>
     );
 

@@ -54,7 +54,7 @@ export default function Threads() {
               {categoryOptions.map(({ key, value }) => (
                 <button
                   key={key}
-                  className={`btn join-item btn-xs md:btn-sm btn-neutral text-base-content ${
+                  className={`join-item btn btn-xs md:btn-sm btn-neutral text-base-content ${
                     category === value ? "btn-active" : ""
                   }`}
                   onClick={() => {
