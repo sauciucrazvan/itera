@@ -72,13 +72,23 @@ export default function Threads() {
 
           <Link
             className="hidden lg:inline-flex btn btn-sm btn-primary rounded-md text-content-base"
-            href="/thread/new"
+            href={
+              "/thread/new" +
+              (category !== "All"
+                ? "?" + createQueryString("category", category)
+                : "")
+            }
           >
             <FaPlus /> Create a new thread
           </Link>
           <Link
             className="lg:hidden btn btn-sm btn-primary btn-square text-content-base"
-            href="/thread/new"
+            href={
+              "/thread/new" +
+              (category !== "All"
+                ? "?" + createQueryString("category", category)
+                : "")
+            }
           >
             <FaPlus />
           </Link>

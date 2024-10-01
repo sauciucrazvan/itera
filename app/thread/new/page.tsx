@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import {
   Category,
@@ -41,9 +41,12 @@ export default function NewIssue() {
     [category, setCategory] = useState<Category>("Issues"),
     [severity, setSeverity] = useState<Severity>("minor"),
     [rating, setRating] = useState<number>(5),
-    [user, loading] = useAuthState(auth);
+    [user, loading] = useAuthState(auth),
+    searchParams = useSearchParams();
 
   const router = useRouter();
+
+  const categoryParameter = searchParams.get("category");
 
   const validateThread = () => {
     if (title.trim() === "" || description.trim() === "")
@@ -58,6 +61,16 @@ export default function NewIssue() {
 
     return null;
   };
+
+  useEffect(() => {
+    if (
+      categoryParameter &&
+      isCategory(categoryParameter) &&
+      categoryParameter !== "All"
+    ) {
+      setCategory(categoryParameter);
+    }
+  }, [categoryParameter]);
 
   const resetForms = () => {
     setTitle(""),
