@@ -15,7 +15,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/(database)/firebase";
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { Category } from "@/app/thread/(components)/types/Categories";
-import Loading from "@/app/(components)/helpers/Loading";
 
 interface ThreadsListProps {
   category: Category;

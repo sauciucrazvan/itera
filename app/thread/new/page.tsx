@@ -197,7 +197,8 @@ export default function NewIssue() {
                 textarea-bordered
                 textarea-md
                 w-full
-                h-[40vh]"
+                h-[40vh]
+                max-h-[60vh]"
                     placeholder="Add your description here..."
                     value={description}
                     onChange={handleDescriptionChange}

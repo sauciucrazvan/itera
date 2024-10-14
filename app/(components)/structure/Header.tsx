@@ -16,6 +16,7 @@ import { getUsername } from "@/app/(database)/accounts/getUsername";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth),
+    //[username, setUsername] = useState<string>(user!.email ?? "Unknown"),
     [mounted, setMounted] = useState(false);
 
   useEffect(() => {

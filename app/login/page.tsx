@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { configuration } from "../configuration";
 import { toast } from "sonner";
 import { getUsername } from "../(database)/accounts/getUsername";
+import { getAccount } from "../(database)/accounts/getAccount";
 
 export default function Login() {
   const [user, loading] = useAuthState(auth);
@@ -28,10 +29,15 @@ export default function Login() {
 
   const signIn = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider),
+        account = await getAccount(result.user);
 
-      router.push("/");
-      toast.success("Welcome, @" + getUsername(result.user) + "!");
+      if (account != null) {
+        router.push("/");
+        toast.success("Welcome, @" + getUsername(result.user) + "!");
+      } else {
+        router.push("/login/choose_name");
+      }
     } catch (error) {
       console.log(error);
       toast.error("An error occured during login.");
