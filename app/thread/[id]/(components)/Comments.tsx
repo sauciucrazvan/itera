@@ -57,6 +57,7 @@ export default function Comments({
       author: {
         id: user.uid,
         name: username ?? "Unknown",
+        email: user.email,
       },
       text: reply,
       date: new Date().toLocaleString(),

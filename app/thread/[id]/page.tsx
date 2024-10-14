@@ -12,7 +12,6 @@ import {
   FaGripHorizontal,
   FaImage,
   FaQuoteRight,
-  FaUser,
 } from "react-icons/fa";
 import UserInfo from "./(components)/UserInfo";
 
@@ -66,7 +65,7 @@ export default async function ViewIssue({
                       />
                     )}
                   <Badge type={"status"} level={threadData.status} />
-                  <div className="badge badge-neutral rounded-md flex flex-row gap-1 items-center">
+                  <div className="badge badge-neutral text-base-content rounded-md flex flex-row gap-1 items-center">
                     <FaGripHorizontal /> {threadData.category}
                   </div>
                 </div>

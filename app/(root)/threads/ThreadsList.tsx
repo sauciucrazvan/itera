@@ -201,7 +201,7 @@ function IssueRow({
       </td>
       {showCategories && (
         <td>
-          <div className="badge badge-neutral rounded-md flex flex-row gap-1 items-center text-nowrap">
+          <div className="badge badge-neutral text-base-content rounded-md flex flex-row gap-1 items-center text-nowrap">
             <FaGripHorizontal /> {issue.category}
           </div>
         </td>

@@ -16,10 +16,15 @@ export default function UserInfo({
 }) {
   const [user, loading] = useAuthState(auth);
 
-  if (loading) return <div className="loading loading-spinner loading-xs" />;
+  if (loading)
+    return (
+      <>
+        <FaUser /> {name}
+      </>
+    );
 
   return (
-    <div className="flex flex-row items-center justify-start gap-1">
+    <div className="flex flex-row items-center justify-start gap-2">
       <FaUser /> {name}
       {isAdmin(user!) && (
         <>
