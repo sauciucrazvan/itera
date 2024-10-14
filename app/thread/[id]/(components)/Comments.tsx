@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { arrayRemove, arrayUnion, DocumentData } from "firebase/firestore";
 import { FaClock, FaTrash } from "react-icons/fa";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -19,10 +19,25 @@ export default function Comments({
   thread: DocumentData;
 }) {
   const [reply, setReply] = useState<string>(""),
+    [username, setUsername] = useState<string>(""),
     [isSubmitting, setIsSubmitting] = useState(false),
     [user, loading] = useAuthState(auth);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const getName = async () => {
+      try {
+        const name = await getUsername(user!);
+        setUsername(name);
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occured!");
+      }
+    };
+
+    if (user != null) getName();
+  }, [user]);
 
   const replyToTopic = async () => {
     if (!user) return toast.error("You need to be logged in!");
@@ -41,7 +56,7 @@ export default function Comments({
     const newComment = {
       author: {
         id: user.uid,
-        name: getUsername(user),
+        name: username ?? "Unknown",
       },
       text: reply,
       date: new Date().toLocaleString(),
