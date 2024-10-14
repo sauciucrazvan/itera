@@ -14,6 +14,7 @@ import {
   FaQuoteRight,
   FaUser,
 } from "react-icons/fa";
+import UserInfo from "./(components)/UserInfo";
 
 export default async function ViewIssue({
   params: { id },
@@ -48,9 +49,13 @@ export default async function ViewIssue({
                   <FaCalendar /> {threadData.creationDate}
                 </p>
 
-                <p className="flex flex-row items-center gap-2">
-                  <FaUser /> {threadData.author.name}
-                </p>
+                <div className="flex flex-row items-center gap-2">
+                  <UserInfo
+                    name={threadData.author.name}
+                    uid={threadData.author.id}
+                    email={threadData.author.email}
+                  />
+                </div>
 
                 <div className="flex flex-row gap-1 items-center py-2">
                   {threadData.properties?.severity &&

@@ -20,7 +20,11 @@ export async function insertThread(
     attachments,
     category,
     status: "open",
-    author: { id: user?.uid, name: await getUsername(user) },
+    author: {
+      id: user?.uid,
+      name: await getUsername(user),
+      email: user?.email,
+    },
     creationDate: new Date().toLocaleString(undefined, {
       year: "numeric",
       month: "long",
