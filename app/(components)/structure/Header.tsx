@@ -16,12 +16,24 @@ import { getUsername } from "@/app/(database)/accounts/getUsername";
 
 export default function Header() {
   const [user, loading] = useAuthState(auth),
-    //[username, setUsername] = useState<string>(user!.email ?? "Unknown"),
+    [username, setUsername] = useState<string>(""),
     [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+
+    const getName = async () => {
+      try {
+        const name = await getUsername(user!);
+        setUsername(name);
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occured!");
+      }
+    };
+
+    if (user != null) getName();
+  }, [user]);
 
   if (!mounted)
     return (
@@ -71,7 +83,12 @@ export default function Header() {
                     role="button"
                     className="btn btn-ghost btn-sm rounded-btn bg-base-100"
                   >
-                    @{getUsername(user)} <MdArrowDropDown size="24" />
+                    {username == "" ? (
+                      <div className="loading loading-spinner loading-sm" />
+                    ) : (
+                      "@" + username
+                    )}
+                    <MdArrowDropDown size="24" />
                   </div>
                   <ul
                     tabIndex={0}
@@ -107,7 +124,13 @@ export default function Header() {
             >
               {user ? (
                 <>
-                  <li className="font-bold py-4">@{getUsername(user)}</li>
+                  <li className="font-bold py-4">
+                    {username == "" ? (
+                      <div className="loading loading-spinner loading-sm" />
+                    ) : (
+                      "@" + username
+                    )}
+                  </li>
                   <li>
                     <button
                       className="btn btn-ghost btn-sm"
