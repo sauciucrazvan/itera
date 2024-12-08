@@ -34,7 +34,7 @@ export default function Login() {
 
       if (account != null) {
         router.push("/");
-        toast.success("Welcome, @" + getUsername(result.user) + "!");
+        toast.success("Welcome, @" + (await getUsername(result.user)) + "!");
       } else {
         router.push("/login/choose_name");
       }
