@@ -65,7 +65,7 @@ export default async function ViewIssue({
                       />
                     )}
                   <Badge type={"status"} level={threadData.status} />
-                  <div className="badge badge-neutral text-base-content rounded-md flex flex-row gap-1 items-center">
+                  <div className="badge badge-neutral bg-neutral/20 text-base-content rounded-md flex flex-row gap-1 items-center text-nowrap">
                     <FaGripHorizontal /> {threadData.category}
                   </div>
                 </div>

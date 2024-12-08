@@ -24,33 +24,36 @@ export default function UserInfo({
     );
 
   return (
-    <div className="flex flex-row items-center justify-start gap-2">
-      <FaUser /> @{name}
-      {isAdmin(user!) && (
-        <div className="flex items-center">
-          <div className="dropdown dropdown-right flex items-center">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-xs rounded-btn flex items-center justify-center"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <MdArrowDropDown size="20" />
+    !loading && ( // hydration issue
+      <div className="flex flex-row items-center justify-start gap-2">
+        <FaUser /> @{name}
+        {isAdmin(user!) && (
+          <div className="flex items-center">
+            <div className="dropdown dropdown-right flex items-center">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-xs rounded-btn flex items-center justify-center"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <MdArrowDropDown size="20" />
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2 shadow"
+              >
+                <div className="text-primary font-bold">@{name}</div>
+                <div className="flex flex-row gap-1 justify-start items-center">
+                  <FaEnvelope className="text-primary" /> {email ?? "Invalid"}
+                </div>
+                <div className="flex flex-row gap-1 justify-start items-center">
+                  <FaIdBadge className="text-primary" /> {uid ?? "Invalid"}
+                </div>
+              </ul>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2 shadow"
-            >
-              <div className="flex flex-row gap-1 justify-start items-center">
-                <FaEnvelope className="text-red-500" /> {email ?? "Invalid"}
-              </div>
-              <div className="flex flex-row gap-1 justify-start items-center">
-                <FaIdBadge className="text-red-500" /> {uid ?? "Invalid"}
-              </div>
-            </ul>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    )
   );
 }

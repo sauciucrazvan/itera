@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { getUsername } from "@/app/(database)/accounts/getUsername";
 import { updateThread } from "@/app/(database)/threads/updateThread";
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
+import moment from "moment";
 
 export default function Comments({
   threadID,
@@ -85,6 +86,32 @@ export default function Comments({
     try {
       setIsSubmitting(true);
       await updateThread(threadID, { status: newStatus });
+
+      const newComment = {
+        author: {
+          id: user.uid,
+          name: username ?? "Unknown",
+          email: user.email,
+        },
+        text:
+          "marked this topic as " +
+          newStatus +
+          " on " +
+          moment(new Date()).format("MMM DD[,] YYYY [at] hh:mmA") +
+          ".",
+        special: true,
+        date: new Date().toLocaleString(),
+      };
+
+      try {
+        await updateThread(threadID, {
+          comments: arrayUnion(newComment),
+        });
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occured while posting reply!");
+      }
+
       toast.success(
         `Topic ${newStatus === "closed" ? "closed" : `marked as ${newStatus}`}!`
       );
@@ -134,10 +161,22 @@ export default function Comments({
             <div key={index}>
               <div className="p-2">
                 <div className="flex flex-row items-center gap-1 justify-between">
-                  <strong>@{comment.author.name}</strong>
-
+                  <div className="flex flex-row gap-1">
+                    {comment.special ? (
+                      <div className="text-sm flex gap-1">
+                        <strong>@{comment.author.name}</strong>
+                        <div>{comment.text}</div>
+                      </div>
+                    ) : (
+                      <strong>@{comment.author.name}</strong>
+                    )}
+                  </div>
                   <div className="text-xs text-gray-500 flex flex-row items-center gap-1">
-                    <FaClock /> {comment.date}
+                    {!comment.special && (
+                      <>
+                        <FaClock /> {comment.date}
+                      </>
+                    )}
                     {isAdmin(user!) && (
                       <button
                         className="btn btn-xs btn-outline btn-error"
@@ -149,11 +188,12 @@ export default function Comments({
                     )}
                   </div>
                 </div>
-                <div>{comment.text}</div>
+                {!comment.special && <div>{comment.text}</div>}
               </div>
-              {index + 1 < thread.comments.length && (
-                <div className="divider m-0" />
-              )}
+              {index + 1 < thread.comments.length &&
+                !(comment.special && thread.comments[index + 1]?.special) && (
+                  <div className="divider m-0" />
+                )}
             </div>
           ))}
         <div className="pt-4 flex flex-col items-start justify-start gap-2">

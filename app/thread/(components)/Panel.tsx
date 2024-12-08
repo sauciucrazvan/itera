@@ -143,13 +143,12 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
         <section className="flex flex-col gap-1 px-4 py-2">
           <div className="flex flex-col items-start justify-start gap-2 px-2">
             <div>
-              <div className="flex flex-row items-center gap-1">
-                <FaMousePointer /> Actions
-              </div>
               <div className="flex flex-row items-start gap-1 flex-wrap">
                 <button
                   className={`btn btn-sm ${
-                    data.properties?.hidden ? "btn-success" : "btn-error"
+                    data.properties?.hidden
+                      ? "btn-success bg-success/20 text-success hover:text-white/80"
+                      : "btn-error bg-error/20 text-error hover:text-white/80"
                   }`}
                   onClick={() =>
                     handleUpdate("hidden", !data.properties?.hidden)
@@ -160,13 +159,13 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
                     : "Hide topic"}
                 </button>
                 <button
-                  className={`btn btn-sm btn-error`}
+                  className={`btn btn-sm btn-error bg-error/20 text-error hover:text-white/80`}
                   onClick={() => toast.error("Unimplemented.")}
                 >
                   Suspend author
                 </button>
                 <button
-                  className={`btn btn-sm btn-error`}
+                  className={`btn btn-sm btn-error bg-error/20 text-error hover:text-white/80`}
                   onClick={handleDeletion}
                 >
                   Delete topic

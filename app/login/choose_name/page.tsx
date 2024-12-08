@@ -41,7 +41,7 @@ export default function ChooseUsername() {
         setLoading(false);
         if (account !== undefined) {
           router.push("/");
-          toast.error("You&apos;ve already chosen your username!");
+          toast.error("You've already chosen your username!");
         }
       }
     };
