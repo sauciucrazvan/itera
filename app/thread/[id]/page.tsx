@@ -71,7 +71,7 @@ export default async function ViewIssue({
                 </div>
 
                 {threadData.properties?.hidden && (
-                  <div className="badge badge-error">
+                  <div className="badge badge-error bg-error/20 text-error">
                     This topic has been hidden by an administrator.
                   </div>
                 )}

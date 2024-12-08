@@ -19,22 +19,23 @@ export default function UserInfo({
   if (loading)
     return (
       <>
-        <FaUser /> {name}
+        <FaUser /> @{name}
       </>
     );
 
   return (
     <div className="flex flex-row items-center justify-start gap-2">
-      <FaUser /> {name}
+      <FaUser /> @{name}
       {isAdmin(user!) && (
-        <>
-          <div className="dropdown dropdown-right">
+        <div className="flex items-center">
+          <div className="dropdown dropdown-right flex items-center">
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-xs rounded-btn"
+              className="btn btn-ghost btn-xs rounded-btn flex items-center justify-center"
+              style={{ display: "flex", alignItems: "center" }}
             >
-              <MdArrowDropDown size="24" />
+              <MdArrowDropDown size="20" />
             </div>
             <ul
               tabIndex={0}
@@ -48,7 +49,7 @@ export default function UserInfo({
               </div>
             </ul>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

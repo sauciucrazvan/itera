@@ -22,7 +22,7 @@ const config: Config = {
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
-          primary: "#615EFC",
+          primary: "#38bdf8",
           secondary: "#F8FAFC",
           success: "#22c55e",
           "base-200": "#EEEEEE",

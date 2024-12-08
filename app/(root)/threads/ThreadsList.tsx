@@ -201,7 +201,7 @@ function IssueRow({
       </td>
       {showCategories && (
         <td>
-          <div className="badge badge-neutral text-base-content rounded-md flex flex-row gap-1 items-center text-nowrap">
+          <div className="badge badge-neutral bg-neutral/20 text-base-content rounded-md flex flex-row gap-1 items-center text-nowrap">
             <FaGripHorizontal /> {issue.category}
           </div>
         </td>
@@ -209,7 +209,9 @@ function IssueRow({
       <td>
         <div className="flex flex-row items-center gap-1">
           {issue.properties.hidden && (
-            <div className="badge badge-error rounded-md">hidden</div>
+            <div className="badge badge-error bg-error/20 text-error rounded-md">
+              hidden
+            </div>
           )}
           {issue.properties?.severity && issue.category === "Issues" && (
             <Badge type={"severity"} level={issue.properties.severity} />
