@@ -13,10 +13,10 @@ severityTypes.forEach((status, index) => {
 
 // Severities types and their badge classes
 export const severityBadges: { [key in Severity]: string } = {
-  minor: "text-success",
-  medium: "text-info",
-  major: "text-warning",
-  critical: "text-error",
+  minor: "bg-success",
+  medium: "bg-info",
+  major: "bg-warning",
+  critical: "bg-error",
 };
 
 export const isSeverity = (value: any): value is Severity => {

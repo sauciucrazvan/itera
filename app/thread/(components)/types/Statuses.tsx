@@ -1,6 +1,6 @@
 export const statusTypes = [
-  "open",
   "reviewing",
+  "open",
   "closed",
   "duplicate",
 ] as const;
@@ -18,8 +18,8 @@ statusTypes.forEach((status, index) => {
 
 // Status types and their badge classes
 export const statusBadges: { [key in Status]: string } = {
-  open: "text-success",
-  closed: "text-error",
-  duplicate: "text-warning",
-  reviewing: "text-info",
+  open: "bg-success/40 text-success",
+  closed: "bg-error/40 text-error",
+  duplicate: "bg-warning/40 text-warning",
+  reviewing: "bg-info/40 text-info",
 };
