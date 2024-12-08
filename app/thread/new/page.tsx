@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import {
@@ -32,8 +32,9 @@ import {
 } from "react-icons/fa";
 
 import { toast } from "sonner";
+import Loading from "@/app/(components)/helpers/Loading";
 
-export default function NewIssue() {
+function NewIssue() {
   const [isSubmitting, setIsSubmitting] = useState(false),
     [title, setTitle] = useState(""),
     [description, setDescription] = useState(""),
@@ -295,5 +296,13 @@ export default function NewIssue() {
         </section>
       </Gateway>
     </>
+  );
+}
+
+export default function NewIssueSuspense() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <NewIssue />
+    </Suspense>
   );
 }

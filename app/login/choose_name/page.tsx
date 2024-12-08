@@ -41,7 +41,7 @@ export default function ChooseUsername() {
         setLoading(false);
         if (account !== undefined) {
           router.push("/");
-          toast.error("You've already chosen your username!");
+          toast.error("You&apos;ve already chosen your username!");
         }
       }
     };
@@ -100,7 +100,7 @@ export default function ChooseUsername() {
         </div>
         <section className="flex flex-row justify-center items-center p-4">
           <div className="artboard bg-base-200 w-fit p-8 rounded-lg flex flex-col justify-center items-center gap-1">
-            <h1>Let's get to setting up your username!</h1>
+            <h1>Let&apos;s get to setting up your username!</h1>
             <small className="text-wrap md:max-w-[25vw]">
               This is how other users will see you. The username you choose now
               will be permanent!
