@@ -1,6 +1,6 @@
 {
-  "name": "bug-tracker",
-  "version": "0.1.0",
+  "name": "itera",
+  "version": "1.0.0a",
   "private": true,
   "scripts": {
     "dev": "next dev",
