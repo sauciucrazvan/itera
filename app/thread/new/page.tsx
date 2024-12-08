@@ -285,7 +285,7 @@ export default function NewIssue() {
                 </button>
 
                 <div className="text-xs flex flex-row items-center gap-2">
-                  <FaInfoCircle size="24" /> Remember that you'll get
+                  <FaInfoCircle size="24" /> Remember that you&apos;ll get
                   permanently suspended if you post forbidden content or use
                   profanity.
                 </div>

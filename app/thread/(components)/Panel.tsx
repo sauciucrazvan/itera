@@ -75,10 +75,10 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
       else if (field === "status") setStatus(value);
       else if (field === "severity") setSeverity(value);
 
-      toast.success(`Property '${field}' updated successfully!`);
+      toast.success(`Property &apos;${field}&apos; updated successfully!`);
       router.refresh();
     } catch (error) {
-      toast.error(`Error while updating property '${field}'!`);
+      toast.error(`Error while updating property &apos;${field}&apos;!`);
       console.error(error);
     }
   };
