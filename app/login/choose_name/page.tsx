@@ -25,7 +25,7 @@ export default function ChooseUsername() {
       if (processing) return;
       setUsername(e.target.value);
     },
-    []
+    [processing]
   );
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function ChooseUsername() {
     };
 
     getUserAccount();
-  }, [userLoading, account]);
+  }, [router, user, userLoading, account]);
 
   const setupName = async () => {
     if (user == null) return toast.error("An error occured!");

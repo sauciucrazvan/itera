@@ -2,7 +2,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/app/(database)/firebase";
 import { Severity } from "@/app/thread/(components)/types/Severities";
 import { getUsername } from "../accounts/getUsername";
-import { User } from "@firebase/auth";
+import { User } from "firebase/auth";
 import { Category } from "@/app/thread/(components)/types/Categories";
 
 export async function insertThread(

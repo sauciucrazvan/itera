@@ -36,7 +36,7 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
 
   const router = useRouter();
 
-  useEffect(() => setMounted(true));
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (data) {

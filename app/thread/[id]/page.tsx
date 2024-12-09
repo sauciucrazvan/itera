@@ -15,12 +15,10 @@ import {
 } from "react-icons/fa";
 import UserInfo from "./(components)/UserInfo";
 
-export default async function ViewIssue({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
+export default async function ViewIssue({ params }: { params: any }) {
+  const { id } = await params;
   const threadData = await getThread(id);
+
   if (threadData == null) return notFound();
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { auth } from "@/app/(database)/firebase";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaEnvelope, FaIdBadge, FaUser } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
@@ -15,6 +16,11 @@ export default function UserInfo({
   email: string;
 }) {
   const [user, loading] = useAuthState(auth);
+  const [domLoaded, setDomLoaded] = useState(false);
+
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
 
   if (loading)
     return (
@@ -24,7 +30,8 @@ export default function UserInfo({
     );
 
   return (
-    !loading && ( // hydration issue
+    !loading &&
+    domLoaded && ( // hydration issue
       <div className="flex flex-row items-center justify-start gap-2">
         <FaUser /> @{name}
         {isAdmin(user!) && (

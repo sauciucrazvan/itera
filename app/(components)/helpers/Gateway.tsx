@@ -32,7 +32,7 @@ export default function Gateway({ children }: GatewayProps) {
       toast.error("You need to be logged in!");
       router.push("/login");
     }
-  }, [loading, mounted, user]);
+  }, [router, loading, mounted, user]);
 
   if (loading || !mounted) return <Loading />;
   if (!user)
