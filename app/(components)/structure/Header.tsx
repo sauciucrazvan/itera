@@ -8,7 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 import ThemeSelector from "./ThemeSelector";
 import { MdArrowDropDown } from "react-icons/md";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaWrench } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { getUsername } from "@/app/(database)/accounts/getUsername";
@@ -53,7 +53,7 @@ export default function Header() {
   return (
     <>
       <div className="navbar bg-base-200">
-        <div className="navbar-start">
+        <div className="navbar-start gap-2">
           <Link
             href="/"
             className="flex-0 btn btn-ghost gap-1 px-2 md:gap-2 font-bold shadow-none"
@@ -67,6 +67,11 @@ export default function Header() {
             />{" "}
             {configuration.name}
           </Link>
+          {!configuration.production && (
+            <div className="badge bg-primary/30 rounded-md text-primary font-semibold gap-2">
+              <FaWrench /> TESTING
+            </div>
+          )}
         </div>
         <div className="navbar-end hidden md:flex pr-4 gap-4">
           {loading ? (

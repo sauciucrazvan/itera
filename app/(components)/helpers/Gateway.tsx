@@ -1,10 +1,3 @@
-/*
-    Gateway is a component that checks if the user is logged in and returns the page,
-    otherwise it will redirect to the login page.
-
-    - RS
-*/
-
 "use client";
 import { auth } from "@/app/(database)/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
