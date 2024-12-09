@@ -11,6 +11,7 @@ import { getUsername } from "@/app/(database)/accounts/getUsername";
 import { updateThread } from "@/app/(database)/threads/updateThread";
 import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import moment from "moment";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
 
 export default function Comments({
   threadID,
@@ -53,6 +54,12 @@ export default function Comments({
     if (!user) return toast.error("You need to be logged in!");
     if (thread.status !== "open" && thread.status !== "reviewing")
       return toast.error("You can't reply to a closed topic!");
+
+    const suspended = (await getAccount(user))!.suspended ?? false;
+    if (suspended)
+      return toast.error(
+        "You're permanentely suspended from posting for breaking the TOS."
+      );
 
     setIsSubmitting(true);
 

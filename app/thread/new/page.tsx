@@ -33,6 +33,7 @@ import {
 
 import { toast } from "sonner";
 import Loading from "@/app/(components)/helpers/Loading";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
 
 function NewIssue() {
   const [isSubmitting, setIsSubmitting] = useState(false),
@@ -98,7 +99,13 @@ function NewIssue() {
   );
 
   const addThread = async () => {
-    if (isSubmitting || loading) return;
+    if (isSubmitting || loading || !user) return;
+
+    const suspended = (await getAccount(user!))!.suspended ?? false;
+    if (suspended)
+      return toast.error(
+        "You're permanentely suspended from posting for breaking the TOS."
+      );
 
     setIsSubmitting(true);
 
