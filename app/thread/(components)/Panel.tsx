@@ -7,7 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/(database)/firebase";
 import { toast } from "sonner";
 
-import { FaMousePointer, FaTags } from "react-icons/fa";
+import { FaTags } from "react-icons/fa";
 
 import {
   Severity,
@@ -30,6 +30,7 @@ interface AdminPanelProps {
 export default function AdminPanel({ id, data }: AdminPanelProps) {
   const [mounted, setMounted] = useState(false),
     [user, loading] = useAuthState(auth),
+    [admin, setAdmin] = useState<Boolean>(false),
     [category, setCategory] = useState<Category>(data?.category || "Issues"),
     [severity, setSeverity] = useState<Severity>(data?.properties?.severity),
     [status, setStatus] = useState<Status>(data?.status || "open");
@@ -45,6 +46,14 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
       setStatus(data.status);
     }
   }, [data]);
+
+  useEffect(() => {
+    async function fetchAccountData() {
+      if (!user) return;
+      setAdmin(await isAdmin(user!));
+    }
+    fetchAccountData();
+  }, [user, admin]);
 
   const handleUpdate = async (
     field: "category" | "severity" | "status" | "hidden",
@@ -135,7 +144,7 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
   if (loading || !mounted) return;
 
   return (
-    isAdmin(user!) && (
+    admin && (
       <section>
         <h1 className="font-bold text-lg bg-base-300 rounded-t-md px-4 py-2">
           Administrator Panel

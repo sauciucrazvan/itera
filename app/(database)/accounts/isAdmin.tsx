@@ -1,6 +1,10 @@
 import { User } from "firebase/auth";
+import { getAccount } from "./getAccount";
 
-export function isAdmin(user: User) {
+export async function isAdmin(user: User) {
   if (!user) return false;
-  return user.uid === "vSHnwyoRtsZOGV6KtlAcJPzcIKB2"; //Temporary
+
+  const account: any = await getAccount(user);
+  console.log(account);
+  return account.admin ?? false;
 }

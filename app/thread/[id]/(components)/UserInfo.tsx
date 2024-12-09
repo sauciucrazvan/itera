@@ -15,12 +15,21 @@ export default function UserInfo({
   uid: string;
   email: string;
 }) {
-  const [user, loading] = useAuthState(auth);
-  const [domLoaded, setDomLoaded] = useState(false);
+  const [user, loading] = useAuthState(auth),
+    [admin, setAdmin] = useState<boolean>(false),
+    [domLoaded, setDomLoaded] = useState(false);
 
   useEffect(() => {
     setDomLoaded(true);
   }, []);
+
+  useEffect(() => {
+    async function fetchAccountData() {
+      if (!user) return;
+      setAdmin(await isAdmin(user!));
+    }
+    fetchAccountData();
+  }, [user, admin]);
 
   if (loading)
     return (
@@ -34,7 +43,7 @@ export default function UserInfo({
     domLoaded && ( // hydration issue
       <div className="flex flex-row items-center justify-start gap-2">
         <FaUser /> @{name}
-        {isAdmin(user!) && (
+        {admin && (
           <div className="flex items-center">
             <div className="dropdown dropdown-right flex items-center">
               <div

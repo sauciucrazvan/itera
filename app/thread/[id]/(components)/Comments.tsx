@@ -21,6 +21,7 @@ export default function Comments({
 }) {
   const [reply, setReply] = useState<string>(""),
     [username, setUsername] = useState<string>(""),
+    [admin, setAdmin] = useState<boolean>(false),
     [isSubmitting, setIsSubmitting] = useState(false),
     [user, loading] = useAuthState(auth);
 
@@ -39,6 +40,14 @@ export default function Comments({
 
     if (user != null) getName();
   }, [user]);
+
+  useEffect(() => {
+    async function fetchAccountData() {
+      if (!user) return;
+      setAdmin(await isAdmin(user!));
+    }
+    fetchAccountData();
+  }, [user, admin]);
 
   const replyToTopic = async () => {
     if (!user) return toast.error("You need to be logged in!");
@@ -80,8 +89,7 @@ export default function Comments({
   };
 
   const updateThreadStatus = async (newStatus: string) => {
-    if (!user || !isAdmin(user))
-      return toast.error("You're not an administrator!");
+    if (!user || !admin) return toast.error("You're not an administrator!");
 
     try {
       setIsSubmitting(true);
@@ -130,7 +138,7 @@ export default function Comments({
   };
 
   const deleteComment = async (comment: any) => {
-    if (!isAdmin(user!)) return toast.error("You're not an administrator!");
+    if (!admin) return toast.error("You're not an administrator!");
 
     try {
       setIsSubmitting(true);
@@ -177,7 +185,7 @@ export default function Comments({
                         <FaClock /> {comment.date}
                       </>
                     )}
-                    {isAdmin(user!) && (
+                    {admin && (
                       <button
                         className="btn btn-xs btn-outline btn-error"
                         onClick={() => deleteComment(comment)}
@@ -225,7 +233,7 @@ export default function Comments({
             >
               {isSubmitting ? "Posting..." : "Post your reply"}
             </button>
-            {isAdmin(user!) && (
+            {admin && (
               <>
                 <button
                   className="btn btn-error btn-outline btn-sm"

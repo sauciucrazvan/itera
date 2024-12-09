@@ -23,6 +23,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
   const ITEMS_PER_PAGE = 10;
 
   const [data, setData] = useState<Thread[]>([]),
+    [admin, setAdmin] = useState<boolean | undefined>(false),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(false),
     [page, setPage] = useState(1),
@@ -47,13 +48,21 @@ export default function ThreadsList({ category }: ThreadsListProps) {
   );
 
   useEffect(() => {
+    async function fetchAccountData() {
+      if (!user) return;
+      setAdmin(await isAdmin(user!));
+    }
+    fetchAccountData();
+  }, [user, admin]);
+
+  useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
 
         const issuesData: Thread[] = await getThreads(
           category === "All" ? undefined : category,
-          isAdmin(user!)
+          admin
         );
         issuesData.sort((a, b) => {
           if (statusRank[a.status] !== statusRank[b.status])
@@ -79,7 +88,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
     }
 
     fetchData();
-  }, [user, category]);
+  }, [user, category, admin]);
 
   if (loading || userLoading)
     return (

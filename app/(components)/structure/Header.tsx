@@ -12,12 +12,15 @@ import { FaBars, FaWrench } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { getUsername } from "@/app/(database)/accounts/getUsername";
+import { isAdmin } from "@/app/(database)/accounts/isAdmin";
+import { FaShield } from "react-icons/fa6";
 
 const configuration = require("../../configuration");
 
 export default function Header() {
   const [user, loading] = useAuthState(auth),
     [username, setUsername] = useState<string>(""),
+    [admin, setAdmin] = useState<boolean>(false),
     [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -33,8 +36,13 @@ export default function Header() {
       }
     };
 
+    const getAdmin = async () => {
+      setAdmin(await isAdmin(user!));
+    };
+
     if (user != null) getName();
-  }, [user]);
+    getAdmin();
+  }, [user, admin]);
 
   if (!mounted)
     return (
@@ -71,6 +79,14 @@ export default function Header() {
             <div className="badge bg-primary/30 rounded-md text-primary font-semibold gap-2">
               <FaWrench /> TESTING
             </div>
+          )}
+          {admin && (
+            <Link
+              href="/admin"
+              className="badge bg-error/30 rounded-md text-error font-semibold gap-2"
+            >
+              <FaShield /> ADMIN
+            </Link>
           )}
         </div>
         <div className="navbar-end hidden md:flex pr-4 gap-4">
