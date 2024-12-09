@@ -20,7 +20,10 @@ module.exports = {
   /// follows: links: []                                                    ///
   /// --------------------------------------------------------------------- ///
   links: [
-    { title: "dashboard", href: "https://razvansauciuc.dev" },
-    { title: "github", href: "https://github.com/sauciucrazvan/bug-tracker" },
+    { title: "Creator Website", href: "https://razvansauciuc.dev" },
+    {
+      title: "GitHub Repository",
+      href: "https://github.com/sauciucrazvan/itera",
+    },
   ],
 };

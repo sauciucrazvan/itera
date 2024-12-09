@@ -10,10 +10,11 @@ import Loading from "../(components)/helpers/Loading";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { configuration } from "../configuration";
 import { toast } from "sonner";
 import { getUsername } from "../(database)/accounts/getUsername";
 import { getAccount } from "../(database)/accounts/getAccount";
+
+const configuration = require("../configuration");
 
 export default function Login() {
   const [user, loading] = useAuthState(auth);
