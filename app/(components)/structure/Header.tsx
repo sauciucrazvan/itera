@@ -1,6 +1,5 @@
 "use client";
 import { auth } from "@/app/(database)/firebase";
-import { configuration } from "../../configuration";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -13,6 +12,8 @@ import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { getUsername } from "@/app/(database)/accounts/getUsername";
+
+const configuration = require("../../configuration");
 
 export default function Header() {
   const [user, loading] = useAuthState(auth),

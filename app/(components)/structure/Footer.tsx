@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { configuration } from "../../configuration";
+const configuration = require("../../configuration");
 
 export default function Footer() {
   return (
@@ -11,10 +11,10 @@ export default function Footer() {
         </Link>{" "}
         © 2024
       </div>
-      <div className="text-sm font-medium text-secondary flex flex-row gap-2 items-center">
-        {configuration.links.map((link, index) => (
+      <div className="text-sm font-medium text-base-content flex flex-row gap-2 items-center">
+        {configuration.links.map((link: any, index: any) => (
           <div key={link.title} className="flex flex-row gap-2">
-            <Link href={link.href} className="hover:text-secondary/80">
+            <Link href={link.href} className="hover:text-base-content/80">
               {link.title}
             </Link>
             {index < configuration.links.length - 1 && (
