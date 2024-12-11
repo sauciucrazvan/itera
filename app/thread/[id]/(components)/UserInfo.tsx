@@ -1,10 +1,12 @@
 "use client";
-import { isAdmin } from "@/app/(database)/accounts/isAdmin";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
 import { auth } from "@/app/(database)/firebase";
+import { DocumentData } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaEnvelope, FaIdBadge, FaUser } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
+import { toast } from "sonner";
 
 export default function UserInfo({
   name,
@@ -16,7 +18,7 @@ export default function UserInfo({
   email: string;
 }) {
   const [user, loading] = useAuthState(auth),
-    [admin, setAdmin] = useState<boolean>(false),
+    [account, setAccount] = useState<DocumentData | undefined>(undefined),
     [domLoaded, setDomLoaded] = useState(false);
 
   useEffect(() => {
@@ -24,12 +26,18 @@ export default function UserInfo({
   }, []);
 
   useEffect(() => {
-    async function fetchAccountData() {
-      if (!user) return;
-      setAdmin(await isAdmin(user!));
-    }
-    fetchAccountData();
-  }, [user, admin]);
+    const getAccountData = async () => {
+      try {
+        const acc = await getAccount(user!);
+        setAccount(acc);
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occured!");
+      }
+    };
+
+    if (user != null) getAccountData();
+  }, [user, account]);
 
   if (loading)
     return (
@@ -43,7 +51,7 @@ export default function UserInfo({
     domLoaded && ( // hydration issue
       <div className="flex flex-row items-center justify-start gap-2">
         <FaUser /> @{name}
-        {admin && (
+        {account && account.admin && (
           <div className="flex items-center">
             <div className="dropdown dropdown-right flex items-center">
               <div

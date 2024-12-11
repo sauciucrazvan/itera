@@ -11,38 +11,32 @@ import { MdArrowDropDown } from "react-icons/md";
 import { FaBars, FaWrench } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { getUsername } from "@/app/(database)/accounts/getUsername";
-import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { FaShield } from "react-icons/fa6";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
+import { DocumentData } from "firebase/firestore";
 
 const configuration = require("../../configuration");
 
 export default function Header() {
   const [user, loading] = useAuthState(auth),
-    [username, setUsername] = useState<string>(""),
-    [admin, setAdmin] = useState<boolean>(false),
+    [account, setAccount] = useState<DocumentData | undefined>(undefined),
     [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
 
-    const getName = async () => {
+    const getAccountData = async () => {
       try {
-        const name = await getUsername(user!);
-        setUsername(name);
+        const acc = await getAccount(user!);
+        setAccount(acc);
       } catch (error) {
         console.log(error);
         toast.error("An error occured!");
       }
     };
 
-    const getAdmin = async () => {
-      setAdmin(await isAdmin(user!));
-    };
-
-    if (user != null) getName();
-    getAdmin();
-  }, [user, admin]);
+    if (user != null) getAccountData();
+  }, [user, account]);
 
   if (!mounted)
     return (
@@ -80,7 +74,7 @@ export default function Header() {
               <FaWrench /> TESTING
             </div>
           )}
-          {admin && (
+          {account && account.admin && (
             <Link
               href="/admin"
               className="badge bg-error/30 rounded-md text-error font-semibold gap-2"
@@ -105,11 +99,12 @@ export default function Header() {
                     role="button"
                     className="btn btn-ghost btn-sm rounded-btn bg-base-100"
                   >
-                    {username == "" ? (
-                      <div className="loading loading-spinner loading-sm" />
-                    ) : (
-                      "@" + username
-                    )}
+                    {account &&
+                      (account.name == "" ? (
+                        <div className="loading loading-spinner loading-sm" />
+                      ) : (
+                        "@" + account.name
+                      ))}
                     <MdArrowDropDown size="24" />
                   </div>
                   <ul
@@ -147,11 +142,12 @@ export default function Header() {
               {user ? (
                 <>
                   <li className="font-bold py-4">
-                    {username == "" ? (
-                      <div className="loading loading-spinner loading-sm" />
-                    ) : (
-                      "@" + username
-                    )}
+                    {account &&
+                      (account.name == "" ? (
+                        <div className="loading loading-spinner loading-sm" />
+                      ) : (
+                        "@" + account.name
+                      ))}
                   </li>
                   <li>
                     <button

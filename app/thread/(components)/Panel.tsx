@@ -16,11 +16,12 @@ import {
 import { Status, statusTypes } from "@/app/thread/(components)/types/Statuses";
 import { Select } from "./Select";
 
-import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { deleteThread } from "@/app/(database)/threads/deleteThread";
 import { updateThread } from "@/app/(database)/threads/updateThread";
 import { Category, categoryTypes } from "./types/Categories";
 import { FaFolderTree } from "react-icons/fa6";
+import { DocumentData } from "firebase/firestore";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
 
 interface AdminPanelProps {
   id: string;
@@ -30,7 +31,7 @@ interface AdminPanelProps {
 export default function AdminPanel({ id, data }: AdminPanelProps) {
   const [mounted, setMounted] = useState(false),
     [user, loading] = useAuthState(auth),
-    [admin, setAdmin] = useState<Boolean>(false),
+    [account, setAccount] = useState<DocumentData | undefined>(undefined),
     [category, setCategory] = useState<Category>(data?.category || "Issues"),
     [severity, setSeverity] = useState<Severity>(data?.properties?.severity),
     [status, setStatus] = useState<Status>(data?.status || "open");
@@ -48,18 +49,26 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
   }, [data]);
 
   useEffect(() => {
-    async function fetchAccountData() {
-      if (!user) return;
-      setAdmin(await isAdmin(user!));
-    }
-    fetchAccountData();
-  }, [user, admin]);
+    const getAccountData = async () => {
+      try {
+        const acc = await getAccount(user!);
+        setAccount(acc);
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occured!");
+      }
+    };
+
+    if (user != null) getAccountData();
+  }, [user, account]);
 
   const handleUpdate = async (
     field: "category" | "severity" | "status" | "hidden",
     value: any
   ) => {
     try {
+      if (account && !account.admin) return;
+
       const updates: Record<string, any> = {};
 
       switch (field) {
@@ -93,6 +102,8 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
   };
 
   const handleDeletion = async () => {
+    if (account && !account.admin) return;
+
     if (
       confirm(
         "Are you sure you want to delete this thread?\nThis action is irreversible and not frequently used."
@@ -144,7 +155,8 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
   if (loading || !mounted) return;
 
   return (
-    admin && (
+    account &&
+    account!.admin && (
       <section>
         <h1 className="font-bold text-lg bg-base-300 rounded-t-md px-4 py-2">
           Administrator Panel
@@ -178,6 +190,16 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
                   onClick={handleDeletion}
                 >
                   Delete topic
+                </button>
+                <button
+                  className={`btn btn-sm btn-success bg-success/20 text-success hover:text-white/80"
+                      }`}
+                  onClick={() => handleUpdate("status", "open")}
+                  disabled={
+                    data.status === "open" || data.status === "reviewing"
+                  }
+                >
+                  Reopen topic
                 </button>
               </div>
             </div>

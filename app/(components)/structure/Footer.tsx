@@ -17,15 +17,7 @@ export default function Footer() {
           </Link>{" "}
           © 2024
         </div>
-        <div className="text-base-content text-xs">
-          v{version} -{" "}
-          <a
-            className="hover:text-base-content/80"
-            href="https://github.com/sauciucrazvan/itera"
-          >
-            github repo
-          </a>
-        </div>
+        <div className="text-base-content text-xs">v{version}</div>
         <div>
           <Image
             src="/favicon.svg"

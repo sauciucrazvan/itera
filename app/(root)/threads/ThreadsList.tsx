@@ -13,8 +13,10 @@ import Badge from "@/app/(root)/threads/subcomponents/Badge";
 import { FaGripHorizontal, FaHeading, FaTags, FaUser } from "react-icons/fa";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/(database)/firebase";
-import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { Category } from "@/app/thread/(components)/types/Categories";
+import { DocumentData } from "firebase/firestore";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
+import { toast } from "sonner";
 
 interface ThreadsListProps {
   category: Category;
@@ -23,7 +25,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
   const ITEMS_PER_PAGE = 10;
 
   const [data, setData] = useState<Thread[]>([]),
-    [admin, setAdmin] = useState<boolean | undefined>(false),
+    [account, setAccount] = useState<DocumentData | undefined>(undefined),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(false),
     [page, setPage] = useState(1),
@@ -48,12 +50,18 @@ export default function ThreadsList({ category }: ThreadsListProps) {
   );
 
   useEffect(() => {
-    async function fetchAccountData() {
-      if (!user) return;
-      setAdmin(await isAdmin(user!));
-    }
-    fetchAccountData();
-  }, [user, admin]);
+    const getAccountData = async () => {
+      try {
+        const acc = await getAccount(user!);
+        setAccount(acc);
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occured!");
+      }
+    };
+
+    if (user != null) getAccountData();
+  }, [user]);
 
   useEffect(() => {
     async function fetchData() {
@@ -62,7 +70,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
 
         const issuesData: Thread[] = await getThreads(
           category === "All" ? undefined : category,
-          admin
+          account && account.admin
         );
         issuesData.sort((a, b) => {
           if (statusRank[a.status] !== statusRank[b.status])
@@ -88,7 +96,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
     }
 
     fetchData();
-  }, [user, category, admin]);
+  }, [user, category]);
 
   if (loading || userLoading)
     return (
