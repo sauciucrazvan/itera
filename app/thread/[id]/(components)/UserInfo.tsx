@@ -1,5 +1,4 @@
 "use client";
-import Profile from "@/app/(components)/Profile";
 import { getAccount } from "@/app/(database)/accounts/getAccount";
 import { auth } from "@/app/(database)/firebase";
 import { DocumentData } from "firebase/firestore";
@@ -19,7 +18,6 @@ export default function UserInfo({
 }) {
   const [user, loading] = useAuthState(auth),
     [account, setAccount] = useState<DocumentData | undefined>(undefined),
-    [modal, showModal] = useState<boolean>(false),
     [domLoaded, setDomLoaded] = useState(false);
 
   useEffect(() => {
@@ -49,24 +47,9 @@ export default function UserInfo({
 
   return (
     !loading &&
-    domLoaded && ( // hydration issue
+    domLoaded && (
       <div className="flex flex-row items-center justify-start gap-2">
         <FaUser /> @{name}
-        {account && account.admin && (
-          <div>
-            <button
-              className="btn btn-success btn-xs"
-              onClick={() => showModal(!modal)}
-            >
-              View Profile
-            </button>
-            <div
-              className={"fixed flex items-center justify-center z-50 w-[50%] "}
-            >
-              {modal && <Profile />}
-            </div>
-          </div>
-        )}
       </div>
     )
   );
