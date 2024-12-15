@@ -42,7 +42,6 @@ function NewIssue() {
     [media, setMedia] = useState(""),
     [category, setCategory] = useState<Category>("Issues"),
     [severity, setSeverity] = useState<Severity>("minor"),
-    [rating, setRating] = useState<number>(5),
     [user, loading] = useAuthState(auth),
     searchParams = useSearchParams();
 
@@ -78,7 +77,6 @@ function NewIssue() {
     setTitle(""),
       setDescription(""),
       setSeverity("minor"),
-      setRating(0),
       setCategory("Issues");
   };
 
@@ -123,8 +121,7 @@ function NewIssue() {
         category,
         media,
         user!,
-        category === "Issues" ? severity : undefined,
-        category === "Feedback" ? rating : undefined
+        category === "Issues" ? severity : undefined
       );
 
       router.push("/thread/" + thread.id);
@@ -257,28 +254,6 @@ function NewIssue() {
                       value={severity}
                       onChange={(e) => setSeverity(e.target.value as Severity)}
                     />
-                  )}
-
-                  {category === "Feedback" && (
-                    <div className="flex flex-col items-start">
-                      <h1 className="text-md flex flex-row items-center gap-1 pt-2">
-                        <FaStar /> Rating ({rating} stars)
-                      </h1>
-                      <small>Select a rating before creating the thread!</small>
-                      <div className="rating rating-md pt-2">
-                        {Array.from({ length: 5 }, (_, index) => (
-                          <input
-                            key={index}
-                            type="radio"
-                            name="rating-7"
-                            className="mask mask-star-2 bg-orange-400"
-                            value={index + 1}
-                            checked={rating === index + 1}
-                            onChange={() => setRating(index + 1)}
-                          />
-                        ))}
-                      </div>
-                    </div>
                   )}
                 </div>
 

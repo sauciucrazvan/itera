@@ -11,8 +11,7 @@ export async function insertThread(
   category: Category,
   attachments: string,
   user: User,
-  severity?: Severity,
-  rating?: number
+  severity?: Severity
 ) {
   const account = await getAccount(user);
 
@@ -37,7 +36,6 @@ export async function insertThread(
     properties: {
       hidden: false,
       severity: severity ?? null,
-      rating: rating ?? null,
     },
   };
 

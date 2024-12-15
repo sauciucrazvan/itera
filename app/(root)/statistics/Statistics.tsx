@@ -19,13 +19,11 @@ export default function Statistics() {
       total: -1,
       issues: -1,
       feature_requests: -1,
-      feedback: -1,
     });
 
   const getStats = (threads: Thread[]) => {
     let issues = 0,
-      feature_requests = 0,
-      feedback = 0;
+      feature_requests = 0;
 
     threads.forEach((issue) => {
       switch (issue.category) {
@@ -36,10 +34,6 @@ export default function Statistics() {
         case "Feature Request":
           feature_requests++;
           break;
-
-        case "Feedback":
-          feedback++;
-          break;
       }
     });
 
@@ -47,7 +41,6 @@ export default function Statistics() {
       total: threads.length,
       issues,
       feature_requests,
-      feedback,
     };
   };
 
@@ -88,11 +81,6 @@ export default function Statistics() {
         icon={<TbLayoutGridAdd size="32" />}
         title="Feature Requests"
         value={statsData.feature_requests}
-      />
-      <StatisticCard
-        icon={<FaStar size="32" />}
-        title="Feedback Topics"
-        value={statsData.feedback}
       />
     </div>
   );
