@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Thread } from "@/app/thread/(components)/types/Topics";
 import { severityRank } from "@/app/thread/(components)/types/Severities";
-import { statusRank } from "@/app/thread/(components)/types/Statuses";
+import { Status, statusRank } from "@/app/thread/(components)/types/Statuses";
 import { getThreads } from "@/app/(database)/threads/getThreads";
 
 import Error from "@/app/(components)/helpers/Error";
@@ -20,8 +20,9 @@ import { toast } from "sonner";
 
 interface ThreadsListProps {
   category: Category;
+  status: Status | null;
 }
-export default function ThreadsList({ category }: ThreadsListProps) {
+export default function ThreadsList({ category, status }: ThreadsListProps) {
   const ITEMS_PER_PAGE = 10;
 
   const [data, setData] = useState<Thread[]>([]),
@@ -70,6 +71,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
 
         const issuesData: Thread[] = await getThreads(
           category === "All" ? undefined : category,
+          status === null ? undefined : status,
           account && account.admin
         );
         issuesData.sort((a, b) => {
@@ -96,7 +98,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
     }
 
     fetchData();
-  }, [user, category]);
+  }, [user, category, status]);
 
   if (loading || userLoading)
     return (
@@ -121,7 +123,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
         <div className="overflow-x-auto">
           {data.length === 0 ? (
             <div className="text-sm py-2 px-4">
-              No entries found in the database for this category.
+              No entries found in the database that match the input criteria.
             </div>
           ) : (
             <table className="table">

@@ -23,3 +23,7 @@ export const statusBadges: { [key in Status]: string } = {
   duplicate: "bg-warning/40 text-warning",
   reviewing: "bg-info/40 text-info",
 };
+
+export const isStatus = (value: any): value is Status => {
+  return statusTypes.includes(value);
+};
