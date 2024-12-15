@@ -1,11 +1,11 @@
 "use client";
+import Profile from "@/app/(components)/Profile";
 import { getAccount } from "@/app/(database)/accounts/getAccount";
 import { auth } from "@/app/(database)/firebase";
 import { DocumentData } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { FaEnvelope, FaIdBadge, FaUser } from "react-icons/fa";
-import { MdArrowDropDown } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
 import { toast } from "sonner";
 
 export default function UserInfo({
@@ -19,6 +19,7 @@ export default function UserInfo({
 }) {
   const [user, loading] = useAuthState(auth),
     [account, setAccount] = useState<DocumentData | undefined>(undefined),
+    [modal, showModal] = useState<boolean>(false),
     [domLoaded, setDomLoaded] = useState(false);
 
   useEffect(() => {
@@ -52,28 +53,17 @@ export default function UserInfo({
       <div className="flex flex-row items-center justify-start gap-2">
         <FaUser /> @{name}
         {account && account.admin && (
-          <div className="flex items-center">
-            <div className="dropdown dropdown-right flex items-center">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-xs rounded-btn flex items-center justify-center"
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <MdArrowDropDown size="20" />
-              </div>
-              <ul
-                tabIndex={0}
-                className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2 shadow"
-              >
-                <div className="text-primary font-bold">@{name}</div>
-                <div className="flex flex-row gap-1 justify-start items-center">
-                  <FaEnvelope className="text-primary" /> {email ?? "Invalid"}
-                </div>
-                <div className="flex flex-row gap-1 justify-start items-center">
-                  <FaIdBadge className="text-primary" /> {uid ?? "Invalid"}
-                </div>
-              </ul>
+          <div>
+            <button
+              className="btn btn-success btn-xs"
+              onClick={() => showModal(!modal)}
+            >
+              View Profile
+            </button>
+            <div
+              className={"fixed flex items-center justify-center z-50 w-[50%] "}
+            >
+              {modal && <Profile />}
             </div>
           </div>
         )}
