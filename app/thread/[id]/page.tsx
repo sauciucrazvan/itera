@@ -15,12 +15,10 @@ import {
 } from "react-icons/fa";
 import UserInfo from "./(components)/UserInfo";
 
-export default async function ViewIssue({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
+export default async function ViewIssue({ params }: { params: any }) {
+  const { id } = await params;
   const threadData = await getThread(id);
+
   if (threadData == null) return notFound();
 
   return (
@@ -65,36 +63,18 @@ export default async function ViewIssue({
                       />
                     )}
                   <Badge type={"status"} level={threadData.status} />
-                  <div className="badge badge-neutral text-base-content rounded-md flex flex-row gap-1 items-center">
+                  <div className="badge badge-neutral bg-neutral/20 text-base-content rounded-md flex flex-row gap-1 items-center text-nowrap">
                     <FaGripHorizontal /> {threadData.category}
                   </div>
                 </div>
 
                 {threadData.properties?.hidden && (
-                  <div className="badge badge-error">
+                  <div className="badge badge-error bg-error/20 text-error">
                     This topic has been hidden by an administrator.
                   </div>
                 )}
               </section>
               <div className="divider m-0" />
-              {threadData.category === "Feedback" &&
-                threadData.properties?.rating && (
-                  <section className="px-4 py-2">
-                    <div className="rating rating-md">
-                      {Array.from({ length: 5 }, (_, index) => (
-                        <input
-                          key={index}
-                          type="radio"
-                          name="rating-7"
-                          className="mask mask-star-2 bg-orange-400"
-                          value={index + 1}
-                          checked={threadData.properties.rating === index + 1}
-                          disabled
-                        />
-                      ))}
-                    </div>
-                  </section>
-                )}
               <section className="px-4 py-2">
                 <div className="flex flex-row items-center gap-1 font-bold">
                   <FaQuoteRight /> Details

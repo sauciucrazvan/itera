@@ -1,6 +1,5 @@
 "use client";
 import { auth } from "@/app/(database)/firebase";
-import { configuration } from "../../configuration";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -9,31 +8,35 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 import ThemeSelector from "./ThemeSelector";
 import { MdArrowDropDown } from "react-icons/md";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaWrench } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { getUsername } from "@/app/(database)/accounts/getUsername";
+import { FaShield } from "react-icons/fa6";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
+import { DocumentData } from "firebase/firestore";
+
+const configuration = require("../../configuration");
 
 export default function Header() {
   const [user, loading] = useAuthState(auth),
-    [username, setUsername] = useState<string>(""),
+    [account, setAccount] = useState<DocumentData | undefined>(undefined),
     [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
 
-    const getName = async () => {
+    const getAccountData = async () => {
       try {
-        const name = await getUsername(user!);
-        setUsername(name);
+        const acc = await getAccount(user!);
+        setAccount(acc);
       } catch (error) {
         console.log(error);
         toast.error("An error occured!");
       }
     };
 
-    if (user != null) getName();
-  }, [user]);
+    if (user != null) getAccountData();
+  }, [user, account]);
 
   if (!mounted)
     return (
@@ -52,7 +55,7 @@ export default function Header() {
   return (
     <>
       <div className="navbar bg-base-200">
-        <div className="navbar-start">
+        <div className="navbar-start gap-2">
           <Link
             href="/"
             className="flex-0 btn btn-ghost gap-1 px-2 md:gap-2 font-bold shadow-none"
@@ -66,6 +69,19 @@ export default function Header() {
             />{" "}
             {configuration.name}
           </Link>
+          {!configuration.production && (
+            <div className="badge bg-primary/30 rounded-md text-primary font-semibold gap-2">
+              <FaWrench /> TESTING
+            </div>
+          )}
+          {account && account.admin && (
+            <Link
+              href="/admin"
+              className="badge bg-error/30 rounded-md text-error font-semibold gap-2"
+            >
+              <FaShield /> ADMIN
+            </Link>
+          )}
         </div>
         <div className="navbar-end hidden md:flex pr-4 gap-4">
           {loading ? (
@@ -83,11 +99,12 @@ export default function Header() {
                     role="button"
                     className="btn btn-ghost btn-sm rounded-btn bg-base-100"
                   >
-                    {username == "" ? (
-                      <div className="loading loading-spinner loading-sm" />
-                    ) : (
-                      "@" + username
-                    )}
+                    {account &&
+                      (account.name == "" ? (
+                        <div className="loading loading-spinner loading-sm" />
+                      ) : (
+                        "@" + account.name
+                      ))}
                     <MdArrowDropDown size="24" />
                   </div>
                   <ul
@@ -125,11 +142,12 @@ export default function Header() {
               {user ? (
                 <>
                   <li className="font-bold py-4">
-                    {username == "" ? (
-                      <div className="loading loading-spinner loading-sm" />
-                    ) : (
-                      "@" + username
-                    )}
+                    {account &&
+                      (account.name == "" ? (
+                        <div className="loading loading-spinner loading-sm" />
+                      ) : (
+                        "@" + account.name
+                      ))}
                   </li>
                   <li>
                     <button

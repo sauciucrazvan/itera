@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { FaPlus } from "react-icons/fa";
+import { FaFilter, FaPlus } from "react-icons/fa";
 import ThreadsList from "./ThreadsList";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -9,29 +9,42 @@ import {
   isCategory,
 } from "@/app/thread/(components)/types/Categories";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FaSliders } from "react-icons/fa6";
+import {
+  isStatus,
+  Status,
+  statusTypes,
+} from "@/app/thread/(components)/types/Statuses";
 
 export default function Threads() {
   const searchParams = useSearchParams(),
-    router = useRouter(),
-    pathname = usePathname();
-  const categoryParameter = searchParams.get("category");
-  const [category, setCategory] = useState<Category>("All");
+    router = useRouter();
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
+  const categoryParameter = searchParams.get("category"),
+    statusParameter = searchParams.get("status");
 
-      return params.toString();
-    },
-    [searchParams]
-  );
+  const [category, setCategory] = useState<Category>("All"),
+    [filterCategory, setFilterCategory] = useState<Category>("All"),
+    [status, setStatus] = useState<Status | null>(null),
+    [filterStatus, setFilterStatus] = useState<Status | null>(null);
 
   useEffect(() => {
+    if (statusParameter && isStatus(statusParameter)) {
+      setStatus(statusParameter);
+      setFilterStatus(statusParameter);
+    } else {
+      setStatus(null);
+      setFilterStatus(null);
+    }
+
     if (categoryParameter && isCategory(categoryParameter)) {
       setCategory(categoryParameter);
+      setFilterCategory(categoryParameter);
+    } else {
+      setCategory("All");
+      setFilterCategory("All");
     }
-  }, [categoryParameter]);
+  }, [statusParameter, categoryParameter]);
 
   const categoryOptions = useMemo(
     () =>
@@ -46,27 +59,96 @@ export default function Threads() {
     <>
       <section className="w-full bg-base-200 px-4 py-2 rounded-md">
         <div className="flex flex-row justify-between items-center gap-2 pb-2">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:gap-2">
+          <div className="flex flex-row items-center gap-2">
             <div className="text-md text-base-content font-semibold tracking-wider">
               THREADS
             </div>
-            <div className="join">
-              {categoryOptions.map(({ key, value }) => (
-                <button
-                  key={key}
-                  className={`join-item btn btn-xs md:btn-sm btn-neutral text-base-content ${
-                    category === value ? "btn-active" : ""
-                  }`}
-                  onClick={() => {
-                    setCategory(value as Category);
-                    router.push(
-                      pathname + "?" + createQueryString("category", value)
-                    );
-                  }}
-                >
-                  {value}
-                </button>
-              ))}
+            <div>
+              <details className="dropdown">
+                <summary className="btn btn-sm shadow-none">
+                  <FaSliders />
+                </summary>
+                <ul className="menu dropdown-content bg-base-300 rounded-box z-[1] w-54 shadow">
+                  <div className="card-body">
+                    <h4 className="card-title">Filters</h4>
+                    <div className="divider m-0" />
+                    <div className="flex flex-col lg:flex-row gap-4">
+                      <div className="flex flex-col gap-1">
+                        <div className="font-bold">Category</div>
+                        <div className="flex flex-col gap-1">
+                          {categoryOptions.map(({ key, value }) => (
+                            <div
+                              key={key}
+                              className="flex flex-row gap-1 items-center"
+                            >
+                              <input
+                                name="category"
+                                type="radio"
+                                className="radio radio-primary radio-xs"
+                                onChange={() =>
+                                  setFilterCategory(value as Category)
+                                }
+                                checked={value === filterCategory}
+                              ></input>
+                              <div>{value}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <div className="font-bold">Status</div>
+                        <div className="flex flex-col gap-1">
+                          <div className="flex flex-row gap-1 items-center">
+                            <input
+                              name="status"
+                              type="radio"
+                              className="radio radio-accent radio-xs"
+                              onChange={() => setFilterStatus(null)}
+                              checked={null === filterStatus}
+                            ></input>
+                            <div>all</div>
+                          </div>
+                          {statusTypes.map((sts) => (
+                            <div
+                              key={sts}
+                              className="flex flex-row gap-1 items-center"
+                            >
+                              <input
+                                name="status"
+                                type="radio"
+                                className="radio radio-accent radio-xs"
+                                onChange={() => setFilterStatus(sts as Status)}
+                                checked={sts === filterStatus}
+                              ></input>
+                              <div>{sts}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pt-2 flex flex-row gap-1">
+                      <button
+                        className="btn btn-primary btn-xs"
+                        onClick={() => {
+                          setCategory(filterCategory);
+                          setStatus(filterStatus);
+                          router.push(
+                            "?" +
+                              new URLSearchParams({
+                                category: filterCategory,
+                                ...(filterStatus != null && {
+                                  status: filterStatus,
+                                }),
+                              }).toString()
+                          );
+                        }}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+                </ul>
+              </details>
             </div>
           </div>
 
@@ -75,7 +157,10 @@ export default function Threads() {
             href={
               "/thread/new" +
               (category !== "All"
-                ? "?" + createQueryString("category", category)
+                ? "?" +
+                  new URLSearchParams({
+                    category: filterCategory,
+                  }).toString()
                 : "")
             }
           >
@@ -86,14 +171,17 @@ export default function Threads() {
             href={
               "/thread/new" +
               (category !== "All"
-                ? "?" + createQueryString("category", category)
+                ? "?" +
+                  new URLSearchParams({
+                    category: filterCategory,
+                  }).toString()
                 : "")
             }
           >
             <FaPlus />
           </Link>
         </div>
-        <ThreadsList category={category} />
+        <ThreadsList category={category} status={status} />
       </section>
     </>
   );

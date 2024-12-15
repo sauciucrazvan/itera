@@ -10,10 +10,10 @@ import Loading from "../(components)/helpers/Loading";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { configuration } from "../configuration";
 import { toast } from "sonner";
-import { getUsername } from "../(database)/accounts/getUsername";
 import { getAccount } from "../(database)/accounts/getAccount";
+
+const configuration = require("../configuration");
 
 export default function Login() {
   const [user, loading] = useAuthState(auth);
@@ -34,13 +34,15 @@ export default function Login() {
 
       if (account != null) {
         router.push("/");
-        toast.success("Welcome, @" + (await getUsername(result.user)) + "!");
+        toast.success("Welcome, @" + account.name + "!");
       } else {
         router.push("/login/choose_name");
       }
     } catch (error) {
       console.log(error);
-      toast.error("An error occured during login.");
+      toast.error(
+        "An error occured during login! Check the developer console for more informations."
+      );
     }
   };
 

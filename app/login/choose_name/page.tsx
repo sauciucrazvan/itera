@@ -25,7 +25,7 @@ export default function ChooseUsername() {
       if (processing) return;
       setUsername(e.target.value);
     },
-    []
+    [processing]
   );
 
   useEffect(() => {
@@ -41,13 +41,13 @@ export default function ChooseUsername() {
         setLoading(false);
         if (account !== undefined) {
           router.push("/");
-          toast.error("You&apos;ve already chosen your username!");
+          toast.error("You've already chosen your username!");
         }
       }
     };
 
     getUserAccount();
-  }, [userLoading, account]);
+  }, [router, user, userLoading, account]);
 
   const setupName = async () => {
     if (user == null) return toast.error("An error occured!");

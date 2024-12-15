@@ -1,9 +1,9 @@
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/app/(database)/firebase";
 import { Severity } from "@/app/thread/(components)/types/Severities";
-import { getUsername } from "../accounts/getUsername";
-import { User } from "@firebase/auth";
+import { User } from "firebase/auth";
 import { Category } from "@/app/thread/(components)/types/Categories";
+import { getAccount } from "../accounts/getAccount";
 
 export async function insertThread(
   title: string,
@@ -11,9 +11,10 @@ export async function insertThread(
   category: Category,
   attachments: string,
   user: User,
-  severity?: Severity,
-  rating?: number
+  severity?: Severity
 ) {
+  const account = await getAccount(user);
+
   const threadData: any = {
     title,
     description,
@@ -22,7 +23,7 @@ export async function insertThread(
     status: "open",
     author: {
       id: user?.uid,
-      name: await getUsername(user),
+      name: account && account.name,
       email: user?.email,
     },
     creationDate: new Date().toLocaleString(undefined, {
@@ -35,7 +36,6 @@ export async function insertThread(
     properties: {
       hidden: false,
       severity: severity ?? null,
-      rating: rating ?? null,
     },
   };
 

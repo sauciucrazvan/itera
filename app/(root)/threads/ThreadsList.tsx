@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Thread } from "@/app/thread/(components)/types/Topics";
 import { severityRank } from "@/app/thread/(components)/types/Severities";
-import { statusRank } from "@/app/thread/(components)/types/Statuses";
+import { Status, statusRank } from "@/app/thread/(components)/types/Statuses";
 import { getThreads } from "@/app/(database)/threads/getThreads";
 
 import Error from "@/app/(components)/helpers/Error";
@@ -13,16 +13,20 @@ import Badge from "@/app/(root)/threads/subcomponents/Badge";
 import { FaGripHorizontal, FaHeading, FaTags, FaUser } from "react-icons/fa";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/(database)/firebase";
-import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { Category } from "@/app/thread/(components)/types/Categories";
+import { DocumentData } from "firebase/firestore";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
+import { toast } from "sonner";
 
 interface ThreadsListProps {
   category: Category;
+  status: Status | null;
 }
-export default function ThreadsList({ category }: ThreadsListProps) {
+export default function ThreadsList({ category, status }: ThreadsListProps) {
   const ITEMS_PER_PAGE = 10;
 
   const [data, setData] = useState<Thread[]>([]),
+    [account, setAccount] = useState<DocumentData | undefined>(undefined),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(false),
     [page, setPage] = useState(1),
@@ -47,13 +51,28 @@ export default function ThreadsList({ category }: ThreadsListProps) {
   );
 
   useEffect(() => {
+    const getAccountData = async () => {
+      try {
+        const acc = await getAccount(user!);
+        setAccount(acc);
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occured!");
+      }
+    };
+
+    if (user != null) getAccountData();
+  }, [user]);
+
+  useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
 
         const issuesData: Thread[] = await getThreads(
           category === "All" ? undefined : category,
-          isAdmin(user!)
+          status === null ? undefined : status,
+          account && account.admin
         );
         issuesData.sort((a, b) => {
           if (statusRank[a.status] !== statusRank[b.status])
@@ -79,7 +98,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
     }
 
     fetchData();
-  }, [user, category]);
+  }, [user, category, status]);
 
   if (loading || userLoading)
     return (
@@ -104,7 +123,7 @@ export default function ThreadsList({ category }: ThreadsListProps) {
         <div className="overflow-x-auto">
           {data.length === 0 ? (
             <div className="text-sm py-2 px-4">
-              No entries found in the database for this category.
+              No entries found in the database that match the input criteria.
             </div>
           ) : (
             <table className="table">
@@ -201,7 +220,7 @@ function IssueRow({
       </td>
       {showCategories && (
         <td>
-          <div className="badge badge-neutral text-base-content rounded-md flex flex-row gap-1 items-center text-nowrap">
+          <div className="badge badge-neutral bg-neutral/20 text-base-content rounded-md flex flex-row gap-1 items-center text-nowrap">
             <FaGripHorizontal /> {issue.category}
           </div>
         </td>
@@ -209,7 +228,9 @@ function IssueRow({
       <td>
         <div className="flex flex-row items-center gap-1">
           {issue.properties.hidden && (
-            <div className="badge badge-error rounded-md">hidden</div>
+            <div className="badge badge-error bg-error/20 text-error rounded-md">
+              hidden
+            </div>
           )}
           {issue.properties?.severity && issue.category === "Issues" && (
             <Badge type={"severity"} level={issue.properties.severity} />

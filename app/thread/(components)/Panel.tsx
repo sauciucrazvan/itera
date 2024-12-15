@@ -7,7 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/(database)/firebase";
 import { toast } from "sonner";
 
-import { FaMousePointer, FaTags } from "react-icons/fa";
+import { FaTags } from "react-icons/fa";
 
 import {
   Severity,
@@ -16,11 +16,12 @@ import {
 import { Status, statusTypes } from "@/app/thread/(components)/types/Statuses";
 import { Select } from "./Select";
 
-import { isAdmin } from "@/app/(database)/accounts/isAdmin";
 import { deleteThread } from "@/app/(database)/threads/deleteThread";
 import { updateThread } from "@/app/(database)/threads/updateThread";
 import { Category, categoryTypes } from "./types/Categories";
 import { FaFolderTree } from "react-icons/fa6";
+import { DocumentData } from "firebase/firestore";
+import { getAccount } from "@/app/(database)/accounts/getAccount";
 
 interface AdminPanelProps {
   id: string;
@@ -30,13 +31,14 @@ interface AdminPanelProps {
 export default function AdminPanel({ id, data }: AdminPanelProps) {
   const [mounted, setMounted] = useState(false),
     [user, loading] = useAuthState(auth),
+    [account, setAccount] = useState<DocumentData | undefined>(undefined),
     [category, setCategory] = useState<Category>(data?.category || "Issues"),
     [severity, setSeverity] = useState<Severity>(data?.properties?.severity),
     [status, setStatus] = useState<Status>(data?.status || "open");
 
   const router = useRouter();
 
-  useEffect(() => setMounted(true));
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (data) {
@@ -46,11 +48,27 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
     }
   }, [data]);
 
+  useEffect(() => {
+    const getAccountData = async () => {
+      try {
+        const acc = await getAccount(user!);
+        setAccount(acc);
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occured!");
+      }
+    };
+
+    if (user != null) getAccountData();
+  }, [user, account]);
+
   const handleUpdate = async (
     field: "category" | "severity" | "status" | "hidden",
     value: any
   ) => {
     try {
+      if (account && !account.admin) return;
+
       const updates: Record<string, any> = {};
 
       switch (field) {
@@ -84,6 +102,8 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
   };
 
   const handleDeletion = async () => {
+    if (account && !account.admin) return;
+
     if (
       confirm(
         "Are you sure you want to delete this thread?\nThis action is irreversible and not frequently used."
@@ -135,7 +155,8 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
   if (loading || !mounted) return;
 
   return (
-    isAdmin(user!) && (
+    account &&
+    account!.admin && (
       <section>
         <h1 className="font-bold text-lg bg-base-300 rounded-t-md px-4 py-2">
           Administrator Panel
@@ -143,13 +164,12 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
         <section className="flex flex-col gap-1 px-4 py-2">
           <div className="flex flex-col items-start justify-start gap-2 px-2">
             <div>
-              <div className="flex flex-row items-center gap-1">
-                <FaMousePointer /> Actions
-              </div>
               <div className="flex flex-row items-start gap-1 flex-wrap">
                 <button
                   className={`btn btn-sm ${
-                    data.properties?.hidden ? "btn-success" : "btn-error"
+                    data.properties?.hidden
+                      ? "btn-success bg-success/20 text-success hover:text-white/80"
+                      : "btn-error bg-error/20 text-error hover:text-white/80"
                   }`}
                   onClick={() =>
                     handleUpdate("hidden", !data.properties?.hidden)
@@ -160,16 +180,26 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
                     : "Hide topic"}
                 </button>
                 <button
-                  className={`btn btn-sm btn-error`}
+                  className={`btn btn-sm btn-error bg-error/20 text-error hover:text-white/80`}
                   onClick={() => toast.error("Unimplemented.")}
                 >
                   Suspend author
                 </button>
                 <button
-                  className={`btn btn-sm btn-error`}
+                  className={`btn btn-sm btn-error bg-error/20 text-error hover:text-white/80`}
                   onClick={handleDeletion}
                 >
                   Delete topic
+                </button>
+                <button
+                  className={`btn btn-sm btn-success bg-success/20 text-success hover:text-white/80"
+                      }`}
+                  onClick={() => handleUpdate("status", "open")}
+                  disabled={
+                    data.status === "open" || data.status === "reviewing"
+                  }
+                >
+                  Reopen topic
                 </button>
               </div>
             </div>

@@ -1,10 +1,3 @@
-/*
-    Gateway is a component that checks if the user is logged in and returns the page,
-    otherwise it will redirect to the login page.
-
-    - RS
-*/
-
 "use client";
 import { auth } from "@/app/(database)/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -32,7 +25,7 @@ export default function Gateway({ children }: GatewayProps) {
       toast.error("You need to be logged in!");
       router.push("/login");
     }
-  }, [loading, mounted, user]);
+  }, [router, loading, mounted, user]);
 
   if (loading || !mounted) return <Loading />;
   if (!user)
