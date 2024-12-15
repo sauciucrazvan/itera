@@ -47,7 +47,11 @@ export default function Statistics() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const issuesData: Thread[] = await getThreads(undefined, false);
+        const issuesData: Thread[] = await getThreads(
+          undefined,
+          undefined,
+          false
+        );
         const stats = getStats(issuesData);
 
         setStatsData(stats);
