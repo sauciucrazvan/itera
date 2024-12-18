@@ -19,10 +19,11 @@ export async function getThreads(
     })
     .filter((issue) => {
       const isVisible = getHidden || !issue.properties?.hidden,
-        filterByCategory = category ? issue.category === category : true,
-        filterByStatus = status ? issue.status === status : true;
+        filterBuff =
+          (category ? issue.category === category : true) && // Category filter
+          (status ? issue.status === status : true); // Status filter
 
-      return isVisible && filterByCategory && filterByStatus;
+      return isVisible && filterBuff;
     });
 
   return issuesData;

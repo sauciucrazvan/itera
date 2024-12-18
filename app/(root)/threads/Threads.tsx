@@ -1,14 +1,14 @@
 "use client";
 import Link from "next/link";
-import { FaFilter, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import ThreadsList from "./ThreadsList";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Category,
   categoryTypes,
   isCategory,
 } from "@/app/thread/(components)/types/Categories";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaSliders } from "react-icons/fa6";
 import {
   isStatus,
@@ -68,12 +68,76 @@ export default function Threads() {
                 <summary className="btn btn-sm shadow-none">
                   <FaSliders />
                 </summary>
-                <ul className="menu dropdown-content bg-base-300 rounded-box z-[1] w-54 shadow">
-                  <div className="card-body">
-                    <h4 className="card-title">Filters</h4>
-                    <div className="divider m-0" />
-                    <div className="flex flex-col lg:flex-row gap-4">
-                      <div className="flex flex-col gap-1">
+                <ul className="menu dropdown-content bg-base-300 rounded-sm z-[1] shadow">
+                  <div className="card-body p-2">
+                    <h4 className="card-title text-sm">Filters</h4>
+                    {/* <div className="divider m-0" /> */}
+                    <div className="flex flex-col lg:flex-row items-start gap-1">
+                      <details className="collapse rounded-sm collapse-arrow bg-base-200 border-base-300 border">
+                        <summary className="collapse-title text-sm">
+                          Category
+                        </summary>
+                        <div className="collapse-content">
+                          <div className="flex flex-col gap-1">
+                            {categoryOptions.map(({ key, value }) => (
+                              <div
+                                key={key}
+                                className="flex flex-row gap-1 items-center"
+                              >
+                                <input
+                                  name="category"
+                                  type="radio"
+                                  className="radio radio-primary radio-xs"
+                                  onChange={() =>
+                                    setFilterCategory(value as Category)
+                                  }
+                                  checked={value === filterCategory}
+                                />
+                                <div>{value}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </details>
+
+                      <details className="collapse rounded-sm collapse-arrow bg-base-200 border-base-300 border">
+                        <summary className="collapse-title text-sm">
+                          Status
+                        </summary>
+                        <div className="collapse-content">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex flex-row gap-1 items-center">
+                              <input
+                                name="status"
+                                type="radio"
+                                className="radio radio-accent radio-xs"
+                                onChange={() => setFilterStatus(null)}
+                                checked={null === filterStatus}
+                              />
+                              <div>all</div>
+                            </div>
+                            {statusTypes.map((sts) => (
+                              <div
+                                key={sts}
+                                className="flex flex-row gap-1 items-center"
+                              >
+                                <input
+                                  name="status"
+                                  type="radio"
+                                  className="radio radio-accent radio-xs"
+                                  onChange={() =>
+                                    setFilterStatus(sts as Status)
+                                  }
+                                  checked={sts === filterStatus}
+                                />
+                                <div>{sts}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </details>
+
+                      {/* <div className="flex flex-col gap-1">
                         <div className="font-bold">Category</div>
                         <div className="flex flex-col gap-1">
                           {categoryOptions.map(({ key, value }) => (
@@ -89,7 +153,7 @@ export default function Threads() {
                                   setFilterCategory(value as Category)
                                 }
                                 checked={value === filterCategory}
-                              ></input>
+                              />
                               <div>{value}</div>
                             </div>
                           ))}
@@ -105,7 +169,7 @@ export default function Threads() {
                               className="radio radio-accent radio-xs"
                               onChange={() => setFilterStatus(null)}
                               checked={null === filterStatus}
-                            ></input>
+                            />
                             <div>all</div>
                           </div>
                           {statusTypes.map((sts) => (
@@ -119,12 +183,12 @@ export default function Threads() {
                                 className="radio radio-accent radio-xs"
                                 onChange={() => setFilterStatus(sts as Status)}
                                 checked={sts === filterStatus}
-                              ></input>
+                              />
                               <div>{sts}</div>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="pt-2 flex flex-row gap-1">
                       <button
