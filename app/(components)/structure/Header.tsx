@@ -74,14 +74,6 @@ export default function Header() {
               <FaWrench /> TESTING
             </div>
           )}
-          {account && account.admin && (
-            <Link
-              href="/admin"
-              className="badge bg-error/30 rounded-md text-error font-semibold gap-2"
-            >
-              <FaShield /> ADMIN
-            </Link>
-          )}
         </div>
         <div className="navbar-end hidden md:flex pr-4 gap-4">
           {loading ? (
