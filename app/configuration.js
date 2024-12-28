@@ -13,7 +13,7 @@ module.exports = {
   /// This setting only affects the primary color.                          ///
   /// The while-testing color can be changed in the tailwind.config.ts file.///
   /// --------------------------------------------------------------------- ///
-  production: false,
+  production: true,
   /// --------------------------------------------------------------------- ///
   /// A bunch of links that are shown in the footer.                        ///
   /// If you wish to remove them, set the links to an empty array as        ///
