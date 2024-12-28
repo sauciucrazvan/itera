@@ -23,8 +23,8 @@ export default function Threads() {
   const categoryParameter = searchParams.get("category"),
     statusParameter = searchParams.get("status");
 
-  const [category, setCategory] = useState<Category>("All"),
-    [filterCategory, setFilterCategory] = useState<Category>("All"),
+  const [category, setCategory] = useState<Category | null>(null),
+    [filterCategory, setFilterCategory] = useState<Category | null>(null),
     [status, setStatus] = useState<Status | null>(null),
     [filterStatus, setFilterStatus] = useState<Status | null>(null);
 
@@ -41,8 +41,8 @@ export default function Threads() {
       setCategory(categoryParameter);
       setFilterCategory(categoryParameter);
     } else {
-      setCategory("All");
-      setFilterCategory("All");
+      setCategory(null);
+      setFilterCategory(null);
     }
   }, [statusParameter, categoryParameter]);
 
@@ -79,6 +79,16 @@ export default function Threads() {
                         </summary>
                         <div className="collapse-content">
                           <div className="flex flex-col gap-1">
+                            <div className="flex flex-row gap-1 items-center">
+                              <input
+                                name="category"
+                                type="radio"
+                                className="radio radio-primary radio-xs"
+                                onChange={() => setFilterCategory(null)}
+                                checked={null === filterCategory}
+                              />
+                              <div>All</div>
+                            </div>
                             {categoryOptions.map(({ key, value }) => (
                               <div
                                 key={key}
@@ -114,7 +124,7 @@ export default function Threads() {
                                 onChange={() => setFilterStatus(null)}
                                 checked={null === filterStatus}
                               />
-                              <div>all</div>
+                              <div>All</div>
                             </div>
                             {statusTypes.map((sts) => (
                               <div
@@ -130,65 +140,14 @@ export default function Threads() {
                                   }
                                   checked={sts === filterStatus}
                                 />
-                                <div>{sts}</div>
+                                <div>
+                                  {sts[0].toLocaleUpperCase() + sts.slice(1)}
+                                </div>
                               </div>
                             ))}
                           </div>
                         </div>
                       </details>
-
-                      {/* <div className="flex flex-col gap-1">
-                        <div className="font-bold">Category</div>
-                        <div className="flex flex-col gap-1">
-                          {categoryOptions.map(({ key, value }) => (
-                            <div
-                              key={key}
-                              className="flex flex-row gap-1 items-center"
-                            >
-                              <input
-                                name="category"
-                                type="radio"
-                                className="radio radio-primary radio-xs"
-                                onChange={() =>
-                                  setFilterCategory(value as Category)
-                                }
-                                checked={value === filterCategory}
-                              />
-                              <div>{value}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <div className="font-bold">Status</div>
-                        <div className="flex flex-col gap-1">
-                          <div className="flex flex-row gap-1 items-center">
-                            <input
-                              name="status"
-                              type="radio"
-                              className="radio radio-accent radio-xs"
-                              onChange={() => setFilterStatus(null)}
-                              checked={null === filterStatus}
-                            />
-                            <div>all</div>
-                          </div>
-                          {statusTypes.map((sts) => (
-                            <div
-                              key={sts}
-                              className="flex flex-row gap-1 items-center"
-                            >
-                              <input
-                                name="status"
-                                type="radio"
-                                className="radio radio-accent radio-xs"
-                                onChange={() => setFilterStatus(sts as Status)}
-                                checked={sts === filterStatus}
-                              />
-                              <div>{sts}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div> */}
                     </div>
                     <div className="pt-2 flex flex-row gap-1">
                       <button
@@ -199,7 +158,9 @@ export default function Threads() {
                           router.push(
                             "?" +
                               new URLSearchParams({
-                                category: filterCategory,
+                                ...(filterCategory != null && {
+                                  category: filterCategory,
+                                }),
                                 ...(filterStatus != null && {
                                   status: filterStatus,
                                 }),
@@ -220,10 +181,10 @@ export default function Threads() {
             className="hidden lg:inline-flex btn btn-sm btn-primary rounded-md text-content-base"
             href={
               "/thread/new" +
-              (category !== "All"
+              (category !== null
                 ? "?" +
                   new URLSearchParams({
-                    category: filterCategory,
+                    category: category,
                   }).toString()
                 : "")
             }
@@ -234,10 +195,10 @@ export default function Threads() {
             className="lg:hidden btn btn-sm btn-primary btn-square text-content-base"
             href={
               "/thread/new" +
-              (category !== "All"
+              (category !== null
                 ? "?" +
                   new URLSearchParams({
-                    category: filterCategory,
+                    category: category,
                   }).toString()
                 : "")
             }

@@ -23,6 +23,8 @@ import { FaFolderTree } from "react-icons/fa6";
 import { DocumentData } from "firebase/firestore";
 import { getAccount } from "@/app/(database)/accounts/getAccount";
 
+const configuration = require("../../configuration");
+
 interface AdminPanelProps {
   id: string;
   data: any;
@@ -123,14 +125,10 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
 
   const categoryOptions = useMemo(
     () =>
-      Object.entries(categoryTypes)
-        .map(([key, value]) => ({
-          key,
-          value,
-        }))
-        .filter((categ) => {
-          return categ.value !== "All";
-        }),
+      Object.entries(categoryTypes).map(([key, value]) => ({
+        key,
+        value,
+      })),
     []
   );
 
@@ -204,48 +202,50 @@ export default function AdminPanel({ id, data }: AdminPanelProps) {
               </div>
             </div>
 
-            <div className="flex flex-row flex-wrap gap-2 md:gap-4">
-              <div>
-                <div className="flex flex-row items-center gap-1">
-                  <FaTags /> Status & Tags
-                </div>
-                <div className="flex flex-row items-start gap-1">
-                  <Select
-                    label=""
-                    options={statusOptions}
-                    value={status}
-                    onChange={(e) =>
-                      handleUpdate("status", e.target.value as Status)
-                    }
-                  />
-
-                  {data.category === "Issues" && (
+            {!configuration.production && (
+              <div className="flex flex-row flex-wrap gap-2 md:gap-4">
+                <div>
+                  <div className="flex flex-row items-center gap-1">
+                    <FaTags /> Status & Tags
+                  </div>
+                  <div className="flex flex-row items-start gap-1">
                     <Select
                       label=""
-                      options={severityOptions}
-                      value={severity}
+                      options={statusOptions}
+                      value={status}
                       onChange={(e) =>
-                        handleUpdate("severity", e.target.value as Severity)
+                        handleUpdate("status", e.target.value as Status)
                       }
                     />
-                  )}
-                </div>
-              </div>
 
-              <div>
-                <div className="pb-2">
-                  <Select
-                    label="Move to..."
-                    icon={FaFolderTree}
-                    options={categoryOptions}
-                    value={category}
-                    onChange={(e) =>
-                      handleUpdate("category", e.target.value as Category)
-                    }
-                  />
+                    {data.category === "Issues" && (
+                      <Select
+                        label=""
+                        options={severityOptions}
+                        value={severity}
+                        onChange={(e) =>
+                          handleUpdate("severity", e.target.value as Severity)
+                        }
+                      />
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="pb-2">
+                    <Select
+                      label="Move to..."
+                      icon={FaFolderTree}
+                      options={categoryOptions}
+                      value={category}
+                      onChange={(e) =>
+                        handleUpdate("category", e.target.value as Category)
+                      }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="flex flex-col items-start justify-start gap-1 px-2"></div>
         </section>

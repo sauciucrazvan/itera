@@ -57,7 +57,7 @@ function NewIssue() {
     if (description.length > 4096)
       return "Limit the description to 4096 characters.";
 
-    if (!isSeverity(severity) || !isCategory(category) || category === "All")
+    if (!isSeverity(severity) || !isCategory(category) || category === null)
       return "An error occurred!";
 
     return null;
@@ -67,7 +67,7 @@ function NewIssue() {
     if (
       categoryParameter &&
       isCategory(categoryParameter) &&
-      categoryParameter !== "All"
+      categoryParameter !== null
     ) {
       setCategory(categoryParameter);
     }
@@ -137,14 +137,10 @@ function NewIssue() {
 
   const categoryOptions = useMemo(
     () =>
-      Object.entries(categoryTypes)
-        .map(([key, value]) => ({
-          key,
-          value,
-        }))
-        .filter((categ) => {
-          return categ.value !== "All";
-        }),
+      Object.entries(categoryTypes).map(([key, value]) => ({
+        key,
+        value,
+      })),
     []
   );
 

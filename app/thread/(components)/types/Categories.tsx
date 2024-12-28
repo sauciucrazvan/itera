@@ -1,4 +1,4 @@
-export const categoryTypes = ["All", "Issues", "Feature Request"] as const;
+export const categoryTypes = ["Issues", "Feature Request"] as const;
 
 export type Category = (typeof categoryTypes)[number];
 

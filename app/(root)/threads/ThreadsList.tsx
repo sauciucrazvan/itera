@@ -19,7 +19,7 @@ import { getAccount } from "@/app/(database)/accounts/getAccount";
 import { toast } from "sonner";
 
 interface ThreadsListProps {
-  category: Category;
+  category: Category | null;
   status: Status | null;
 }
 export default function ThreadsList({ category, status }: ThreadsListProps) {
@@ -70,7 +70,7 @@ export default function ThreadsList({ category, status }: ThreadsListProps) {
         setLoading(true);
 
         const issuesData: Thread[] = await getThreads(
-          category === "All" ? undefined : category,
+          category === null ? undefined : category,
           status === null ? undefined : status,
           account && account.admin
         );
@@ -139,7 +139,7 @@ export default function ThreadsList({ category, status }: ThreadsListProps) {
                       <FaUser /> Author
                     </p>
                   </th>
-                  {category === "All" && (
+                  {category === null && (
                     <th>
                       <p className="inline-flex items-center gap-1">
                         <FaGripHorizontal /> Category
@@ -158,7 +158,7 @@ export default function ThreadsList({ category, status }: ThreadsListProps) {
                   <IssueRow
                     key={issue.id}
                     issue={issue}
-                    showCategories={category === "All"}
+                    showCategories={category === null}
                   />
                 ))}
               </tbody>
