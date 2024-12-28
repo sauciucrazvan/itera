@@ -73,7 +73,7 @@ export default function Threads() {
                     <h4 className="card-title text-sm">Filters</h4>
                     {/* <div className="divider m-0" /> */}
                     <div className="flex flex-col lg:flex-row items-start gap-1">
-                      <details className="collapse rounded-sm collapse-arrow bg-base-200 border-base-300 border">
+                      <details className="collapse rounded-sm collapse-arrow">
                         <summary className="collapse-title text-sm">
                           Category
                         </summary>
@@ -100,7 +100,7 @@ export default function Threads() {
                         </div>
                       </details>
 
-                      <details className="collapse rounded-sm collapse-arrow bg-base-200 border-base-300 border">
+                      <details className="collapse rounded-sm collapse-arrow">
                         <summary className="collapse-title text-sm">
                           Status
                         </summary>
