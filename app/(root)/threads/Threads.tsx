@@ -68,12 +68,12 @@ export default function Threads() {
                 <summary className="btn btn-sm shadow-none">
                   <FaSliders />
                 </summary>
-                <ul className="menu dropdown-content bg-base-300 rounded-sm z-[1] shadow">
+                <ul className="menu dropdown-content bg-base-300 rounded-xs z-1 shadow-sm">
                   <div className="card-body p-2">
                     <h4 className="card-title text-sm">Filters</h4>
                     {/* <div className="divider m-0" /> */}
                     <div className="flex flex-col lg:flex-row items-start gap-1">
-                      <details className="collapse rounded-sm collapse-arrow">
+                      <details className="collapse rounded-xs collapse-arrow">
                         <summary className="collapse-title text-sm">
                           Category
                         </summary>
@@ -110,7 +110,7 @@ export default function Threads() {
                         </div>
                       </details>
 
-                      <details className="collapse rounded-sm collapse-arrow">
+                      <details className="collapse rounded-xs collapse-arrow">
                         <summary className="collapse-title text-sm">
                           Status
                         </summary>
