@@ -18,26 +18,26 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography"), require("daisyui")],
-  daisyui: {
-    themes: [
-      {
-        light: {
-          ...require("daisyui/src/theming/themes")["light"],
-          primary: configuration.production ? "#38bdf8" : "#615efc",
-          secondary: "#F8FAFC",
-          success: "#22c55e",
-          "base-200": "#EEEEEE",
-          neutral: "#c3c3c3",
-        },
-        dark: {
-          ...require("daisyui/src/theming/themes")["dark"],
-          primary: configuration.production ? "#38bdf8" : "#615efc",
-          secondary: "#4491e3",
-          success: "#22c55e",
-        },
-      },
-    ],
-  },
+  plugins: [require("@tailwindcss/typography") /*require("daisyui")*/],
+  // daisyui: {
+  //   themes: [
+  //     {
+  //       light: {
+  //         ...require("daisyui/src/theming/themes")["light"],
+  //         primary: configuration.production ? "#38bdf8" : "#615efc",
+  //         secondary: "#F8FAFC",
+  //         success: "#22c55e",
+  //         "base-200": "#EEEEEE",
+  //         neutral: "#c3c3c3",
+  //       },
+  //       dark: {
+  //         ...require("daisyui/src/theming/themes")["dark"],
+  //         primary: configuration.production ? "#38bdf8" : "#615efc",
+  //         secondary: "#4491e3",
+  //         success: "#22c55e",
+  //       },
+  //     },
+  //   ],
+  // },
 };
 export default config;
