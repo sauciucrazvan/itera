@@ -55,10 +55,10 @@ export default function Header() {
   return (
     <>
       <div className="navbar bg-base-200">
-        <div className="navbar-start gap-2">
+        <div className="navbar-start gap-2 pl-4">
           <Link
             href="/"
-            className="flex-0 btn btn-ghost gap-1 px-2 md:gap-2 font-bold shadow-none"
+            className="flex-0 btn btn-ghost gap-1 p-4 md:gap-2 font-bold shadow-none"
           >
             <Image
               src="/favicon.svg"
@@ -101,7 +101,7 @@ export default function Header() {
                   </div>
                   <ul
                     tabIndex={0}
-                    className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2 shadow"
+                    className="menu dropdown-content bg-base-300 rounded-box z-1 mt-4 px-4 py-2 shadow-sm"
                   >
                     <li>
                       <button
@@ -129,7 +129,7 @@ export default function Header() {
             </div>
             <ul
               tabIndex={0}
-              className="menu dropdown-content bg-base-300 rounded-box z-[1] mt-4 px-4 py-2  shadow"
+              className="menu dropdown-content bg-base-300 rounded-box z-1 mt-4 px-4 py-2  shadow-sm"
             >
               {user ? (
                 <>

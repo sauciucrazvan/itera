@@ -70,7 +70,7 @@ export default function Statistics() {
   if (loading) return <Loading />;
 
   return (
-    <div className="shadow lg:w-[25vw] flex flex-col gap-3">
+    <div className="shadow-sm lg:w-[25vw] flex flex-col gap-3">
       <StatisticCard
         icon={<FaChartPie size="32" />}
         title="Threads"
